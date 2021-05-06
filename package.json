@@ -1,0 +1,44 @@
+{
+  "name": "microcms-js-sdk",
+  "version": "0.0.1",
+  "description": "JavaScript SDK Client for microCMS.",
+  "main": "/dist/bundle.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wantainc/microcms-js-sdk.git"
+  },
+  "author": "Wanta Inc",
+  "license": "Apache-2.0",
+  "keywords": [
+    "JavaScript",
+    "node",
+    "SDK",
+    "microCMS"
+  ],
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint --fix ./src"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.13.16",
+    "@babel/core": "^7.13.16",
+    "@babel/plugin-proposal-export-default-from": "^7.12.13",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "^7.13.15",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-add-module-exports": "^1.0.4",
+    "eslint": "^7.25.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-standard": "^5.0.0",
+    "query-string": "^7.0.0",
+    "webpack": "^5.35.1",
+    "webpack-cli": "^4.6.0",
+    "node-fetch": "^2.6.1",
+    "prettier": "^2.2.1"
+  }
+}

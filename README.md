@@ -1,0 +1,58 @@
+# microCMS JavaScript SDK
+
+It helps you to use microCMS from JavaScript and Node.js applications.
+
+## Getting Started
+
+### Install
+
+Install npm package.
+
+```bash
+$ npm install microcms-js-sdk
+
+or
+
+$ yarn add microcms-js-sdk
+```
+
+### Hot to use
+
+First, create a client.
+
+```javascript
+const Client = require("microcms-js-sdk"); // CommonJS
+import Client from 'microcms-js-sdk'; //ES6
+
+// Initialize Client SDK.
+const client = Client({
+    serviceDomain: "YOUR_DOMAIN",
+    apiKey: "YOUR_API_KEY",
+    globalDraftKey: "YOUR_GLOBAL_DRAFT_KEY", // If need 
+});
+```
+
+After, How to use it below.
+
+```javascript
+client
+  .get({
+    endpoint: 'endpoint',
+    queries: { limit: 20, filters: 'createdAt[greater_than]2021' },
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.log(err));
+
+client
+  .get({
+    endpoint: 'endpoint',
+    contentId: 'contentId',
+    queries: { limit: 20, filters: 'createdAt[greater_than]2021' },
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.log(err));
+```
+
+# LICENSE
+
+Apache-2.0
