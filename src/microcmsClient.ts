@@ -5,7 +5,7 @@
 import fetch from 'node-fetch';
 import { parseQuery } from './utils/parseQuery';
 import { isString } from './utils/isCheckValue';
-import { errorResponse } from './utils/errorResponse';
+import { ClientParams, MakeRequest, GetRequest } from './types';
 
 const BASE_DOMAIN = 'microcms.io';
 const API_VERSION = 'v1';
@@ -13,7 +13,7 @@ const API_VERSION = 'v1';
 /**
  * Initialize SDK Client
  */
-const Client = ({ serviceDomain, apiKey, globalDraftKey }) => {
+const Client = ({ serviceDomain, apiKey, globalDraftKey }: ClientParams) => {
   if (!serviceDomain || !apiKey) {
     throw new Error('parameter is required (check serviceDomain and apiKey)');
   }
@@ -30,7 +30,7 @@ const Client = ({ serviceDomain, apiKey, globalDraftKey }) => {
   /**
    * Make request
    */
-  const makeRequest = async ({ endpoint, contentId, queries }) => {
+  const makeRequest = async ({ endpoint, contentId, queries = {} }: MakeRequest): Promise<void> => {
     const queryString = parseQuery(queries);
 
     const baseHeaders = {
@@ -41,20 +41,30 @@ const Client = ({ serviceDomain, apiKey, globalDraftKey }) => {
       Object.assign(baseHeaders.headers, { 'X-GLOBAL-DRAFT-KEY': globalDraftKey });
     }
 
-    const url = `${baseUrl}/${endpoint}${contentId ? `/${contentId}` : ''}${queryString ? `?${queryString}` : ''}`;
+    const url = `${baseUrl}/${endpoint}${contentId ? `/${contentId}` : ''}${
+      queryString ? `?${queryString}` : ''
+    }`;
 
     try {
       const response = await fetch(url, baseHeaders);
       return response.json();
     } catch (error) {
-      return errorResponse(error);
+      if (error.data) {
+        throw error.data;
+      }
+
+      if (error.response?.data) {
+        throw error.response.data;
+      }
+
+      throw error;
     }
   };
 
   /**
    * Get API data for microCMS
    */
-  const get = async ({ endpoint, contentId, queries = {} }) => {
+  const get = async ({ endpoint, contentId, queries = {} }: GetRequest): Promise<void> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }

@@ -4,7 +4,7 @@
  * @param {object} value
  * @return {boolean}
  */
-export const isObject = (value) => {
+export const isObject = <T>(value: T): boolean => {
   return value !== null && typeof value === 'object';
 };
 
@@ -14,6 +14,6 @@ export const isObject = (value) => {
  * @param {string} value
  * @return {boolean}
  */
-export const isString = (value) => {
+export const isString = (value: string): boolean => {
   return value !== null && typeof value == 'string';
 };

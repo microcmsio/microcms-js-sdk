@@ -4,7 +4,10 @@ module.exports = {
   mode: 'production',
   target: 'node',
   entry: {
-    bundle: './src/index.js',
+    bundle: './src/index.ts',
+  },
+  resolve: {
+    extensions: ['.ts', 'tsx', '.js'],
   },
   output: {
     path: path.resolve(__dirname, './dist'),
@@ -16,10 +19,10 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.ts$/,
         exclude: /(node_modules)/,
         use: {
-          loader: 'babel-loader',
+          loader: 'ts-loader',
         },
       },
     ],
