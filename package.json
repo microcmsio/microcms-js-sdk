@@ -3,18 +3,14 @@
   "version": "0.0.1",
   "description": "JavaScript SDK Client for microCMS.",
   "main": "/dist/bundle.js",
+  "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/wantainc/microcms-js-sdk.git"
   },
   "author": "Wanta Inc",
   "license": "Apache-2.0",
-  "keywords": [
-    "JavaScript",
-    "node",
-    "SDK",
-    "microCMS"
-  ],
+  "keywords": ["JavaScript", "node", "SDK", "microCMS"],
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "lint": "eslint ./src",

@@ -16,6 +16,8 @@ export interface GetRequest {
   queries?: QueriesType;
 }
 
+type depthNumber = 1 | 2 | 3;
+
 export interface QueriesType {
   draftKey?: string;
   limit?: number;
@@ -23,7 +25,7 @@ export interface QueriesType {
   orders?: string;
   fields?: string;
   q?: string;
-  depth?: number;
+  depth?: depthNumber;
   ids?: string;
   filters?: string;
 }
