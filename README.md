@@ -16,13 +16,19 @@ or
 $ yarn add microcms-js-sdk
 ```
 
+CDN support.
+
+```
+https://unpkg.com/microcms-js-sdk@latest/dist/umd/microcms-js-sdk.js
+```
+
 ### Hot to use
 
 First, create a client.
 
 ```javascript
-const Client = require("microcms-js-sdk"); // CommonJS
-import Client from 'microcms-js-sdk'; //ES6
+const { Client } = require("microcms-js-sdk"); // CommonJS
+import { Client } from 'microcms-js-sdk'; //ES6
 
 // Initialize Client SDK.
 const client = Client({
