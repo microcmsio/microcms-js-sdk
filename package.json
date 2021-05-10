@@ -1,20 +1,33 @@
 {
   "name": "microcms-js-sdk",
-  "version": "0.0.1",
+  "version": "0.0.7",
   "description": "JavaScript SDK Client for microCMS.",
-  "main": "/dist/bundle.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/cjs/microcms-js-sdk.js",
+  "module": "./dist/esm/microcms-js-sdk.js",
+  "unpkg": "./dist/umd/microcms-js-sdk.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/wantainc/microcms-js-sdk.git"
   },
   "author": "Wanta Inc",
   "license": "Apache-2.0",
-  "keywords": ["JavaScript", "node", "SDK", "microCMS"],
+  "keywords": [
+    "JavaScript",
+    "node",
+    "SDK",
+    "microCMS"
+  ],
   "scripts": {
-    "build": "webpack --config webpack.config.js",
+    "build": "rollup -c",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "node-fetch": "^2.6.1",
+    "query-string": "^7.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.16",
@@ -22,6 +35,7 @@
     "@babel/plugin-proposal-export-default-from": "^7.12.13",
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.13.15",
+    "@rollup/plugin-node-resolve": "^13.0.0",
     "@types/node": "^15.0.2",
     "@types/node-fetch": "^2.5.10",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
@@ -35,12 +49,10 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-standard": "^5.0.0",
-    "node-fetch": "^2.6.1",
     "prettier": "^2.2.1",
-    "query-string": "^7.0.0",
-    "ts-loader": "^9.1.2",
-    "typescript": "^4.2.4",
-    "webpack": "^5.35.1",
-    "webpack-cli": "^4.6.0"
+    "rollup": "^2.47.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "typescript": "^4.2.4"
   }
 }
