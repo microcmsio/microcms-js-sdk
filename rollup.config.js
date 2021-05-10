@@ -7,7 +7,8 @@ export default {
   input: './src/index.ts',
   plugins: [
     typescript({
-      useTsconfigDeclarationDir: true,
+      rootDir: 'src',
+      declaration: true,
     }),
   ],
   output: [
