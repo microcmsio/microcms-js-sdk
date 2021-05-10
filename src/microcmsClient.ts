@@ -30,7 +30,7 @@ const Client = ({ serviceDomain, apiKey, globalDraftKey }: ClientParams) => {
   /**
    * Make request
    */
-  const makeRequest = async ({ endpoint, contentId, queries = {} }: MakeRequest): Promise<void> => {
+  const makeRequest = async <T>({ endpoint, contentId, queries = {} }: MakeRequest): Promise<T> => {
     const queryString = parseQuery(queries);
 
     const baseHeaders = {
@@ -64,11 +64,11 @@ const Client = ({ serviceDomain, apiKey, globalDraftKey }: ClientParams) => {
   /**
    * Get API data for microCMS
    */
-  const get = async ({ endpoint, contentId, queries = {} }: GetRequest): Promise<void> => {
+  const get = async <T>({ endpoint, contentId, queries = {} }: GetRequest): Promise<T> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
-    return await makeRequest({ endpoint, contentId, queries });
+    return await makeRequest<T>({ endpoint, contentId, queries });
   };
 
   return {
