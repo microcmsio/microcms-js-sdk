@@ -1,10 +1,11 @@
 {
   "name": "microcms-js-sdk",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "JavaScript SDK Client for microCMS.",
   "main": "./dist/cjs/microcms-js-sdk.js",
   "module": "./dist/esm/microcms-js-sdk.js",
   "unpkg": "./dist/umd/microcms-js-sdk.js",
+  "types": "./dist/cjs/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/wantainc/microcms-js-sdk.git"
