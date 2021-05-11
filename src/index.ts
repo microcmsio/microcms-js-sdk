@@ -1,3 +1,3 @@
-import Client from './microcmsClient';
+import createClient from './createClient';
 
-export { Client };
+export { createClient };

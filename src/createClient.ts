@@ -13,7 +13,7 @@ const API_VERSION = 'v1';
 /**
  * Initialize SDK Client
  */
-const Client = ({ serviceDomain, apiKey, globalDraftKey }: ClientParams) => {
+const createClient = ({ serviceDomain, apiKey, globalDraftKey }: ClientParams) => {
   if (!serviceDomain || !apiKey) {
     throw new Error('parameter is required (check serviceDomain and apiKey)');
   }
@@ -76,4 +76,4 @@ const Client = ({ serviceDomain, apiKey, globalDraftKey }: ClientParams) => {
   };
 };
 
-export default Client;
+export default createClient;
