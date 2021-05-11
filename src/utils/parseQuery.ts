@@ -4,12 +4,12 @@
  * @param {object} queries
  * @return {string} queryString
  */
-import qs from 'query-string';
+import qs from 'qs';
 import { isObject } from './isCheckValue';
 import { QueriesType } from '../types';
 
 export const parseQuery = (queries: QueriesType): string => {
-  if (!isObject(queries)) {
+  if (!isObject<QueriesType>(queries)) {
     throw new Error('queries is not object');
   }
   const queryString = qs.stringify(queries);

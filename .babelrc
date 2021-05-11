@@ -1,9 +1,0 @@
-{
-  "presets": [["@babel/preset-env", {
-    "modules": "cjs",
-    "targets": {
-		  "node": "current"
-		}
-  }]],
-  "plugins": ["add-module-exports", "@babel/plugin-proposal-export-default-from"]
-}
