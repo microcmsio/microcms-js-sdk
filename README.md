@@ -27,8 +27,8 @@ CDN support.
 First, create a client.
 
 ```javascript
-const Client = require("microcms-js-sdk"); // CommonJS
-import Client from 'microcms-js-sdk'; //ES6
+const { Client } = require("microcms-js-sdk"); // CommonJS
+import { Client } from 'microcms-js-sdk'; //ES6
 
 // Initialize Client SDK.
 const client = Client({
@@ -36,6 +36,20 @@ const client = Client({
     apiKey: "YOUR_API_KEY",
     globalDraftKey: "YOUR_GLOBAL_DRAFT_KEY", // If need 
 });
+```
+
+When using with a browser.
+
+```javascript
+<script>
+const { Client } = microcms;
+// Initialize Client SDK.
+const client = Client({
+    serviceDomain: "YOUR_DOMAIN",
+    apiKey: "YOUR_API_KEY",
+    globalDraftKey: "YOUR_GLOBAL_DRAFT_KEY", // If need 
+});
+</script>
 ```
 
 After, How to use it below.
