@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>microCMS SDK</title>
+  </head>
+  <body>
+    <h1 id="text"></h1>
+  </body>
+  <script src="https://unpkg.com/microcms-js-sdk@latest/dist/umd/microcms-js-sdk.js"></script>
+  <script>
+    const { createClient } = microcms;
+
+    const client = createClient({
+      serviceDomain: 'your-domain',
+      apiKey: 'api-key',
+    })
+    client.get({ endpoint: 'hello'}).then((res) => {
+      document.querySelector('#text').textContent = res.text
+    })
+  </script>
+</html>
+
