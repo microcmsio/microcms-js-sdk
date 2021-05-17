@@ -40,7 +40,7 @@ const client = createClient({
 
 When using with a browser.
 
-```javascript
+```html
 <script>
 const { createClient } = microcms;
 
