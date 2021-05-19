@@ -22,7 +22,7 @@ CDN support.
 <script src="https://unpkg.com/microcms-js-sdk@latest/dist/umd/microcms-js-sdk.js"></script>
 ```
 
-### Hot to use
+### How to use
 
 First, create a client.
 
