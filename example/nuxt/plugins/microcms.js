@@ -1,12 +1,10 @@
 const { createClient } = require('microcms-js-sdk');
 
 const config = {
-  serviceDomain: '',
-  apiKey: '',
+  serviceDomain: 'service-domain',
+  apiKey: 'api-key',
 };
 
 module.exports = {
-  createClient() {
-    return createClient(config);
-  },
+  client: createClient(config),
 };

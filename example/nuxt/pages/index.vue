@@ -10,9 +10,7 @@
 </template>
 
 <script>
-const { createClient } = require('../plugins/microcms.js');
-
-const client = createClient();
+const { client } = require('../plugins/microcms.js');
 
 export default {
   async asyncData() {
