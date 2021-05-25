@@ -60,6 +60,7 @@ client
   .get({
     endpoint: 'endpoint',
     queries: { limit: 20, filters: 'createdAt[greater_than]2021' },
+    useGlobalDraftKey: false, // This is an option if your have set the globalDraftKey. Default value true.
   })
   .then((res) => console.log(res))
   .catch((err) => console.log(err));
