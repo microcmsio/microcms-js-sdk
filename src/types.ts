@@ -8,12 +8,14 @@ export interface MakeRequest {
   endpoint: string;
   contentId?: string;
   queries?: QueriesType;
+  useGlobalDraftKey?: boolean;
 }
 
 export interface GetRequest {
   endpoint: string;
   contentId?: string;
   queries?: QueriesType;
+  useGlobalDraftKey?: boolean;
 }
 
 type depthNumber = 1 | 2 | 3;

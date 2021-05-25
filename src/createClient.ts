@@ -30,14 +30,14 @@ const createClient = ({ serviceDomain, apiKey, globalDraftKey }: ClientParams) =
   /**
    * Make request
    */
-  const makeRequest = async <T>({ endpoint, contentId, queries = {} }: MakeRequest): Promise<T> => {
+  const makeRequest = async <T>({ endpoint, contentId, queries = {}, useGlobalDraftKey = true }: MakeRequest): Promise<T> => {
     const queryString = parseQuery(queries);
 
     const baseHeaders = {
       headers: { 'X-API-KEY': apiKey },
     };
 
-    if (globalDraftKey) {
+    if (globalDraftKey && useGlobalDraftKey) {
       Object.assign(baseHeaders.headers, { 'X-GLOBAL-DRAFT-KEY': globalDraftKey });
     }
 
@@ -64,11 +64,11 @@ const createClient = ({ serviceDomain, apiKey, globalDraftKey }: ClientParams) =
   /**
    * Get API data for microCMS
    */
-  const get = async <T>({ endpoint, contentId, queries = {} }: GetRequest): Promise<T> => {
+  const get = async <T>({ endpoint, contentId, queries = {}, useGlobalDraftKey }: GetRequest): Promise<T> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
-    return await makeRequest<T>({ endpoint, contentId, queries });
+    return await makeRequest<T>({ endpoint, contentId, queries, useGlobalDraftKey });
   };
 
   return {

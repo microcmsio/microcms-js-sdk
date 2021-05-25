@@ -12,13 +12,20 @@
   },
   "author": "Wanta Inc",
   "license": "Apache-2.0",
-  "keywords": ["JavaScript", "node", "SDK", "microCMS"],
+  "keywords": [
+    "JavaScript",
+    "node",
+    "SDK",
+    "microCMS"
+  ],
   "scripts": {
     "build": "rollup -c",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "node-fetch": "^2.6.1",
     "qs": "^6.10.1"
