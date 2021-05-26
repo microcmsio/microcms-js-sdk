@@ -47,6 +47,11 @@ const createClient = ({ serviceDomain, apiKey, globalDraftKey }: ClientParams) =
 
     try {
       const response = await fetch(url, baseHeaders);
+
+      if (!response.ok) {
+        throw new Error(`fetch API response status: ${response.status}`);
+      }
+
       return response.json();
     } catch (error) {
       if (error.data) {
@@ -57,7 +62,9 @@ const createClient = ({ serviceDomain, apiKey, globalDraftKey }: ClientParams) =
         throw error.response.data;
       }
 
-      throw error;
+      return Promise.reject(
+        new Error(`serviceDomain or endpoint may be wrong.\n Details: ${error}`)
+      );
     }
   };
 
