@@ -75,6 +75,12 @@ client
   .catch((err) => console.log(err));
 ```
 
+If you are using TypeScript, specify the response type.
+
+```typescript
+client.get<ResponseType>({endpoint: 'endpoint'})
+```
+
 # LICENSE
 
 Apache-2.0
