@@ -8,17 +8,24 @@
   "types": "./dist/cjs/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wantainc/microcms-js-sdk.git"
+    "url": "https://github.com/microcmsio/microcms-js-sdk.git"
   },
-  "author": "Wanta Inc",
+  "author": " microCMS",
   "license": "Apache-2.0",
-  "keywords": ["JavaScript", "node", "SDK", "microCMS"],
+  "keywords": [
+    "JavaScript",
+    "node",
+    "SDK",
+    "microCMS"
+  ],
   "scripts": {
     "build": "rollup -c",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "node-fetch": "^2.6.1",
     "qs": "^6.10.1"
