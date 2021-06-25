@@ -1,6 +1,6 @@
 /**
  * microCMS API SDK
- * https://github.com/wantainc/microcms-js-sdk
+ * https://github.com/microcmsio/microcms-js-sdk
  */
 import fetch from 'node-fetch';
 import { parseQuery } from './utils/parseQuery';
