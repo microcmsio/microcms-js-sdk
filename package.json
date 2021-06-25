@@ -10,7 +10,7 @@
     "type": "git",
     "url": "https://github.com/microcmsio/microcms-js-sdk.git"
   },
-  "author": " microCMS",
+  "author": "microCMS",
   "license": "Apache-2.0",
   "keywords": [
     "JavaScript",
