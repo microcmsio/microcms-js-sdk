@@ -1,6 +1,6 @@
 {
   "name": "microcms-js-sdk",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "JavaScript SDK Client for microCMS.",
   "main": "./dist/cjs/microcms-js-sdk.js",
   "module": "./dist/esm/microcms-js-sdk.js",
@@ -12,20 +12,13 @@
   },
   "author": "microCMS",
   "license": "Apache-2.0",
-  "keywords": [
-    "JavaScript",
-    "node",
-    "SDK",
-    "microCMS"
-  ],
+  "keywords": ["JavaScript", "node", "SDK", "microCMS"],
   "scripts": {
     "build": "rollup -c",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "dependencies": {
     "node-fetch": "^2.6.1",
     "qs": "^6.10.1"
