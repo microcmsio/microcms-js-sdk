@@ -1,6 +1,6 @@
-# Nuxt example
+# Nuxt.js example
 
-When using SDK with Nuxt, it is recommended to use nuxt-microcms-module.
+When using SDK with Nuxt.js, it is recommended to use nuxt-microcms-module.
 
 [nuxt-microcms-module](https://github.com/microcmsio/nuxt-microcms-module)
 
