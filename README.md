@@ -19,7 +19,7 @@ $ yarn add microcms-js-sdk
 CDN support.
 
 ```
-<script src="https://unpkg.com/microcms-js-sdk@latest/dist/umd/microcms-js-sdk.js"></script>
+<script src="https://unpkg.com/microcms-js-sdk@latest/dist/microcms-js-sdk.umd.js"></script>
 ```
 
 ### How to use

@@ -11,7 +11,7 @@ export default [
     input: './src/index.ts',
     output: [
       {
-        file: `./dist/cjs/${pkg.name}.js`,
+        file: `./dist/${pkg.name}.js`,
         sourcemap: 'inline',
         format: 'cjs',
       },
@@ -29,7 +29,7 @@ export default [
     input: './src/index.ts',
     output: [
       {
-        file: `./dist/esm/${pkg.name}.js`,
+        file: `./dist/${pkg.name}.esm.js`,
         sourcemap: 'inline',
         format: 'esm',
       },
@@ -47,7 +47,7 @@ export default [
     input: './src/index.ts',
     output: [
       {
-        file: `./dist/umd/${pkg.name}.js`,
+        file: `./dist/${pkg.name}.umd.js`,
         format: 'umd',
         name: 'microcms',
       },

@@ -2,10 +2,10 @@
   "name": "microcms-js-sdk",
   "version": "1.2.0",
   "description": "JavaScript SDK Client for microCMS.",
-  "main": "./dist/cjs/microcms-js-sdk.js",
-  "module": "./dist/esm/microcms-js-sdk.js",
-  "unpkg": "./dist/umd/microcms-js-sdk.js",
-  "types": "./dist/cjs/index.d.ts",
+  "main": "./dist/microcms-js-sdk.js",
+  "module": "./dist/microcms-js-sdk.esm.js",
+  "unpkg": "./dist/microcms-js-sdk.umd.js",
+  "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/microcmsio/microcms-js-sdk.git"
@@ -14,9 +14,10 @@
   "license": "Apache-2.0",
   "keywords": ["JavaScript", "node", "SDK", "microCMS"],
   "scripts": {
-    "build": "rollup -c",
+    "build": "npm run clean && rollup -c",
     "lint": "eslint ./src",
-    "lint:fix": "eslint --fix ./src"
+    "lint:fix": "eslint --fix ./src",
+    "clean": "rimraf dist"
   },
   "files": ["dist"],
   "dependencies": {
@@ -41,6 +42,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-standard": "^5.0.0",
     "prettier": "^2.2.1",
+    "rimraf": "^3.0.2",
     "rollup": "^2.47.0",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
