@@ -13,7 +13,7 @@ const API_VERSION = 'v1';
 /**
  * Initialize SDK Client
  */
-const createClient = ({ serviceDomain, apiKey, globalDraftKey }: ClientParams) => {
+export const createClient = ({ serviceDomain, apiKey, globalDraftKey }: ClientParams) => {
   if (!serviceDomain || !apiKey) {
     throw new Error('parameter is required (check serviceDomain and apiKey)');
   }
@@ -30,7 +30,12 @@ const createClient = ({ serviceDomain, apiKey, globalDraftKey }: ClientParams) =
   /**
    * Make request
    */
-  const makeRequest = async <T>({ endpoint, contentId, queries = {}, useGlobalDraftKey = true }: MakeRequest): Promise<T> => {
+  const makeRequest = async <T>({
+    endpoint,
+    contentId,
+    queries = {},
+    useGlobalDraftKey = true,
+  }: MakeRequest): Promise<T> => {
     const queryString = parseQuery(queries);
 
     const baseHeaders = {
@@ -71,7 +76,12 @@ const createClient = ({ serviceDomain, apiKey, globalDraftKey }: ClientParams) =
   /**
    * Get API data for microCMS
    */
-  const get = async <T>({ endpoint, contentId, queries = {}, useGlobalDraftKey }: GetRequest): Promise<T> => {
+  const get = async <T>({
+    endpoint,
+    contentId,
+    queries = {},
+    useGlobalDraftKey,
+  }: GetRequest): Promise<T> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
@@ -82,5 +92,3 @@ const createClient = ({ serviceDomain, apiKey, globalDraftKey }: ClientParams) =
     get,
   };
 };
-
-export default createClient;

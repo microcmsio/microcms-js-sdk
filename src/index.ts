@@ -1,3 +1,1 @@
-import createClient from './createClient';
-
-export { createClient };
+export { createClient } from './createClient';
