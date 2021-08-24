@@ -5,7 +5,7 @@
 import fetch from 'node-fetch';
 import { parseQuery } from './utils/parseQuery';
 import { isString } from './utils/isCheckValue';
-import { ClientParams, MakeRequest, GetRequest } from './types';
+import { MicroCMSClient, MakeRequest, GetRequest } from './types';
 
 const BASE_DOMAIN = 'microcms.io';
 const API_VERSION = 'v1';
@@ -13,7 +13,7 @@ const API_VERSION = 'v1';
 /**
  * Initialize SDK Client
  */
-export const createClient = ({ serviceDomain, apiKey, globalDraftKey }: ClientParams) => {
+export const createClient = ({ serviceDomain, apiKey, globalDraftKey }: MicroCMSClient) => {
   if (!serviceDomain || !apiKey) {
     throw new Error('parameter is required (check serviceDomain and apiKey)');
   }
@@ -76,7 +76,7 @@ export const createClient = ({ serviceDomain, apiKey, globalDraftKey }: ClientPa
   /**
    * Get API data for microCMS
    */
-  const get = async <T>({
+  const get = async <T = any>({
     endpoint,
     contentId,
     queries = {},
