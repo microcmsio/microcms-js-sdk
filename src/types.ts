@@ -45,11 +45,6 @@ export interface MicroCMSDate {
 }
 
 /**
- * MicroCMSDate & MicroCMSContentID (This is list format common types)
- */
-export type MicroCMSBaseContent = MicroCMSContentId & MicroCMSDate;
-
-/**
  * microCMS image
  */
 export interface MicroCMSImage {
@@ -57,6 +52,26 @@ export interface MicroCMSImage {
   width?: number;
   height?: number;
 }
+
+/**
+ * microCMS Response helper
+ */
+export interface MicroCMSResponse<T> {
+  contents: T[];
+  totalCount: number;
+  limit: number;
+  offset: number;
+}
+
+/**
+ * microCMS List content common types
+ */
+export type MicroCMSListContent = MicroCMSContentId & MicroCMSDate;
+
+/**
+ * microCMS object content common types
+ */
+export type MicroCMSObjectContent = MicroCMSDate;
 
 export interface MakeRequest {
   endpoint: string;
