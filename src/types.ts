@@ -28,6 +28,6 @@ export interface QueriesType {
   fields?: string;
   q?: string;
   depth?: depthNumber;
-  ids?: string;
+  ids?: string|string[];
   filters?: string;
 }
