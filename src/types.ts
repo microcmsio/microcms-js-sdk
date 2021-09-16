@@ -54,17 +54,17 @@ export interface MicroCMSImage {
 }
 
 /**
- * microCMS Response helper
+ * microCMS list api Response
  */
-export interface MicroCMSResponse<T> {
-  contents: T[];
+export interface MicroCMSListResponse<T> {
+  contents: (T & MicroCMSListContent)[];
   totalCount: number;
-  limit: number;
+  limit?: number;
   offset: number;
 }
 
 /**
- * microCMS List content common types
+ * microCMS list content common types
  */
 export type MicroCMSListContent = MicroCMSContentId & MicroCMSDate;
 
@@ -83,6 +83,12 @@ export interface MakeRequest {
 export interface GetRequest {
   endpoint: string;
   contentId?: string;
+  queries?: MicroCMSQueries;
+  useGlobalDraftKey?: boolean;
+}
+
+export interface GetListRequest {
+  endpoint: string;
   queries?: MicroCMSQueries;
   useGlobalDraftKey?: boolean;
 }

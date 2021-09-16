@@ -5,7 +5,7 @@
 import fetch from 'node-fetch';
 import { parseQuery } from './utils/parseQuery';
 import { isString } from './utils/isCheckValue';
-import { MicroCMSClient, MakeRequest, GetRequest } from './types';
+import { MicroCMSClient, MakeRequest, GetRequest, GetListRequest, MicroCMSListResponse } from './types';
 
 const BASE_DOMAIN = 'microcms.io';
 const API_VERSION = 'v1';
@@ -74,7 +74,7 @@ export const createClient = ({ serviceDomain, apiKey, globalDraftKey }: MicroCMS
   };
 
   /**
-   * Get API data for microCMS
+   * Get object API data for microCMS
    */
   const get = async <T = any>({
     endpoint,
@@ -88,7 +88,22 @@ export const createClient = ({ serviceDomain, apiKey, globalDraftKey }: MicroCMS
     return await makeRequest<T>({ endpoint, contentId, queries, useGlobalDraftKey });
   };
 
+  /**
+   * Get list API data for microCMS
+   */
+  const getList = async <T = any>({
+    endpoint,
+    queries = {},
+    useGlobalDraftKey,
+  }: GetListRequest): Promise<MicroCMSListResponse<T>> => {
+    if (!endpoint) {
+      return Promise.reject(new Error('endpoint is required'));
+    }
+    return await makeRequest<MicroCMSListResponse<T>>({ endpoint, queries, useGlobalDraftKey });
+  };
+
   return {
     get,
+    getList,
   };
 };
