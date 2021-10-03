@@ -92,3 +92,10 @@ export interface GetListRequest {
   queries?: MicroCMSQueries;
   useGlobalDraftKey?: boolean;
 }
+
+export interface GetObjectRequest {
+  endpoint: string;
+  contentId: string;
+  queries?: MicroCMSQueries;
+  useGlobalDraftKey?: boolean;
+}
