@@ -19,10 +19,10 @@ export interface MicroCMSQueries {
   limit?: number;
   offset?: number;
   orders?: string;
-  fields?: string|string[];
+  fields?: string | string[];
   q?: string;
   depth?: depthNumber;
-  ids?: string|string[];
+  ids?: string | string[];
   filters?: string;
 }
 
