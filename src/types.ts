@@ -25,7 +25,7 @@ export interface QueriesType {
   limit?: number;
   offset?: number;
   orders?: string;
-  fields?: string;
+  fields?: string|string[];
   q?: string;
   depth?: depthNumber;
   ids?: string;
