@@ -87,6 +87,13 @@ export interface GetRequest {
   useGlobalDraftKey?: boolean;
 }
 
+export interface GetListDetailRequest {
+  endpoint: string;
+  contentId: string;
+  queries?: MicroCMSQueries;
+  useGlobalDraftKey?: boolean;
+}
+
 export interface GetListRequest {
   endpoint: string;
   queries?: MicroCMSQueries;
@@ -95,7 +102,6 @@ export interface GetListRequest {
 
 export interface GetObjectRequest {
   endpoint: string;
-  contentId: string;
   queries?: MicroCMSQueries;
   useGlobalDraftKey?: boolean;
 }

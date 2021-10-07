@@ -10,7 +10,10 @@ import {
   MakeRequest,
   GetRequest,
   GetListRequest,
+  GetListDetailRequest,
+  GetObjectRequest,
   MicroCMSListResponse,
+  MicroCMSListContent,
   MicroCMSObjectContent,
 } from './types';
 
@@ -110,20 +113,38 @@ export const createClient = ({ serviceDomain, apiKey, globalDraftKey }: MicroCMS
   };
 
   /**
-   * Get object API data for microCMS
+   * Get list API detail data for microCMS
    */
-  const getObject = async <T = any>({
+  const getListDetail = async <T = any>({
     endpoint,
     contentId,
     queries = {},
     useGlobalDraftKey,
-  }: GetRequest): Promise<T & MicroCMSObjectContent> => {
+  }: GetListDetailRequest): Promise<T & MicroCMSListContent> => {
+    if (!endpoint) {
+      return Promise.reject(new Error('endpoint is required'));
+    }
+    return await makeRequest<T & MicroCMSListContent>({
+      endpoint,
+      contentId,
+      queries,
+      useGlobalDraftKey,
+    });
+  };
+
+  /**
+   * Get object API data for microCMS
+   */
+  const getObject = async <T = any>({
+    endpoint,
+    queries = {},
+    useGlobalDraftKey,
+  }: GetObjectRequest): Promise<T & MicroCMSObjectContent> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
     return await makeRequest<T & MicroCMSObjectContent>({
       endpoint,
-      contentId,
       queries,
       useGlobalDraftKey,
     });
@@ -132,6 +153,7 @@ export const createClient = ({ serviceDomain, apiKey, globalDraftKey }: MicroCMS
   return {
     get,
     getList,
+    getListDetail,
     getObject,
   };
 };
