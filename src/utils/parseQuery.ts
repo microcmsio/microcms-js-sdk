@@ -6,10 +6,10 @@
  */
 import qs from 'qs';
 import { isObject } from './isCheckValue';
-import { QueriesType } from '../types';
+import { MicroCMSQueries } from '../types';
 
-export const parseQuery = (queries: QueriesType): string => {
-  if (!isObject<QueriesType>(queries)) {
+export const parseQuery = (queries: MicroCMSQueries): string => {
+  if (!isObject<MicroCMSQueries>(queries)) {
     throw new Error('queries is not object');
   }
   const queryString = qs.stringify(queries, {arrayFormat: 'comma'});
