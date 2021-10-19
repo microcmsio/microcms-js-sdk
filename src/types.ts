@@ -59,7 +59,7 @@ export interface MicroCMSImage {
 export interface MicroCMSListResponse<T> {
   contents: (T & MicroCMSListContent)[];
   totalCount: number;
-  limit?: number;
+  limit: number;
   offset: number;
 }
 
