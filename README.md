@@ -119,7 +119,7 @@ type Content = {
  * {
  *  contents: Content; // This is Content type
  *  totalCount: number;
- *  limit?: number;
+ *  limit: number;
  *  offset: number;
  * } 
  */
