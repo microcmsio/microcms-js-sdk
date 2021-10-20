@@ -23,7 +23,7 @@ const API_VERSION = 'v1';
 /**
  * Initialize SDK Client
  */
-export const createClient = ({ serviceDomain, apiKey, globalDraftKey }: MicroCMSClient) => {
+export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
   if (!serviceDomain || !apiKey) {
     throw new Error('parameter is required (check serviceDomain and apiKey)');
   }
@@ -44,17 +44,13 @@ export const createClient = ({ serviceDomain, apiKey, globalDraftKey }: MicroCMS
     endpoint,
     contentId,
     queries = {},
-    useGlobalDraftKey = true,
   }: MakeRequest): Promise<T> => {
     const queryString = parseQuery(queries);
 
     const baseHeaders = {
-      headers: { 'X-API-KEY': apiKey },
+      headers: { 'X-MICROCMS-API-KEY': apiKey },
     };
 
-    if (globalDraftKey && useGlobalDraftKey) {
-      Object.assign(baseHeaders.headers, { 'X-GLOBAL-DRAFT-KEY': globalDraftKey });
-    }
 
     const url = `${baseUrl}/${endpoint}${contentId ? `/${contentId}` : ''}${
       queryString ? `?${queryString}` : ''
@@ -90,12 +86,11 @@ export const createClient = ({ serviceDomain, apiKey, globalDraftKey }: MicroCMS
     endpoint,
     contentId,
     queries = {},
-    useGlobalDraftKey,
   }: GetRequest): Promise<T> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
-    return await makeRequest<T>({ endpoint, contentId, queries, useGlobalDraftKey });
+    return await makeRequest<T>({ endpoint, contentId, queries });
   };
 
   /**
@@ -104,12 +99,11 @@ export const createClient = ({ serviceDomain, apiKey, globalDraftKey }: MicroCMS
   const getList = async <T = any>({
     endpoint,
     queries = {},
-    useGlobalDraftKey,
   }: GetListRequest): Promise<MicroCMSListResponse<T>> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
-    return await makeRequest<MicroCMSListResponse<T>>({ endpoint, queries, useGlobalDraftKey });
+    return await makeRequest<MicroCMSListResponse<T>>({ endpoint, queries });
   };
 
   /**
@@ -119,7 +113,6 @@ export const createClient = ({ serviceDomain, apiKey, globalDraftKey }: MicroCMS
     endpoint,
     contentId,
     queries = {},
-    useGlobalDraftKey,
   }: GetListDetailRequest): Promise<T & MicroCMSListContent> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
@@ -128,7 +121,6 @@ export const createClient = ({ serviceDomain, apiKey, globalDraftKey }: MicroCMS
       endpoint,
       contentId,
       queries,
-      useGlobalDraftKey,
     });
   };
 
@@ -138,7 +130,6 @@ export const createClient = ({ serviceDomain, apiKey, globalDraftKey }: MicroCMS
   const getObject = async <T = any>({
     endpoint,
     queries = {},
-    useGlobalDraftKey,
   }: GetObjectRequest): Promise<T & MicroCMSObjectContent> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
@@ -146,7 +137,6 @@ export const createClient = ({ serviceDomain, apiKey, globalDraftKey }: MicroCMS
     return await makeRequest<T & MicroCMSObjectContent>({
       endpoint,
       queries,
-      useGlobalDraftKey,
     });
   };
 
