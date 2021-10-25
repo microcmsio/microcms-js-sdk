@@ -4,7 +4,6 @@
 export interface MicroCMSClient {
   serviceDomain: string;
   apiKey: string;
-  globalDraftKey?: string;
 }
 
 type depthNumber = 1 | 2 | 3;
@@ -77,31 +76,26 @@ export interface MakeRequest {
   endpoint: string;
   contentId?: string;
   queries?: MicroCMSQueries;
-  useGlobalDraftKey?: boolean;
 }
 
 export interface GetRequest {
   endpoint: string;
   contentId?: string;
   queries?: MicroCMSQueries;
-  useGlobalDraftKey?: boolean;
 }
 
 export interface GetListDetailRequest {
   endpoint: string;
   contentId: string;
   queries?: MicroCMSQueries;
-  useGlobalDraftKey?: boolean;
 }
 
 export interface GetListRequest {
   endpoint: string;
   queries?: MicroCMSQueries;
-  useGlobalDraftKey?: boolean;
 }
 
 export interface GetObjectRequest {
   endpoint: string;
   queries?: MicroCMSQueries;
-  useGlobalDraftKey?: boolean;
 }

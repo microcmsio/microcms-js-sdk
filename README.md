@@ -34,7 +34,6 @@ import { createClient } from 'microcms-js-sdk'; //ES6
 const client = createClient({
   serviceDomain: "YOUR_DOMAIN", // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
   apiKey: "YOUR_API_KEY",
-  globalDraftKey: "YOUR_GLOBAL_DRAFT_KEY", // If need 
 });
 ```
 
@@ -48,7 +47,6 @@ const { createClient } = microcms;
 const client = createClient({
   serviceDomain: "YOUR_DOMAIN", // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
   apiKey: "YOUR_API_KEY",
-  globalDraftKey: "YOUR_GLOBAL_DRAFT_KEY", // If need 
 });
 </script>
 ```
@@ -60,7 +58,6 @@ client
   .get({
     endpoint: 'endpoint',
     queries: { limit: 20, filters: 'createdAt[greater_than]2021' },
-    useGlobalDraftKey: false, // This is an option if your have set the globalDraftKey. Default value true.
   })
   .then((res) => console.log(res))
   .catch((err) => console.log(err));
