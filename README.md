@@ -128,8 +128,8 @@ client.getList<Content>({ //other })
  *  id: string;
  *  createdAt: string;
  *  updatedAt: string;
- *  publishedAt: string;
- *  revisedAt: string;
+ *  publishedAt?: string;
+ *  revisedAt?: string;
  *  text: string; // This is Content type.
  * } 
  */
@@ -140,8 +140,8 @@ client.getListDetail<Content>({ //other })
  * {
  *  createdAt: string;
  *  updatedAt: string;
- *  publishedAt: string;
- *  revisedAt: string;
+ *  publishedAt?: string;
+ *  revisedAt?: string;
  *  text: string; // This is Content type.
  * } 
  */

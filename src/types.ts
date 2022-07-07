@@ -39,8 +39,8 @@ export interface MicroCMSContentId {
 export interface MicroCMSDate {
   createdAt: string;
   updatedAt: string;
-  publishedAt: string;
-  revisedAt: string;
+  publishedAt?: string;
+  revisedAt?: string;
 }
 
 /**
