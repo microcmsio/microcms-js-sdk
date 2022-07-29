@@ -21,4 +21,10 @@ module.exports = {
     es6: true,
     jest: true,
   },
+  overrides: [
+    {
+      files: ['tests/**'],
+      plugins: ['jest'],
+    },
+  ],
 };
