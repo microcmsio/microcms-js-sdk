@@ -10,7 +10,6 @@
     "baseUrl": "./",
     "declaration": true,
     "strict": true,
-    "types": ["node"],
     "esModuleInterop": true,
     "useUnknownInCatchVariables": false
   },
