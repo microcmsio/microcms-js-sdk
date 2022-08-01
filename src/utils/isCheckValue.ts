@@ -1,19 +1,19 @@
 /**
  * Check object
  *
- * @param {object} value
- * @return {boolean}
+ * @param {unknown} value
+ * @returns {boolean}
  */
-export const isObject = <T>(value: T): boolean => {
+export const isObject = (value: unknown): value is Record<string, unknown> => {
   return value !== null && typeof value === 'object';
 };
 
 /**
  * Check string
  *
- * @param {string} value
- * @return {boolean}
+ * @param {unknown} value
+ * @returns {boolean}
  */
-export const isString = (value: string): boolean => {
+export const isString = (value: unknown): value is string => {
   return value !== null && typeof value == 'string';
 };
