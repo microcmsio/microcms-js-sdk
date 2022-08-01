@@ -15,5 +15,5 @@ export const isObject = (value: unknown): value is Record<string, unknown> => {
  * @returns {boolean}
  */
 export const isString = (value: unknown): value is string => {
-  return value !== null && typeof value == 'string';
+  return typeof value === 'string';
 };
