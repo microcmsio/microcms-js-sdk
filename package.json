@@ -21,7 +21,8 @@
   "scripts": {
     "build": "rollup -c",
     "lint": "eslint ./src",
-    "lint:fix": "eslint --fix ./src"
+    "lint:fix": "eslint --fix ./src",
+    "test": "jest"
   },
   "files": [
     "dist"
