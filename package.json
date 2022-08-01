@@ -22,8 +22,8 @@
     "build": "rollup -c",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src",
-    "test": "jest",
-    "test:coverage": "jest --coverage=true --coverageProvider=v8"
+    "test": "jest --coverage=false",
+    "test:coverage": "jest --coverage=true"
   },
   "files": [
     "dist"
