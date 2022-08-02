@@ -2,7 +2,7 @@ import { rest } from 'msw';
 
 import { API_VERSION, BASE_DOMAIN } from '../../src/utils/constants';
 
-const baseUrl = `https://test.${BASE_DOMAIN}/api/${API_VERSION}`;
+const baseUrl = `https://serviceDomain.${BASE_DOMAIN}/api/${API_VERSION}`;
 
 export const handlers = [
   rest.get(`${baseUrl}/list-type`, (_, res, ctx) => {
@@ -49,3 +49,5 @@ export const handlers = [
     );
   }),
 ];
+
+export { baseUrl as testBaseUrl };
