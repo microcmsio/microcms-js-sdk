@@ -139,10 +139,34 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
     });
   };
 
+  /**
+   * Create new content in the microCMS list API data
+   */
+  const create = async () => {
+    return;
+  };
+
+  /**
+   * Update content in ther microCMS list and object API data
+   */
+  const update = async () => {
+    return;
+  };
+
+  /**
+   * Delete content in ther microCMS list and object API data
+   */
+  const _delete = async () => {
+    return;
+  };
+
   return {
     get,
     getList,
     getListDetail,
     getObject,
+    create,
+    update,
+    delete: _delete,
   };
 };
