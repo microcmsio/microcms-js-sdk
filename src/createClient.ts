@@ -16,9 +16,7 @@ import {
   MicroCMSListContent,
   MicroCMSObjectContent,
 } from './types';
-
-const BASE_DOMAIN = 'microcms.io';
-const API_VERSION = 'v1';
+import { API_VERSION, BASE_DOMAIN } from './utils/constants';
 
 /**
  * Initialize SDK Client

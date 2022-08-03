@@ -1,6 +1,6 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  extends: ['plugin:@typescript-eslint/recommended', 'eslint:recommended'],
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
@@ -21,4 +21,10 @@ module.exports = {
     es6: true,
     jest: true,
   },
+  overrides: [
+    {
+      files: ['tests/**'],
+      plugins: ['jest'],
+    },
+  ],
 };
