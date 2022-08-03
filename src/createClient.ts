@@ -2,7 +2,7 @@
  * microCMS API SDK
  * https://github.com/microcmsio/microcms-js-sdk
  */
-import fetch from 'node-fetch';
+import fetch, { RequestInit } from 'node-fetch';
 import { parseQuery } from './utils/parseQuery';
 import { isString } from './utils/isCheckValue';
 import {
@@ -42,13 +42,14 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
     endpoint,
     contentId,
     queries = {},
+    method,
   }: MakeRequest): Promise<T> => {
     const queryString = parseQuery(queries);
 
-    const baseHeaders = {
+    const baseHeaders: RequestInit = {
       headers: { 'X-MICROCMS-API-KEY': apiKey },
+      method,
     };
-
 
     const url = `${baseUrl}/${endpoint}${contentId ? `/${contentId}` : ''}${
       queryString ? `?${queryString}` : ''

@@ -76,6 +76,7 @@ export interface MakeRequest {
   endpoint: string;
   contentId?: string;
   queries?: MicroCMSQueries;
+  method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 }
 
 export interface GetRequest {
