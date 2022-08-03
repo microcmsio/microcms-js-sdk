@@ -1,7 +1,6 @@
 import { createClient } from '../src/createClient';
 
 describe('createClient', () => {
-  // Normal system
   test('Functions is generated to request the API', () => {
     const client = createClient({
       serviceDomain: 'serviceDomain',
@@ -14,7 +13,6 @@ describe('createClient', () => {
     expect(typeof client.getObject === 'function').toBe(true);
   });
 
-  // Abnormal system
   test('Throws an error if `serviceDomain` or `apiKey` is missing', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error

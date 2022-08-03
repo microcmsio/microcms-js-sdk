@@ -9,7 +9,6 @@ const client = createClient({
 });
 
 describe('get', () => {
-  // Normal system
   test('List format contents can be retrieved', async () => {
     const data = await client.get({ endpoint: 'list-type' });
     expect(data).toEqual({
@@ -51,7 +50,6 @@ describe('get', () => {
     });
   });
 
-  // Abnormal system
   test('Returns an error message if `endpoint` is not specified', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
