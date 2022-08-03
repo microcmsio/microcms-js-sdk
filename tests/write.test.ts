@@ -1,6 +1,8 @@
 describe('create', () => {
-  test.todo('List format content can be posted');
-  test.todo('Object type content can be posted');
+  test.todo('Content can be submitted without specifying an id');
+  test.todo('Draft content can be submitted by specifying an id');
+  test.todo('Content can be submitted by specifying an id');
+  test.todo('Draft content can be submitted by specifying an id');
 
   test.todo('Returns an error message if `endpoint` is not specified');
 });
