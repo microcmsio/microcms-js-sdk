@@ -59,7 +59,7 @@ export const handlers = [
     );
   }),
   rest.post(`${baseUrl}/list-type/foo`, (_, res, ctx) => {
-    return res(ctx.status(404));
+    return res(ctx.status(404), ctx.json({}));
   }),
   rest.put(`${baseUrl}/list-type/foo`, (_, res, ctx) => {
     return res(ctx.status(201), ctx.json({ id: 'foo' }));
@@ -68,7 +68,7 @@ export const handlers = [
     return res(ctx.status(200), ctx.json({ id: 'foo' }));
   }),
   rest.delete(`${baseUrl}/list-type/foo`, (_, res, ctx) => {
-    return res(ctx.status(202));
+    return res(ctx.status(202), ctx.json({}));
   }),
 
   rest.get(`${baseUrl}/object-type`, (_, res, ctx) => {
