@@ -33,6 +33,10 @@ describe('create', () => {
       })
     );
   });
+  afterEach(() => {
+    postApiMockFn.mockClear();
+    putApiMockFn.mockClear();
+  });
 
   test('Content can be posted without specifying an id', async () => {
     const data = await client.create<ContentType>({
@@ -99,12 +103,14 @@ describe('create', () => {
     );
   });
 });
+
 describe('update', () => {
   test.todo('List format content can be updated');
   test.todo('Object type content can be updated');
 
   test.todo('Returns an error message if `endpoint` is not specified');
 });
+
 describe('delete', () => {
   test.todo('List format content can be deleted');
 
