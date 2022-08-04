@@ -123,10 +123,67 @@ describe('create', () => {
 });
 
 describe('update', () => {
-  test.todo('List format content can be updated');
-  test.todo('Object type content can be updated');
+  const patchListApiMockFn = jest.fn();
+  const patchObjectApiMockFn = jest.fn();
 
-  test.todo('Returns an error message if `endpoint` is not specified');
+  beforeEach(() => {
+    server.use(
+      rest.patch(`${testBaseUrl}/list-type/foo`, async (req, res, ctx) => {
+        const body = await req.json();
+        patchListApiMockFn(body);
+        return res(ctx.status(200), ctx.json({ id: 'foo' }));
+      }),
+      rest.patch(`${testBaseUrl}/object-type`, async (req, res, ctx) => {
+        const body = await req.json();
+        patchObjectApiMockFn(body);
+        return res(ctx.status(200), ctx.json({ id: 'foo' }));
+      })
+    );
+  });
+  afterEach(() => {
+    patchListApiMockFn.mockClear();
+    patchObjectApiMockFn.mockClear();
+  });
+
+  test('List format content can be updated', async () => {
+    const data = await client.update<ContentType>({
+      endpoint: 'list-type',
+      contentId: 'foo',
+      content: {
+        title: 'title',
+      },
+    });
+    expect(data).toEqual({ id: 'foo' });
+    // Confirm PUT api was called
+    expect(patchListApiMockFn).toHaveBeenCalledTimes(1);
+    // Confirm that body is specified.
+    expect(patchListApiMockFn).toHaveBeenCalledWith({
+      title: 'title',
+    });
+  });
+  test('Object type content can be updated', async () => {
+    const data = await client.update<ContentType>({
+      endpoint: 'object-type',
+      content: {
+        title: 'title',
+      },
+    });
+    expect(data).toEqual({ id: 'foo' });
+    // Confirm PUT api was called
+    expect(patchObjectApiMockFn).toHaveBeenCalledTimes(1);
+    // Confirm that body is specified.
+    expect(patchObjectApiMockFn).toHaveBeenCalledWith({
+      title: 'title',
+    });
+  });
+
+  test('Returns an error message if `endpoint` is not specified', () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    expect(client.update({})).rejects.toThrow(
+      new Error('endpoint is required')
+    );
+  });
 });
 
 describe('delete', () => {
