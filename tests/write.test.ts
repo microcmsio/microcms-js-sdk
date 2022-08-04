@@ -187,8 +187,37 @@ describe('update', () => {
 });
 
 describe('delete', () => {
-  test.todo('List format content can be deleted');
+  const deleteApiMockFn = jest.fn();
 
-  test.todo('Returns an error message if `endpoint` is not specified');
-  test.todo('Returns an error message if `contentId` is not specified');
+  beforeEach(() => {
+    server.use(
+      rest.delete(`${testBaseUrl}/list-type/foo`, (_, res, ctx) => {
+        deleteApiMockFn();
+        return res(ctx.status(202), ctx.json({}));
+      })
+    );
+  });
+  afterEach(() => {
+    deleteApiMockFn.mockClear();
+  });
+
+  test('List format content can be deleted', async () => {
+    await client.delete({ endpoint: 'list-type', contentId: 'foo' });
+    expect(deleteApiMockFn).toHaveBeenCalledTimes(1);
+  });
+
+  test('Returns an error message if `endpoint` is not specified', () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    expect(client.delete({})).rejects.toThrow(
+      new Error('endpoint is required')
+    );
+  });
+  test('Returns an error message if `contentId` is not specified', () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    expect(client.delete({ endpoint: 'list-type' })).rejects.toThrow(
+      new Error('contentId is required')
+    );
+  });
 });

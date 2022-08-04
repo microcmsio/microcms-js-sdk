@@ -18,6 +18,7 @@ import {
   MicroCMSListContent,
   MicroCMSObjectContent,
   UpdateRequest,
+  DeleteRequest,
 } from './types';
 import { API_VERSION, BASE_DOMAIN } from './utils/constants';
 
@@ -205,8 +206,21 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
   /**
    * Delete content in ther microCMS list and object API data
    */
-  const _delete = async () => {
-    return;
+  const _delete = async ({
+    endpoint,
+    contentId,
+  }: DeleteRequest): Promise<void> => {
+    if (!endpoint) {
+      return Promise.reject(new Error('endpoint is required'));
+    }
+
+    if (!contentId) {
+      return Promise.reject(new Error('contentId is required'));
+    }
+
+    const method: MakeRequest['method'] = 'DELETE';
+
+    await makeRequest({ endpoint, contentId, method });
   };
 
   return {

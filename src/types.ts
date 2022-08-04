@@ -121,3 +121,8 @@ export interface UpdateRequest<T> {
   contentId?: string;
   content: Partial<T>;
 }
+
+export interface DeleteRequest {
+  endpoint: string;
+  contentId: string;
+}
