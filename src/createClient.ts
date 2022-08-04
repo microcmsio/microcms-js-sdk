@@ -12,6 +12,8 @@ import {
   GetListRequest,
   GetListDetailRequest,
   GetObjectRequest,
+  WriteApiRequestResult,
+  CreateRequest,
   MicroCMSListResponse,
   MicroCMSListContent,
   MicroCMSObjectContent,
@@ -43,11 +45,14 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
     contentId,
     queries = {},
     method,
+    customHeaders,
+    customBody,
   }: MakeRequest): Promise<T> => {
     const queryString = parseQuery(queries);
 
     const baseHeaders: RequestInit = {
-      headers: { 'X-MICROCMS-API-KEY': apiKey },
+      headers: { ...customHeaders, 'X-MICROCMS-API-KEY': apiKey },
+      body: customBody,
       method,
     };
 
@@ -142,8 +147,31 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
   /**
    * Create new content in the microCMS list API data
    */
-  const create = async () => {
-    return;
+  const create = async <T extends Record<string | number, any>>({
+    endpoint,
+    contentId,
+    content,
+    isDraft = false,
+  }: CreateRequest<T>): Promise<WriteApiRequestResult> => {
+    if (!endpoint) {
+      return Promise.reject(new Error('endpoint is required'));
+    }
+
+    const queries: MakeRequest['queries'] = isDraft ? { status: 'draft' } : {};
+    const method: MakeRequest['method'] = contentId ? 'PUT' : 'POST';
+    const customHeaders: MakeRequest['customHeaders'] = {
+      'Content-Type': 'application/json',
+    };
+    const customBody: MakeRequest['customBody'] = JSON.stringify(content);
+
+    return makeRequest({
+      endpoint,
+      contentId,
+      queries,
+      method,
+      customHeaders,
+      customBody,
+    });
   };
 
   /**

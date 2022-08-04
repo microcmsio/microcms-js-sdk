@@ -1,4 +1,4 @@
-import { HeadersInit } from 'node-fetch';
+import { BodyInit, HeadersInit } from 'node-fetch';
 
 /**
  * microCMS createClient params
@@ -80,6 +80,7 @@ export interface MakeRequest {
   queries?: MicroCMSQueries & Record<string, any>;
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   customHeaders?: HeadersInit;
+  customBody?: BodyInit;
 }
 
 export interface GetRequest {
