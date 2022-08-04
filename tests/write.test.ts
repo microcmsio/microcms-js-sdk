@@ -21,14 +21,16 @@ describe('create', () => {
 
   beforeEach(() => {
     server.use(
-      rest.post(`${testBaseUrl}/list-type`, (req, res, ctx) => {
+      rest.post(`${testBaseUrl}/list-type`, async (req, res, ctx) => {
         const statusParams = req.url.searchParams.get('status');
-        postApiMockFn(statusParams);
+        const body = await req.json();
+        postApiMockFn(statusParams, body);
         return res(ctx.json({ id: 'foo' }));
       }),
-      rest.put(`${testBaseUrl}/list-type/foo`, (req, res, ctx) => {
+      rest.put(`${testBaseUrl}/list-type/foo`, async (req, res, ctx) => {
         const statusParams = req.url.searchParams.get('status');
-        putApiMockFn(statusParams);
+        const body = await req.json();
+        putApiMockFn(statusParams, body);
         return res(ctx.status(201), ctx.json({ id: 'foo' }));
       })
     );
@@ -49,6 +51,11 @@ describe('create', () => {
     expect(data).toEqual({ id: 'foo' });
     // Confirm POST api was called
     expect(postApiMockFn).toHaveBeenCalledTimes(1);
+    // Confirm that body is specified.
+    expect(postApiMockFn).toHaveBeenCalledWith(null, {
+      title: 'title',
+      body: 'body',
+    });
   });
   test('Draft content can be posted by specifying an id', async () => {
     const data = await client.create<ContentType>({
@@ -62,8 +69,11 @@ describe('create', () => {
     expect(data).toEqual({ id: 'foo' });
     // Confirm POST api was called
     expect(postApiMockFn).toHaveBeenCalledTimes(1);
-    // Confirm that status=draft is specified for the query string
-    expect(postApiMockFn).toHaveBeenCalledWith('draft');
+    // Confirm that status=draft is specified in the query string and that body is specified.
+    expect(postApiMockFn).toHaveBeenCalledWith('draft', {
+      title: 'title',
+      body: 'body',
+    });
   });
   test('Content can be posted by specifying an id', async () => {
     const data = await client.create<ContentType>({
@@ -77,6 +87,11 @@ describe('create', () => {
     expect(data).toEqual({ id: 'foo' });
     // Confirm PUT api was called
     expect(putApiMockFn).toHaveBeenCalledTimes(1);
+    // Confirm that body is specified.
+    expect(putApiMockFn).toHaveBeenCalledWith(null, {
+      title: 'title',
+      body: 'body',
+    });
   });
   test('Draft content can be posted by specifying an id', async () => {
     const data = await client.create<ContentType>({
@@ -91,8 +106,11 @@ describe('create', () => {
     expect(data).toEqual({ id: 'foo' });
     // Confirm PUT api was called
     expect(putApiMockFn).toHaveBeenCalledTimes(1);
-    // Confirm that status=draft is specified for the query string
-    expect(putApiMockFn).toHaveBeenCalledWith('draft');
+    // Confirm that status=draft is specified in the query string and that body is specified.
+    expect(putApiMockFn).toHaveBeenCalledWith('draft', {
+      title: 'title',
+      body: 'body',
+    });
   });
 
   test('Returns an error message if `endpoint` is not specified', () => {
