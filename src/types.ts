@@ -1,3 +1,5 @@
+import { HeadersInit } from 'node-fetch';
+
 /**
  * microCMS createClient params
  */
@@ -75,8 +77,9 @@ export type MicroCMSObjectContent = MicroCMSDate;
 export interface MakeRequest {
   endpoint: string;
   contentId?: string;
-  queries?: MicroCMSQueries;
+  queries?: MicroCMSQueries & Record<string, any>;
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+  customHeaders?: HeadersInit;
 }
 
 export interface GetRequest {
@@ -99,4 +102,15 @@ export interface GetListRequest {
 export interface GetObjectRequest {
   endpoint: string;
   queries?: MicroCMSQueries;
+}
+
+export interface WriteApiRequestResult {
+  id: string;
+}
+
+export interface CreateRequest<T> {
+  endpoint: string;
+  contentId?: string;
+  content: T;
+  isDraft?: boolean;
 }
