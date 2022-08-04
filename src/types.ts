@@ -115,3 +115,9 @@ export interface CreateRequest<T> {
   content: T;
   isDraft?: boolean;
 }
+
+export interface UpdateRequest<T> {
+  endpoint: string;
+  contentId?: string;
+  content: Partial<T>;
+}

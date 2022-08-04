@@ -17,6 +17,7 @@ import {
   MicroCMSListResponse,
   MicroCMSListContent,
   MicroCMSObjectContent,
+  UpdateRequest,
 } from './types';
 import { API_VERSION, BASE_DOMAIN } from './utils/constants';
 
@@ -177,8 +178,28 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
   /**
    * Update content in ther microCMS list and object API data
    */
-  const update = async () => {
-    return;
+  const update = async <T extends Record<string | number, any>>({
+    endpoint,
+    contentId,
+    content,
+  }: UpdateRequest<T>): Promise<WriteApiRequestResult> => {
+    if (!endpoint) {
+      return Promise.reject(new Error('endpoint is required'));
+    }
+
+    const method: MakeRequest['method'] = 'PATCH';
+    const customHeaders: MakeRequest['customHeaders'] = {
+      'Content-Type': 'application/json',
+    };
+    const customBody: MakeRequest['customBody'] = JSON.stringify(content);
+
+    return makeRequest({
+      endpoint,
+      contentId,
+      method,
+      customHeaders,
+      customBody,
+    });
   };
 
   /**
