@@ -138,6 +138,7 @@ client
       title: 'title',
       body: 'body',
     },
+    // Available with microCMS paid plans
     isDraft: true,
   })
   .then((res) => console.log(res.id))
@@ -152,6 +153,7 @@ client
       title: 'title',
       body: 'body',
     },
+    // Available with microCMS paid plans
     isDraft: true,
   })
   .then((res) => console.log(res.id))
