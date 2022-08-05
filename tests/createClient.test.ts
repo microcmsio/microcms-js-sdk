@@ -11,6 +11,9 @@ describe('createClient', () => {
     expect(typeof client.getList === 'function').toBe(true);
     expect(typeof client.getListDetail === 'function').toBe(true);
     expect(typeof client.getObject === 'function').toBe(true);
+    expect(typeof client.create === 'function').toBe(true);
+    expect(typeof client.update === 'function').toBe(true);
+    expect(typeof client.delete === 'function').toBe(true);
   });
 
   test('Throws an error if `serviceDomain` or `apiKey` is missing', () => {

@@ -101,6 +101,98 @@ client
   .catch((err) => console.log(err));
 ```
 
+#### WRITE API
+
+The following is how to use the write system when making a request to the write system API.
+
+```javascript
+// Create content
+client
+  .create({
+    endpoint: 'endpoint',
+    content: {
+      title: 'title',
+      body: 'body',
+    },
+  })
+  .then((res) => console.log(res.id))
+  .catch((err) => console.log(err));
+
+// Create content with specified ID
+client
+  .create({
+    endpoint: 'endpoint',
+    contentId: 'contentId',
+    content: {
+      title: 'title',
+      body: 'body',
+    },
+  })
+  .then((res) => console.log(res.id))
+  .catch((err) => console.log(err));
+// Create draft content
+client
+  .create({
+    endpoint: 'endpoint',
+    content: {
+      title: 'title',
+      body: 'body',
+    },
+    // Available with microCMS paid plans
+    // https://microcms.io/pricing
+    isDraft: true,
+  })
+  .then((res) => console.log(res.id))
+  .catch((err) => console.log(err));
+
+// Create draft content with specified ID
+client
+  .create({
+    endpoint: 'endpoint',
+    contentId: 'contentId',
+    content: {
+      title: 'title',
+      body: 'body',
+    },
+    // Available with microCMS paid plans
+    // https://microcms.io/pricing
+    isDraft: true,
+  })
+  .then((res) => console.log(res.id))
+  .catch((err) => console.log(err));
+
+// Update content
+client
+  .update({
+    endpoint: 'endpoint',
+    contentId: 'contentId',
+    content: {
+      title: 'title',
+    },
+  })
+  .then((res) => console.log(res.id))
+  .catch((err) => console.log(err));
+
+// Update object form content
+client
+  .update({
+    endpoint: 'endpoint',
+    content: {
+      title: 'title',
+    },
+  })
+  .then((res) => console.log(res.id))
+  .catch((err) => console.log(err));
+
+// Delete content
+client
+  .delete({
+    endpoint: 'endpoint',
+    contentId: 'contentId',
+  })
+  .catch((err) => console.log(err));
+```
+
 ### TypeScript 
 
 If you are using TypeScript, use `getList`, `getListDetail`, `getObject`. This internally contains a common type of content.
@@ -146,6 +238,47 @@ client.getListDetail<Content>({ //other })
  * } 
  */
 client.getObject<Content>({ //other })
+```
+
+Write functions can also be performed type-safely.
+
+```typescript
+type Content = {
+  title: string
+  body?: string
+}
+
+client.create<Content>({
+  endpoint: 'endpoint',
+  // Since `content` will be of type `Content`, no required fields will be missed.
+  content: {
+    title: 'title',
+    body: 'body',
+  },
+})
+
+client.update<Content>({
+  endpoint: 'endpoint',
+  // The `content` will be of type `Partial<Content>`, so you can enter only the items needed for the update.
+  content: {
+    body: 'body',
+  },
+})
+```
+
+## Tips
+
+### Separate API keys for read and write
+
+```javascript
+const readClient = createClient({
+  serviceDomain: 'serviceDomain',
+  apiKey: 'readApiKey',
+})
+const writeClient = createClient({
+  serviceDomain: 'serviceDomain',
+  apiKey: 'writeApiKey',
+})
 ```
 
 # LICENSE

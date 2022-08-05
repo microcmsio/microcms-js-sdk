@@ -2,7 +2,7 @@
  * microCMS API SDK
  * https://github.com/microcmsio/microcms-js-sdk
  */
-import fetch from 'node-fetch';
+import fetch, { RequestInit } from 'node-fetch';
 import { parseQuery } from './utils/parseQuery';
 import { isString } from './utils/isCheckValue';
 import {
@@ -12,9 +12,13 @@ import {
   GetListRequest,
   GetListDetailRequest,
   GetObjectRequest,
+  WriteApiRequestResult,
+  CreateRequest,
   MicroCMSListResponse,
   MicroCMSListContent,
   MicroCMSObjectContent,
+  UpdateRequest,
+  DeleteRequest,
 } from './types';
 import { API_VERSION, BASE_DOMAIN } from './utils/constants';
 
@@ -42,13 +46,17 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
     endpoint,
     contentId,
     queries = {},
+    method,
+    customHeaders,
+    customBody,
   }: MakeRequest): Promise<T> => {
     const queryString = parseQuery(queries);
 
-    const baseHeaders = {
-      headers: { 'X-MICROCMS-API-KEY': apiKey },
+    const baseHeaders: RequestInit = {
+      headers: { ...customHeaders, 'X-MICROCMS-API-KEY': apiKey },
+      body: customBody,
+      method,
     };
-
 
     const url = `${baseUrl}/${endpoint}${contentId ? `/${contentId}` : ''}${
       queryString ? `?${queryString}` : ''
@@ -138,10 +146,90 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
     });
   };
 
+  /**
+   * Create new content in the microCMS list API data
+   */
+  const create = async <T extends Record<string | number, any>>({
+    endpoint,
+    contentId,
+    content,
+    isDraft = false,
+  }: CreateRequest<T>): Promise<WriteApiRequestResult> => {
+    if (!endpoint) {
+      return Promise.reject(new Error('endpoint is required'));
+    }
+
+    const queries: MakeRequest['queries'] = isDraft ? { status: 'draft' } : {};
+    const method: MakeRequest['method'] = contentId ? 'PUT' : 'POST';
+    const customHeaders: MakeRequest['customHeaders'] = {
+      'Content-Type': 'application/json',
+    };
+    const customBody: MakeRequest['customBody'] = JSON.stringify(content);
+
+    return makeRequest({
+      endpoint,
+      contentId,
+      queries,
+      method,
+      customHeaders,
+      customBody,
+    });
+  };
+
+  /**
+   * Update content in ther microCMS list and object API data
+   */
+  const update = async <T extends Record<string | number, any>>({
+    endpoint,
+    contentId,
+    content,
+  }: UpdateRequest<T>): Promise<WriteApiRequestResult> => {
+    if (!endpoint) {
+      return Promise.reject(new Error('endpoint is required'));
+    }
+
+    const method: MakeRequest['method'] = 'PATCH';
+    const customHeaders: MakeRequest['customHeaders'] = {
+      'Content-Type': 'application/json',
+    };
+    const customBody: MakeRequest['customBody'] = JSON.stringify(content);
+
+    return makeRequest({
+      endpoint,
+      contentId,
+      method,
+      customHeaders,
+      customBody,
+    });
+  };
+
+  /**
+   * Delete content in ther microCMS list and object API data
+   */
+  const _delete = async ({
+    endpoint,
+    contentId,
+  }: DeleteRequest): Promise<void> => {
+    if (!endpoint) {
+      return Promise.reject(new Error('endpoint is required'));
+    }
+
+    if (!contentId) {
+      return Promise.reject(new Error('contentId is required'));
+    }
+
+    const method: MakeRequest['method'] = 'DELETE';
+
+    await makeRequest({ endpoint, contentId, method });
+  };
+
   return {
     get,
     getList,
     getListDetail,
     getObject,
+    create,
+    update,
+    delete: _delete,
   };
 };
