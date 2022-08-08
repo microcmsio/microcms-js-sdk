@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "microcms-js-sdk": "^2.1.0"
+    "microcms-js-sdk": "latest"
   }
 }
