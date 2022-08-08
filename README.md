@@ -60,7 +60,7 @@ client
     queries: { limit: 20, filters: 'createdAt[greater_than]2021' },
   })
   .then((res) => console.log(res))
-  .catch((err) => console.log(err));
+  .catch((err) => console.error(err));
 
 client
   .get({
@@ -69,7 +69,7 @@ client
     queries: { fields: 'title,publishedAt' },
   })
   .then((res) => console.log(res))
-  .catch((err) => console.log(err));
+  .catch((err) => console.error(err));
 ```
 
 And, Api corresponding to each content are also available. example.
@@ -81,7 +81,7 @@ client
     endpoint: 'endpoint',
   })
   .then((res) => console.log(res))
-  .catch((err) => console.log(err));
+  .catch((err) => console.error(err));
 
 // Get list API detail data
 client
@@ -90,7 +90,7 @@ client
     contentId: 'contentId',
   })
   .then((res) => console.log(res))
-  .catch((err) => console.log(err));
+  .catch((err) => console.error(err));
 
 // Get object API data
 client
@@ -98,7 +98,7 @@ client
     endpoint: 'endpoint',
   })
   .then((res) => console.log(res))
-  .catch((err) => console.log(err));
+  .catch((err) => console.error(err));
 ```
 
 #### WRITE API
@@ -116,7 +116,7 @@ client
     },
   })
   .then((res) => console.log(res.id))
-  .catch((err) => console.log(err));
+  .catch((err) => console.error(err));
 
 // Create content with specified ID
 client
@@ -129,7 +129,7 @@ client
     },
   })
   .then((res) => console.log(res.id))
-  .catch((err) => console.log(err));
+  .catch((err) => console.error(err));
 // Create draft content
 client
   .create({
@@ -143,7 +143,7 @@ client
     isDraft: true,
   })
   .then((res) => console.log(res.id))
-  .catch((err) => console.log(err));
+  .catch((err) => console.error(err));
 
 // Create draft content with specified ID
 client
@@ -159,7 +159,7 @@ client
     isDraft: true,
   })
   .then((res) => console.log(res.id))
-  .catch((err) => console.log(err));
+  .catch((err) => console.error(err));
 
 // Update content
 client
@@ -171,7 +171,7 @@ client
     },
   })
   .then((res) => console.log(res.id))
-  .catch((err) => console.log(err));
+  .catch((err) => console.error(err));
 
 // Update object form content
 client
@@ -182,7 +182,7 @@ client
     },
   })
   .then((res) => console.log(res.id))
-  .catch((err) => console.log(err));
+  .catch((err) => console.error(err));
 
 // Delete content
 client
@@ -190,7 +190,7 @@ client
     endpoint: 'endpoint',
     contentId: 'contentId',
   })
-  .catch((err) => console.log(err));
+  .catch((err) => console.error(err));
 ```
 
 ### TypeScript 
