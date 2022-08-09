@@ -42,14 +42,14 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
   /**
    * Make request
    */
-  const makeRequest = async <T>({
+  const makeRequest = async ({
     endpoint,
     contentId,
     queries = {},
     method,
     customHeaders,
     customBody,
-  }: MakeRequest): Promise<T> => {
+  }: MakeRequest) => {
     const queryString = parseQuery(queries);
 
     const baseHeaders: RequestInit = {
@@ -68,6 +68,8 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
       if (!response.ok) {
         throw new Error(`fetch API response status: ${response.status}`);
       }
+
+      if (method === 'DELETE') return;
 
       return response.json();
     } catch (error) {
@@ -96,7 +98,7 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
-    return await makeRequest<T>({ endpoint, contentId, queries });
+    return await makeRequest({ endpoint, contentId, queries });
   };
 
   /**
@@ -109,7 +111,7 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
-    return await makeRequest<MicroCMSListResponse<T>>({ endpoint, queries });
+    return await makeRequest({ endpoint, queries });
   };
 
   /**
@@ -123,7 +125,7 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
-    return await makeRequest<T & MicroCMSListContent>({
+    return await makeRequest({
       endpoint,
       contentId,
       queries,
@@ -140,7 +142,7 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
-    return await makeRequest<T & MicroCMSObjectContent>({
+    return await makeRequest({
       endpoint,
       queries,
     });
