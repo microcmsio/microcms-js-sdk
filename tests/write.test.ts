@@ -193,7 +193,7 @@ describe('delete', () => {
     server.use(
       rest.delete(`${testBaseUrl}/list-type/foo`, (_, res, ctx) => {
         deleteApiMockFn();
-        return res(ctx.status(202), ctx.json({}));
+        return res(ctx.status(202));
       })
     );
   });
