@@ -1,4 +1,4 @@
-import { BodyInit, HeadersInit } from 'node-fetch';
+export type Fetch = typeof fetch;
 
 /**
  * microCMS createClient params
@@ -6,6 +6,7 @@ import { BodyInit, HeadersInit } from 'node-fetch';
 export interface MicroCMSClient {
   serviceDomain: string;
   apiKey: string;
+  customFetch?: Fetch;
 }
 
 type depthNumber = 1 | 2 | 3;
@@ -80,7 +81,7 @@ export interface MakeRequest {
   queries?: MicroCMSQueries & Record<string, any>;
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   customHeaders?: HeadersInit;
-  customBody?: BodyInit;
+  customBody?: string;
 }
 
 export interface GetRequest {
