@@ -31,8 +31,8 @@ export const generateFetchClient = (
   return async (req, init) => {
     const headers = new HeadersConstructor(init?.headers);
 
-    if (!headers.has('X-API-KEY')) {
-      headers.set('X-API-KEY', apiKey);
+    if (!headers.has('X-MICROCMS-API-KEY')) {
+      headers.set('X-MICROCMS-API-KEY', apiKey);
     }
 
     return fetch(req, { ...init, headers });
