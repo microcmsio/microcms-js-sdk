@@ -8,13 +8,6 @@ const client = createClient({
   apiKey: 'apiKey',
 });
 
-const customFetch = jest.fn();
-const customClient = createClient({
-  serviceDomain: 'serviceDomain',
-  apiKey: 'apiKey',
-  customFetch,
-});
-
 describe('get', () => {
   test('List format contents can be retrieved', async () => {
     const data = await client.get({ endpoint: 'list-type' });
