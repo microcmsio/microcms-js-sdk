@@ -5,13 +5,14 @@ import { API_VERSION, BASE_DOMAIN } from '../../src/utils/constants';
 const baseUrl = `https://serviceDomain.${BASE_DOMAIN}/api/${API_VERSION}`;
 
 const hasValidApiKey = (req: RestRequest) => {
-  if (req.headers.get('X-MICROCMS-API-KEY') !== 'apiKey') {
-    return false;
-  }
-  return true;
+  return req.headers.get('X-MICROCMS-API-KEY') === 'apiKey';
 };
 
 export const handlers = [
+  rest.get('http://example.com', (req, res, ctx) => {
+    if (!hasValidApiKey(req)) return res(ctx.status(401));
+    return res(ctx.status(200));
+  }),
   rest.get(`${baseUrl}/list-type`, (req, res, ctx) => {
     if (!hasValidApiKey(req)) return res(ctx.status(401));
 

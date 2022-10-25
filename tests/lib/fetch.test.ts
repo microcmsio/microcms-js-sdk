@@ -1,15 +1,16 @@
 import { generateFetchClient } from '../../src/lib/fetch';
-import crossFetch from 'cross-fetch';
 
 describe('generateFetchClient', () => {
-  test('If no options is specified, cross-fetch is used', () => {
+  test('If no options is specified, cross-fetch is used', async () => {
     const client = generateFetchClient('apiKey');
-    expect(typeof client === typeof crossFetch).toBe(true);
+    const response = await client('http://example.com');
+    expect(response.status).toBe(200);
   });
 
-  test('If custom fetch is specified, custom fetch is used', () => {
-    const customFetch = () => Promise.resolve(new Response());
+  test('If custom fetch is specified, custom fetch is used', async () => {
+    const customFetch = jest.fn();
     const client = generateFetchClient('apiKey', customFetch);
-    expect(typeof client === typeof customFetch).toBe(true);
+    await client('http://example.com');
+    expect(customFetch).toHaveBeenCalled();
   });
 });
