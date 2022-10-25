@@ -2,7 +2,6 @@
  * microCMS API SDK
  * https://github.com/microcmsio/microcms-js-sdk
  */
-import fetch, { RequestInit } from 'node-fetch';
 import { parseQuery } from './utils/parseQuery';
 import { isString } from './utils/isCheckValue';
 import {
@@ -21,11 +20,16 @@ import {
   DeleteRequest,
 } from './types';
 import { API_VERSION, BASE_DOMAIN } from './utils/constants';
+import { generateFetchClient } from './lib/fetch';
 
 /**
  * Initialize SDK Client
  */
-export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
+export const createClient = ({
+  serviceDomain,
+  apiKey,
+  customFetch,
+}: MicroCMSClient) => {
   if (!serviceDomain || !apiKey) {
     throw new Error('parameter is required (check serviceDomain and apiKey)');
   }
@@ -50,20 +54,19 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
     customHeaders,
     customBody,
   }: MakeRequest) => {
+    const fetchClient = generateFetchClient(apiKey, customFetch);
+
     const queryString = parseQuery(queries);
-
-    const baseHeaders: RequestInit = {
-      headers: { ...customHeaders, 'X-MICROCMS-API-KEY': apiKey },
-      body: customBody,
-      method,
-    };
-
     const url = `${baseUrl}/${endpoint}${contentId ? `/${contentId}` : ''}${
       queryString ? `?${queryString}` : ''
     }`;
 
     try {
-      const response = await fetch(url, baseHeaders);
+      const response = await fetchClient(url, {
+        method: method || 'GET',
+        headers: customHeaders,
+        body: customBody,
+      });
 
       if (!response.ok) {
         throw new Error(`fetch API response status: ${response.status}`);
@@ -179,7 +182,7 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
   };
 
   /**
-   * Update content in ther microCMS list and object API data
+   * Update content in their microCMS list and object API data
    */
   const update = async <T extends Record<string | number, any>>({
     endpoint,
@@ -206,7 +209,7 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
   };
 
   /**
-   * Delete content in ther microCMS list and object API data
+   * Delete content in their microCMS list and object API data
    */
   const _delete = async ({
     endpoint,

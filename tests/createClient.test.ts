@@ -5,6 +5,7 @@ describe('createClient', () => {
     const client = createClient({
       serviceDomain: 'serviceDomain',
       apiKey: 'apiKey',
+      customFetch: () => Promise.resolve(new Response()),
     });
 
     expect(typeof client.get === 'function').toBe(true);

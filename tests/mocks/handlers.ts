@@ -1,11 +1,21 @@
-import { rest } from 'msw';
+import { RestRequest, rest } from 'msw';
 
 import { API_VERSION, BASE_DOMAIN } from '../../src/utils/constants';
 
 const baseUrl = `https://serviceDomain.${BASE_DOMAIN}/api/${API_VERSION}`;
 
+const hasValidApiKey = (req: RestRequest) => {
+  return req.headers.get('X-MICROCMS-API-KEY') === 'apiKey';
+};
+
 export const handlers = [
-  rest.get(`${baseUrl}/list-type`, (_, res, ctx) => {
+  rest.get('http://example.com', (req, res, ctx) => {
+    if (!hasValidApiKey(req)) return res(ctx.status(401));
+    return res(ctx.status(200));
+  }),
+  rest.get(`${baseUrl}/list-type`, (req, res, ctx) => {
+    if (!hasValidApiKey(req)) return res(ctx.status(401));
+
     return res(
       ctx.json({
         contents: [
@@ -24,29 +34,34 @@ export const handlers = [
       })
     );
   }),
-  rest.post(`${baseUrl}/list-type`, (_, res, ctx) => {
+  rest.post(`${baseUrl}/list-type`, (req, res, ctx) => {
+    if (!hasValidApiKey(req)) return res(ctx.status(401));
     return res(ctx.json({ id: 'foo' }));
   }),
-  rest.put(`${baseUrl}/list-type`, (_, res, ctx) => {
+  rest.put(`${baseUrl}/list-type`, (req, res, ctx) => {
+    if (!hasValidApiKey(req)) return res(ctx.status(401));
     return res(
       ctx.status(400),
       ctx.json({ massage: 'contentId is necessary.' })
     );
   }),
-  rest.patch(`${baseUrl}/list-type`, (_, res, ctx) => {
+  rest.patch(`${baseUrl}/list-type`, (req, res, ctx) => {
+    if (!hasValidApiKey(req)) return res(ctx.status(401));
     return res(
       ctx.status(400),
       ctx.json({ massage: 'Content is not exists.' })
     );
   }),
-  rest.delete(`${baseUrl}/list-type`, (_, res, ctx) => {
+  rest.delete(`${baseUrl}/list-type`, (req, res, ctx) => {
+    if (!hasValidApiKey(req)) return res(ctx.status(401));
     return res(
       ctx.status(400),
       ctx.json({ massage: 'Content is not exists.' })
     );
   }),
 
-  rest.get(`${baseUrl}/list-type/foo`, (_, res, ctx) => {
+  rest.get(`${baseUrl}/list-type/foo`, (req, res, ctx) => {
+    if (!hasValidApiKey(req)) return res(ctx.status(401));
     return res(
       ctx.json({
         id: 'foo',
@@ -58,20 +73,25 @@ export const handlers = [
       })
     );
   }),
-  rest.post(`${baseUrl}/list-type/foo`, (_, res, ctx) => {
+  rest.post(`${baseUrl}/list-type/foo`, (req, res, ctx) => {
+    if (!hasValidApiKey(req)) return res(ctx.status(401));
     return res(ctx.status(404), ctx.json({}));
   }),
-  rest.put(`${baseUrl}/list-type/foo`, (_, res, ctx) => {
+  rest.put(`${baseUrl}/list-type/foo`, (req, res, ctx) => {
+    if (!hasValidApiKey(req)) return res(ctx.status(401));
     return res(ctx.status(201), ctx.json({ id: 'foo' }));
   }),
-  rest.patch(`${baseUrl}/list-type/foo`, (_, res, ctx) => {
+  rest.patch(`${baseUrl}/list-type/foo`, (req, res, ctx) => {
+    if (!hasValidApiKey(req)) return res(ctx.status(401));
     return res(ctx.status(200), ctx.json({ id: 'foo' }));
   }),
-  rest.delete(`${baseUrl}/list-type/foo`, (_, res, ctx) => {
+  rest.delete(`${baseUrl}/list-type/foo`, (req, res, ctx) => {
+    if (!hasValidApiKey(req)) return res(ctx.status(401));
     return res(ctx.status(202), ctx.json({}));
   }),
 
-  rest.get(`${baseUrl}/object-type`, (_, res, ctx) => {
+  rest.get(`${baseUrl}/object-type`, (req, res, ctx) => {
+    if (!hasValidApiKey(req)) return res(ctx.status(401));
     return res(
       ctx.json({
         id: 'foo',
@@ -83,7 +103,8 @@ export const handlers = [
       })
     );
   }),
-  rest.post(`${baseUrl}/object-type`, (_, res, ctx) => {
+  rest.post(`${baseUrl}/object-type`, (req, res, ctx) => {
+    if (!hasValidApiKey(req)) return res(ctx.status(401));
     return res(
       ctx.status(400),
       ctx.json({
@@ -91,7 +112,8 @@ export const handlers = [
       })
     );
   }),
-  rest.put(`${baseUrl}/object-type`, (_, res, ctx) => {
+  rest.put(`${baseUrl}/object-type`, (req, res, ctx) => {
+    if (!hasValidApiKey(req)) return res(ctx.status(401));
     return res(
       ctx.status(400),
       ctx.json({
@@ -99,10 +121,12 @@ export const handlers = [
       })
     );
   }),
-  rest.patch(`${baseUrl}/object-type`, (_, res, ctx) => {
+  rest.patch(`${baseUrl}/object-type`, (req, res, ctx) => {
+    if (!hasValidApiKey(req)) return res(ctx.status(401));
     return res(ctx.status(200), ctx.json({ id: 'foo' }));
   }),
-  rest.delete(`${baseUrl}/object-type`, (_, res, ctx) => {
+  rest.delete(`${baseUrl}/object-type`, (req, res, ctx) => {
+    if (!hasValidApiKey(req)) return res(ctx.status(401));
     return res(
       ctx.status(400),
       ctx.json({
