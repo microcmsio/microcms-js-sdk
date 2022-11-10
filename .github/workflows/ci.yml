@@ -15,7 +15,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        # Node18はmswがUndiciというnode内部で用いられているfetchをインターセプトできないため一旦除いている
+        node-version: [14.x, 16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
