@@ -1,4 +1,7 @@
+import { rest } from 'msw';
 import { createClient } from '../src/createClient';
+import { testBaseUrl } from './mocks/handlers';
+import { server } from './mocks/server';
 
 describe('createClient', () => {
   test('Functions is generated to request the API', () => {
@@ -40,5 +43,61 @@ describe('createClient', () => {
       // @ts-expect-error
       createClient({ serviceDomain: 'foo', apiKey: 10 })
     ).toThrowError(new Error('parameter is not string'));
+  });
+
+  describe('Throws an error when response.ok is false', () => {
+    test('If there is a message', () => {
+      server.use(
+        rest.get(`${testBaseUrl}/list-type`, async (_, res, ctx) => {
+          return res(
+            ctx.status(401),
+            ctx.json({ message: 'X-MICROCMS-KEY header is invalid.' })
+          );
+        })
+      );
+      const client = createClient({
+        serviceDomain: 'serviceDomain',
+        apiKey: 'apiKey',
+      });
+
+      expect(client.get({ endpoint: 'list-type' })).rejects.toThrowError(
+        new Error(
+          'fetch API response status: 401\n  message is `X-MICROCMS-KEY header is invalid.`'
+        )
+      );
+    });
+    test('If there is no message', () => {
+      server.use(
+        rest.get(`${testBaseUrl}/list-type`, async (_, res, ctx) => {
+          return res(ctx.status(404));
+        })
+      );
+      const client = createClient({
+        serviceDomain: 'serviceDomain',
+        apiKey: 'apiKey',
+      });
+
+      expect(client.get({ endpoint: 'list-type' })).rejects.toThrowError(
+        new Error('fetch API response status: 404')
+      );
+    });
+  });
+
+  test('Throws an error in the event of a network error.', () => {
+    server.use(
+      rest.get(`${testBaseUrl}/list-type`, async (_, res) => {
+        return res.networkError('Failed to fetch');
+      })
+    );
+    const client = createClient({
+      serviceDomain: 'serviceDomain',
+      apiKey: 'apiKey',
+    });
+
+    expect(client.get({ endpoint: 'list-type' })).rejects.toThrowError(
+      new Error(
+        'Network Error.\n  Details: FetchError: request to https://servicedomain.microcms.io/api/v1/list-type failed, reason: Failed to fetch'
+      )
+    );
   });
 });

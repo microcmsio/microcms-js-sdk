@@ -68,7 +68,7 @@ describe('get', () => {
 
     expect(client.get({ endpoint: 'list-type' })).rejects.toThrow(
       new Error(
-        'serviceDomain or endpoint may be wrong.\n Details: Error: fetch API response status: 500'
+        'fetch API response status: 500\n  message is `Internal Server Error`'
       )
     );
   });
