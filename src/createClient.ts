@@ -69,7 +69,23 @@ export const createClient = ({
       });
 
       if (!response.ok) {
-        throw new Error(`fetch API response status: ${response.status}`);
+        const message = await (async () => {
+          // Enclose `response.json()` in a try since it may throw an error
+          // Only return the `message` if there is a `message`
+          try {
+            const { message } = await response.json();
+            return message ?? null;
+          } catch (_) {
+            return null;
+          }
+        })();
+        return Promise.reject(
+          new Error(
+            `fetch API response status: ${response.status}${
+              message ? `\n  message is \`${message}\`` : ''
+            }`
+          )
+        );
       }
 
       if (method === 'DELETE') return;
@@ -84,9 +100,7 @@ export const createClient = ({
         throw error.response.data;
       }
 
-      return Promise.reject(
-        new Error(`serviceDomain or endpoint may be wrong.\n Details: ${error}`)
-      );
+      return Promise.reject(new Error(`Network Error.\n  Details: ${error}`));
     }
   };
 
