@@ -70,6 +70,8 @@ export const createClient = ({
 
       if (!response.ok) {
         const message = await (async () => {
+          // Enclose `response.json()` in a try since it may throw an error
+          // Only return the `message` if there is a `message`
           try {
             const { message } = await response.json();
             return message ?? null;
@@ -98,7 +100,7 @@ export const createClient = ({
         throw error.response.data;
       }
 
-      return Promise.reject(new Error(`Network Error.\n Details: ${error}`));
+      return Promise.reject(new Error(`Network Error.\n  Details: ${error}`));
     }
   };
 
