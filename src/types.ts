@@ -26,6 +26,7 @@ export interface MicroCMSQueries {
   depth?: depthNumber;
   ids?: string | string[];
   filters?: string;
+  richEditorFormat?: 'html'|'object';
 }
 
 /**
