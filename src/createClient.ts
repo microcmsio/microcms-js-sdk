@@ -63,6 +63,8 @@ export const createClient = ({
     }`;
 
     const getMessageFromResponse = async (response: Response) => {
+      // Enclose `response.json()` in a try since it may throw an error
+      // Only return the `message` if there is a `message`
       try {
         const { message } = await response.json();
         return message ?? null;
@@ -79,6 +81,8 @@ export const createClient = ({
             headers: customHeaders,
             body: customBody,
           });
+
+          // If a status code in the 400 range other than 429 is returned, do not retry.
           if (
             response.status !== 429 &&
             response.status >= 400 &&
@@ -94,6 +98,8 @@ export const createClient = ({
               )
             );
           }
+
+          // If the response fails with any other status code, retry until the set number of attempts is reached.
           if (!response.ok) {
             const message = await getMessageFromResponse(response);
 
