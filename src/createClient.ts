@@ -19,7 +19,12 @@ import {
   UpdateRequest,
   DeleteRequest,
 } from './types';
-import { API_VERSION, BASE_DOMAIN, MAX_RETRY_COUNT } from './utils/constants';
+import {
+  API_VERSION,
+  BASE_DOMAIN,
+  MAX_RETRY_COUNT,
+  MIN_TIMEOUT_MS,
+} from './utils/constants';
 import { generateFetchClient } from './lib/fetch';
 import retry from 'async-retry';
 
@@ -135,7 +140,7 @@ export const createClient = ({
           console.log(err);
           console.log(`Retrying ${num}/${MAX_RETRY_COUNT}`);
         },
-        minTimeout: 5000,
+        minTimeout: MIN_TIMEOUT_MS,
       }
     );
   };
