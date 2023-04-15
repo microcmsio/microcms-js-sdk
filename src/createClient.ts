@@ -138,7 +138,7 @@ export const createClient = ({
         retries: retryOption ? MAX_RETRY_COUNT : 0,
         onRetry: (err, num) => {
           console.log(err);
-          console.log(`Retrying ${num}/${MAX_RETRY_COUNT}`);
+          console.log(`Waiting for retry (${num}/${MAX_RETRY_COUNT})`);
         },
         minTimeout: MIN_TIMEOUT_MS,
       }
