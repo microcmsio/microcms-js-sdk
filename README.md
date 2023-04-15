@@ -20,7 +20,7 @@ $ yarn add microcms-js-sdk
 
 CDN support.
 
-```
+```html
 <script src="https://unpkg.com/microcms-js-sdk@latest/dist/umd/microcms-js-sdk.js"></script>
 ```
 
@@ -105,7 +105,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-#### WRITE API
+#### CREATE API
 
 The following is how to use the write system when making a request to the write system API.
 
@@ -164,7 +164,11 @@ client
   })
   .then((res) => console.log(res.id))
   .catch((err) => console.error(err));
+```
 
+### UPDATE API
+
+```javascript
 // Update content
 client
   .update({
@@ -187,7 +191,11 @@ client
   })
   .then((res) => console.log(res.id))
   .catch((err) => console.error(err));
+```
 
+### DELETE API
+
+```javascript
 // Delete content
 client
   .delete({
