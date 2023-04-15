@@ -9,6 +9,7 @@ describe('createClient', () => {
       serviceDomain: 'serviceDomain',
       apiKey: 'apiKey',
       customFetch: () => Promise.resolve(new Response()),
+      retry: false,
     });
 
     expect(typeof client.get === 'function').toBe(true);
@@ -99,5 +100,144 @@ describe('createClient', () => {
         'Network Error.\n  Details: FetchError: request to https://servicedomain.microcms.io/api/v1/list-type failed, reason: Failed to fetch'
       )
     );
+  });
+
+  describe('Retry option is true', () => {
+    const retryableClient = createClient({
+      serviceDomain: 'serviceDomain',
+      apiKey: 'apiKey',
+      retry: true,
+    });
+
+    test('Returns an error message if three times failed', async () => {
+      let apiCallCount = 0;
+
+      server.use(
+        rest.get(`${testBaseUrl}/500`, async (_, res, ctx) => {
+          apiCallCount++;
+          return res(ctx.status(500));
+        })
+      );
+
+      await expect(
+        retryableClient.get({ endpoint: '500' })
+      ).rejects.toThrowError(new Error('fetch API response status: 500'));
+      expect(apiCallCount).toBe(3);
+    }, 30000);
+
+    test('Returns an error message if 4xx error(excluding 429)', async () => {
+      let apiCallCount = 0;
+
+      server.use(
+        rest.get(`${testBaseUrl}/400`, async (_, res, ctx) => {
+          apiCallCount++;
+          return res(ctx.status(400));
+        })
+      );
+
+      await expect(
+        retryableClient.get({ endpoint: '400' })
+      ).rejects.toThrowError(new Error('fetch API response status: 400'));
+      expect(apiCallCount).toBe(1);
+    });
+
+    test('List format contents can be retrieved if failed twice and succeeded once', async () => {
+      let failedRequestCount = 0;
+      server.use(
+        rest.get(`${testBaseUrl}/two-times-fail`, (_, res, ctx) => {
+          if (failedRequestCount < 2) {
+            failedRequestCount++;
+            return res(ctx.status(500));
+          } else {
+            return res(
+              ctx.status(200),
+              ctx.json({
+                contents: [
+                  {
+                    id: 'foo',
+                    title: 'Hello, microCMS!',
+                    createdAt: '2022-10-28T04:04:29.625Z',
+                    updatedAt: '2022-10-28T04:04:29.625Z',
+                    publishedAt: '2022-10-28T04:04:29.625Z',
+                    revisedAt: '2022-10-28T04:04:29.625Z',
+                  },
+                ],
+                totalCount: 1,
+                limit: 10,
+                offset: 0,
+              })
+            );
+          }
+        })
+      );
+
+      const data = await retryableClient.get({ endpoint: 'two-times-fail' });
+      expect(data).toEqual({
+        contents: [
+          {
+            id: 'foo',
+            title: 'Hello, microCMS!',
+            createdAt: '2022-10-28T04:04:29.625Z',
+            updatedAt: '2022-10-28T04:04:29.625Z',
+            publishedAt: '2022-10-28T04:04:29.625Z',
+            revisedAt: '2022-10-28T04:04:29.625Z',
+          },
+        ],
+        totalCount: 1,
+        limit: 10,
+        offset: 0,
+      });
+    }, 30000);
+
+    test('List format contents can be retrieved if succeeded once and failed twice', async () => {
+      let apiCallCount = 0;
+      server.use(
+        rest.get(`${testBaseUrl}/only-first-time-success`, (_, res, ctx) => {
+          apiCallCount++;
+          if (apiCallCount === 1) {
+            return res(
+              ctx.status(200),
+              ctx.json({
+                contents: [
+                  {
+                    id: 'foo',
+                    title: 'Hello, microCMS!',
+                    createdAt: '2022-10-28T04:04:29.625Z',
+                    updatedAt: '2022-10-28T04:04:29.625Z',
+                    publishedAt: '2022-10-28T04:04:29.625Z',
+                    revisedAt: '2022-10-28T04:04:29.625Z',
+                  },
+                ],
+                totalCount: 1,
+                limit: 10,
+                offset: 0,
+              })
+            );
+          } else {
+            return res(ctx.status(500));
+          }
+        })
+      );
+
+      const data = await retryableClient.get({
+        endpoint: 'only-first-time-success',
+      });
+      expect(data).toEqual({
+        contents: [
+          {
+            id: 'foo',
+            title: 'Hello, microCMS!',
+            createdAt: '2022-10-28T04:04:29.625Z',
+            updatedAt: '2022-10-28T04:04:29.625Z',
+            publishedAt: '2022-10-28T04:04:29.625Z',
+            revisedAt: '2022-10-28T04:04:29.625Z',
+          },
+        ],
+        totalCount: 1,
+        limit: 10,
+        offset: 0,
+      });
+      expect(apiCallCount).toBe(1);
+    }, 30000);
   });
 });
