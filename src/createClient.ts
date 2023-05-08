@@ -19,8 +19,14 @@ import {
   UpdateRequest,
   DeleteRequest,
 } from './types';
-import { API_VERSION, BASE_DOMAIN } from './utils/constants';
+import {
+  API_VERSION,
+  BASE_DOMAIN,
+  MAX_RETRY_COUNT,
+  MIN_TIMEOUT_MS,
+} from './utils/constants';
 import { generateFetchClient } from './lib/fetch';
+import retry from 'async-retry';
 
 /**
  * Initialize SDK Client
@@ -29,6 +35,7 @@ export const createClient = ({
   serviceDomain,
   apiKey,
   customFetch,
+  retry: retryOption,
 }: MicroCMSClient) => {
   if (!serviceDomain || !apiKey) {
     throw new Error('parameter is required (check serviceDomain and apiKey)');
@@ -55,53 +62,87 @@ export const createClient = ({
     customBody,
   }: MakeRequest) => {
     const fetchClient = generateFetchClient(apiKey, customFetch);
-
     const queryString = parseQuery(queries);
     const url = `${baseUrl}/${endpoint}${contentId ? `/${contentId}` : ''}${
       queryString ? `?${queryString}` : ''
     }`;
 
-    try {
-      const response = await fetchClient(url, {
-        method: method || 'GET',
-        headers: customHeaders,
-        body: customBody,
-      });
+    const getMessageFromResponse = async (response: Response) => {
+      // Enclose `response.json()` in a try since it may throw an error
+      // Only return the `message` if there is a `message`
+      try {
+        const { message } = await response.json();
+        return message ?? null;
+      } catch (_) {
+        return null;
+      }
+    };
 
-      if (!response.ok) {
-        const message = await (async () => {
-          // Enclose `response.json()` in a try since it may throw an error
-          // Only return the `message` if there is a `message`
-          try {
-            const { message } = await response.json();
-            return message ?? null;
-          } catch (_) {
-            return null;
+    return await retry(
+      async (bail) => {
+        try {
+          const response = await fetchClient(url, {
+            method: method || 'GET',
+            headers: customHeaders,
+            body: customBody,
+          });
+
+          // If a status code in the 400 range other than 429 is returned, do not retry.
+          if (
+            response.status !== 429 &&
+            response.status >= 400 &&
+            response.status < 500
+          ) {
+            const message = await getMessageFromResponse(response);
+
+            return bail(
+              new Error(
+                `fetch API response status: ${response.status}${
+                  message ? `\n  message is \`${message}\`` : ''
+                }`
+              )
+            );
           }
-        })();
-        return Promise.reject(
-          new Error(
-            `fetch API response status: ${response.status}${
-              message ? `\n  message is \`${message}\`` : ''
-            }`
-          )
-        );
+
+          // If the response fails with any other status code, retry until the set number of attempts is reached.
+          if (!response.ok) {
+            const message = await getMessageFromResponse(response);
+
+            return Promise.reject(
+              new Error(
+                `fetch API response status: ${response.status}${
+                  message ? `\n  message is \`${message}\`` : ''
+                }`
+              )
+            );
+          }
+
+          if (method === 'DELETE') return;
+
+          return response.json();
+        } catch (error) {
+          if (error.data) {
+            throw error.data;
+          }
+
+          if (error.response?.data) {
+            throw error.response.data;
+          }
+
+          return Promise.reject(
+            new Error(`Network Error.\n  Details: ${error}`)
+          );
+        }
+      },
+      {
+        retries: retryOption ? MAX_RETRY_COUNT : 0,
+        onRetry: (err, num) => {
+          console.log(err);
+          console.log(`Waiting for retry (${num}/${MAX_RETRY_COUNT})`);
+        },
+        minTimeout: MIN_TIMEOUT_MS,
       }
-
-      if (method === 'DELETE') return;
-
-      return response.json();
-    } catch (error) {
-      if (error.data) {
-        throw error.data;
-      }
-
-      if (error.response?.data) {
-        throw error.response.data;
-      }
-
-      return Promise.reject(new Error(`Network Error.\n  Details: ${error}`));
-    }
+    );
   };
 
   /**

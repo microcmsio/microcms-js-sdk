@@ -7,6 +7,7 @@ export interface MicroCMSClient {
   serviceDomain: string;
   apiKey: string;
   customFetch?: Fetch;
+  retry?: boolean;
 }
 
 type depthNumber = 1 | 2 | 3;
@@ -26,7 +27,7 @@ export interface MicroCMSQueries {
   depth?: depthNumber;
   ids?: string | string[];
   filters?: string;
-  richEditorFormat?: 'html'|'object';
+  richEditorFormat?: 'html' | 'object';
 }
 
 /**

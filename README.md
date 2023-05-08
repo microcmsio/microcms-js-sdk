@@ -36,6 +36,7 @@ import { createClient } from 'microcms-js-sdk'; //ES6
 const client = createClient({
   serviceDomain: "YOUR_DOMAIN", // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
   apiKey: "YOUR_API_KEY",
+ // retry: true // Retry attempts up to a maximum of two times.
 });
 ```
 
@@ -49,6 +50,7 @@ const { createClient } = microcms;
 const client = createClient({
   serviceDomain: "YOUR_DOMAIN", // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
   apiKey: "YOUR_API_KEY",
+  // retry: true // Retry attempts up to a maximum of two times.
   // customFetcher: fetch.bind(globalThis), // Provide a custom `fetch` implementation as an option
 });
 </script>

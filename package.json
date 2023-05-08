@@ -1,6 +1,6 @@
 {
   "name": "microcms-js-sdk",
-  "version": "2.3.3",
+  "version": "2.4.0",
   "description": "JavaScript SDK Client for microCMS.",
   "main": "./dist/cjs/microcms-js-sdk.js",
   "module": "./dist/esm/microcms-js-sdk.js",
@@ -29,6 +29,7 @@
     "dist"
   ],
   "dependencies": {
+    "async-retry": "^1.3.3",
     "cross-fetch": "^3.1.5",
     "encoding": "^0.1.13",
     "qs": "^6.10.1"
@@ -38,6 +39,7 @@
     "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
+    "@types/async-retry": "^1.4.5",
     "@types/jest": "^28.1.6",
     "@types/node": "^15.0.2",
     "@types/qs": "^6.9.6",
