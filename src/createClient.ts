@@ -57,9 +57,7 @@ export const createClient = ({
     endpoint,
     contentId,
     queries = {},
-    method,
-    customHeaders,
-    customBody,
+    requestInit,
   }: MakeRequest) => {
     const fetchClient = generateFetchClient(apiKey, customFetch);
     const queryString = parseQuery(queries);
@@ -82,9 +80,8 @@ export const createClient = ({
       async (bail) => {
         try {
           const response = await fetchClient(url, {
-            method: method || 'GET',
-            headers: customHeaders,
-            body: customBody,
+            ...requestInit,
+            method: requestInit?.method || 'GET',
           });
 
           // If a status code in the 400 range other than 429 is returned, do not retry.
@@ -117,7 +114,7 @@ export const createClient = ({
             );
           }
 
-          if (method === 'DELETE') return;
+          if (requestInit?.method === 'DELETE') return;
 
           return response.json();
         } catch (error) {
@@ -220,19 +217,19 @@ export const createClient = ({
     }
 
     const queries: MakeRequest['queries'] = isDraft ? { status: 'draft' } : {};
-    const method: MakeRequest['method'] = contentId ? 'PUT' : 'POST';
-    const customHeaders: MakeRequest['customHeaders'] = {
-      'Content-Type': 'application/json',
+    const requestInit: MakeRequest['requestInit'] = {
+      method: contentId ? 'PUT' : 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(content),
     };
-    const customBody: MakeRequest['customBody'] = JSON.stringify(content);
 
     return makeRequest({
       endpoint,
       contentId,
       queries,
-      method,
-      customHeaders,
-      customBody,
+      requestInit,
     });
   };
 
@@ -248,18 +245,18 @@ export const createClient = ({
       return Promise.reject(new Error('endpoint is required'));
     }
 
-    const method: MakeRequest['method'] = 'PATCH';
-    const customHeaders: MakeRequest['customHeaders'] = {
-      'Content-Type': 'application/json',
+    const requestInit: MakeRequest['requestInit'] = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(content),
     };
-    const customBody: MakeRequest['customBody'] = JSON.stringify(content);
 
     return makeRequest({
       endpoint,
       contentId,
-      method,
-      customHeaders,
-      customBody,
+      requestInit,
     });
   };
 
@@ -278,9 +275,11 @@ export const createClient = ({
       return Promise.reject(new Error('contentId is required'));
     }
 
-    const method: MakeRequest['method'] = 'DELETE';
+    const requestInit: MakeRequest['requestInit'] = {
+      method: 'DELETE',
+    };
 
-    await makeRequest({ endpoint, contentId, method });
+    await makeRequest({ endpoint, contentId, requestInit });
   };
 
   return {

@@ -81,9 +81,7 @@ export interface MakeRequest {
   endpoint: string;
   contentId?: string;
   queries?: MicroCMSQueries & Record<string, any>;
-  method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
-  customHeaders?: HeadersInit;
-  customBody?: string;
+  requestInit?: RequestInit;
 }
 
 export interface GetRequest {
