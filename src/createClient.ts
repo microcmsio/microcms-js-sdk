@@ -81,7 +81,7 @@ export const createClient = ({
         try {
           const response = await fetchClient(url, {
             ...requestInit,
-            method: requestInit?.method || 'GET',
+            method: requestInit?.method ?? 'GET',
           });
 
           // If a status code in the 400 range other than 429 is returned, do not retry.
