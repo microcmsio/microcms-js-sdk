@@ -149,11 +149,17 @@ export const createClient = ({
     endpoint,
     contentId,
     queries = {},
+    customRequestInit,
   }: GetRequest): Promise<T> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
-    return await makeRequest({ endpoint, contentId, queries });
+    return await makeRequest({
+      endpoint,
+      contentId,
+      queries,
+      requestInit: customRequestInit,
+    });
   };
 
   /**
@@ -162,11 +168,16 @@ export const createClient = ({
   const getList = async <T = any>({
     endpoint,
     queries = {},
+    customRequestInit,
   }: GetListRequest): Promise<MicroCMSListResponse<T>> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
-    return await makeRequest({ endpoint, queries });
+    return await makeRequest({
+      endpoint,
+      queries,
+      requestInit: customRequestInit,
+    });
   };
 
   /**
@@ -176,6 +187,7 @@ export const createClient = ({
     endpoint,
     contentId,
     queries = {},
+    customRequestInit,
   }: GetListDetailRequest): Promise<T & MicroCMSListContent> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
@@ -184,6 +196,7 @@ export const createClient = ({
       endpoint,
       contentId,
       queries,
+      requestInit: customRequestInit,
     });
   };
 
@@ -193,6 +206,7 @@ export const createClient = ({
   const getObject = async <T = any>({
     endpoint,
     queries = {},
+    customRequestInit,
   }: GetObjectRequest): Promise<T & MicroCMSObjectContent> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
@@ -200,6 +214,7 @@ export const createClient = ({
     return await makeRequest({
       endpoint,
       queries,
+      requestInit: customRequestInit,
     });
   };
 
@@ -211,6 +226,7 @@ export const createClient = ({
     contentId,
     content,
     isDraft = false,
+    customRequestInit,
   }: CreateRequest<T>): Promise<WriteApiRequestResult> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
@@ -223,6 +239,7 @@ export const createClient = ({
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(content),
+      ...customRequestInit,
     };
 
     return makeRequest({
@@ -240,6 +257,7 @@ export const createClient = ({
     endpoint,
     contentId,
     content,
+    customRequestInit,
   }: UpdateRequest<T>): Promise<WriteApiRequestResult> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
@@ -251,6 +269,7 @@ export const createClient = ({
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(content),
+      ...customRequestInit,
     };
 
     return makeRequest({
@@ -266,6 +285,7 @@ export const createClient = ({
   const _delete = async ({
     endpoint,
     contentId,
+    customRequestInit,
   }: DeleteRequest): Promise<void> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
@@ -277,6 +297,7 @@ export const createClient = ({
 
     const requestInit: MakeRequest['requestInit'] = {
       method: 'DELETE',
+      ...customRequestInit,
     };
 
     await makeRequest({ endpoint, contentId, requestInit });
