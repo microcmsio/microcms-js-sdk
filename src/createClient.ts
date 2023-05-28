@@ -60,12 +60,13 @@ export const createClient = ({
     method,
     customHeaders,
     customBody,
+    customBaseUrl,
   }: MakeRequest) => {
     const fetchClient = generateFetchClient(apiKey, customFetch);
     const queryString = parseQuery(queries);
-    const url = `${baseUrl}/${endpoint}${contentId ? `/${contentId}` : ''}${
-      queryString ? `?${queryString}` : ''
-    }`;
+    const url = `${customBaseUrl ?? baseUrl}/${endpoint}${
+      contentId ? `/${contentId}` : ''
+    }${queryString ? `?${queryString}` : ''}`;
 
     const getMessageFromResponse = async (response: Response) => {
       // Enclose `response.json()` in a try since it may throw an error
@@ -152,11 +153,12 @@ export const createClient = ({
     endpoint,
     contentId,
     queries = {},
+    customBaseUrl,
   }: GetRequest): Promise<T> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
-    return await makeRequest({ endpoint, contentId, queries });
+    return await makeRequest({ endpoint, contentId, queries, customBaseUrl });
   };
 
   /**
@@ -165,11 +167,12 @@ export const createClient = ({
   const getList = async <T = any>({
     endpoint,
     queries = {},
+    customBaseUrl,
   }: GetListRequest): Promise<MicroCMSListResponse<T>> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
-    return await makeRequest({ endpoint, queries });
+    return await makeRequest({ endpoint, queries, customBaseUrl });
   };
 
   /**
@@ -179,6 +182,7 @@ export const createClient = ({
     endpoint,
     contentId,
     queries = {},
+    customBaseUrl,
   }: GetListDetailRequest): Promise<T & MicroCMSListContent> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
@@ -187,6 +191,7 @@ export const createClient = ({
       endpoint,
       contentId,
       queries,
+      customBaseUrl,
     });
   };
 
@@ -196,6 +201,7 @@ export const createClient = ({
   const getObject = async <T = any>({
     endpoint,
     queries = {},
+    customBaseUrl,
   }: GetObjectRequest): Promise<T & MicroCMSObjectContent> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
@@ -203,6 +209,7 @@ export const createClient = ({
     return await makeRequest({
       endpoint,
       queries,
+      customBaseUrl,
     });
   };
 
@@ -214,6 +221,7 @@ export const createClient = ({
     contentId,
     content,
     isDraft = false,
+    customBaseUrl,
   }: CreateRequest<T>): Promise<WriteApiRequestResult> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
@@ -233,6 +241,7 @@ export const createClient = ({
       method,
       customHeaders,
       customBody,
+      customBaseUrl,
     });
   };
 
@@ -243,6 +252,7 @@ export const createClient = ({
     endpoint,
     contentId,
     content,
+    customBaseUrl,
   }: UpdateRequest<T>): Promise<WriteApiRequestResult> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
@@ -260,6 +270,7 @@ export const createClient = ({
       method,
       customHeaders,
       customBody,
+      customBaseUrl,
     });
   };
 
@@ -269,6 +280,7 @@ export const createClient = ({
   const _delete = async ({
     endpoint,
     contentId,
+    customBaseUrl,
   }: DeleteRequest): Promise<void> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
@@ -280,7 +292,7 @@ export const createClient = ({
 
     const method: MakeRequest['method'] = 'DELETE';
 
-    await makeRequest({ endpoint, contentId, method });
+    await makeRequest({ endpoint, contentId, method, customBaseUrl });
   };
 
   return {

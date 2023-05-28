@@ -84,28 +84,33 @@ export interface MakeRequest {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   customHeaders?: HeadersInit;
   customBody?: string;
+  customBaseUrl?: string;
 }
 
 export interface GetRequest {
   endpoint: string;
   contentId?: string;
   queries?: MicroCMSQueries;
+  customBaseUrl?: string;
 }
 
 export interface GetListDetailRequest {
   endpoint: string;
   contentId: string;
   queries?: MicroCMSQueries;
+  customBaseUrl?: string;
 }
 
 export interface GetListRequest {
   endpoint: string;
   queries?: MicroCMSQueries;
+  customBaseUrl?: string;
 }
 
 export interface GetObjectRequest {
   endpoint: string;
   queries?: MicroCMSQueries;
+  customBaseUrl?: string;
 }
 
 export interface WriteApiRequestResult {
@@ -117,15 +122,18 @@ export interface CreateRequest<T> {
   contentId?: string;
   content: T;
   isDraft?: boolean;
+  customBaseUrl?: string;
 }
 
 export interface UpdateRequest<T> {
   endpoint: string;
   contentId?: string;
   content: Partial<T>;
+  customBaseUrl?: string;
 }
 
 export interface DeleteRequest {
   endpoint: string;
   contentId: string;
+  customBaseUrl?: string;
 }
