@@ -234,12 +234,12 @@ export const createClient = ({
 
     const queries: MakeRequest['queries'] = isDraft ? { status: 'draft' } : {};
     const requestInit: MakeRequest['requestInit'] = {
+      ...customRequestInit,
       method: contentId ? 'PUT' : 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(content),
-      ...customRequestInit,
     };
 
     return makeRequest({
@@ -264,12 +264,12 @@ export const createClient = ({
     }
 
     const requestInit: MakeRequest['requestInit'] = {
+      ...customRequestInit,
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(content),
-      ...customRequestInit,
     };
 
     return makeRequest({
@@ -296,8 +296,8 @@ export const createClient = ({
     }
 
     const requestInit: MakeRequest['requestInit'] = {
-      method: 'DELETE',
       ...customRequestInit,
+      method: 'DELETE',
     };
 
     await makeRequest({ endpoint, contentId, requestInit });
