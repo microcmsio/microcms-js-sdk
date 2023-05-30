@@ -93,26 +93,26 @@ export interface GetRequest {
   endpoint: string;
   contentId?: string;
   queries?: MicroCMSQueries;
-  customRequestInit: CustomRequestInit;
+  customRequestInit?: CustomRequestInit;
 }
 
 export interface GetListDetailRequest {
   endpoint: string;
   contentId: string;
   queries?: MicroCMSQueries;
-  customRequestInit: CustomRequestInit;
+  customRequestInit?: CustomRequestInit;
 }
 
 export interface GetListRequest {
   endpoint: string;
   queries?: MicroCMSQueries;
-  customRequestInit: CustomRequestInit;
+  customRequestInit?: CustomRequestInit;
 }
 
 export interface GetObjectRequest {
   endpoint: string;
   queries?: MicroCMSQueries;
-  customRequestInit: CustomRequestInit;
+  customRequestInit?: CustomRequestInit;
 }
 
 export interface WriteApiRequestResult {
@@ -124,18 +124,18 @@ export interface CreateRequest<T> {
   contentId?: string;
   content: T;
   isDraft?: boolean;
-  customRequestInit: CustomRequestInit;
+  customRequestInit?: CustomRequestInit;
 }
 
 export interface UpdateRequest<T> {
   endpoint: string;
   contentId?: string;
   content: Partial<T>;
-  customRequestInit: CustomRequestInit;
+  customRequestInit?: CustomRequestInit;
 }
 
 export interface DeleteRequest {
   endpoint: string;
   contentId: string;
-  customRequestInit: CustomRequestInit;
+  customRequestInit?: CustomRequestInit;
 }
