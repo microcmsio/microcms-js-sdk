@@ -279,20 +279,7 @@ client.update<Content>({
 })
 ```
 
-## Tips
-
-### Separate API keys for read and write
-
-```javascript
-const readClient = createClient({
-  serviceDomain: 'serviceDomain',
-  apiKey: 'readApiKey',
-})
-const writeClient = createClient({
-  serviceDomain: 'serviceDomain',
-  apiKey: 'writeApiKey',
-})
-```
+## CustomRequestInit
 
 ### Next.js App Router
 
@@ -328,6 +315,21 @@ const response = await client.getObject({
 setTimeout(() => {
   controller.abort()
 }, 1000)
+```
+
+## Tips
+
+### Separate API keys for read and write
+
+```javascript
+const readClient = createClient({
+  serviceDomain: 'serviceDomain',
+  apiKey: 'readApiKey',
+})
+const writeClient = createClient({
+  serviceDomain: 'serviceDomain',
+  apiKey: 'writeApiKey',
+})
 ```
 
 
