@@ -298,6 +298,8 @@ export const createClient = ({
     const requestInit: MakeRequest['requestInit'] = {
       ...customRequestInit,
       method: 'DELETE',
+      headers: {},
+      body: undefined,
     };
 
     await makeRequest({ endpoint, contentId, requestInit });

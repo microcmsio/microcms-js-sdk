@@ -118,7 +118,7 @@ describe('requestInit', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     expect(fetchMock.mock.calls[0][1]).toEqual({
-      method: 'POST',
+      method: 'PATCH',
       headers: new Headers({
         'Content-Type': 'application/json',
         'X-MICROCMS-API-KEY': 'apiKey',
@@ -130,7 +130,7 @@ describe('requestInit', () => {
   test('Custom request init added method, headers and body parameters is not overwrited for fetch in delete request.', async () => {
     await client.delete({
       endpoint: 'list-type',
-      content: { title: 'title' },
+      contentId: 'contentId',
       customRequestInit: {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
@@ -138,18 +138,15 @@ describe('requestInit', () => {
         headers: {
           'X-MICROCMS-API-KEY': 'OverwrittenApiKey',
         },
-        body: { title: 'Overwritten Title' },
       },
     });
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     expect(fetchMock.mock.calls[0][1]).toEqual({
-      method: 'POST',
+      method: 'DELETE',
       headers: new Headers({
-        'Content-Type': 'application/json',
         'X-MICROCMS-API-KEY': 'apiKey',
       }),
-      body: JSON.stringify({ title: 'title' }),
     });
   });
 });
