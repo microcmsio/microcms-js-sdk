@@ -312,6 +312,25 @@ const response = await client.getList({
 });
 ```
 
+### AbortController: abort() method
+
+You can abort fetch requests.
+
+```ts
+const controller = new AbortController()
+const response = await client.getObject({
+  customRequestInit: {
+    signal: controller.signal
+  },
+  endpoint: "config",
+});
+
+setTimeout(() => {
+  controller.abort()
+}, 1000)
+```
+
+
 # LICENSE
 
 Apache-2.0
