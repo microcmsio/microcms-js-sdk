@@ -294,6 +294,24 @@ const writeClient = createClient({
 })
 ```
 
+### Next.js App Router
+
+You can now use the fetch option of the Next.js App Router as CustomRequestInit.
+Please refer to the official Next.js documentation as the available options depend on the Next.js Type file.
+
+[Functions: fetch \| Next\.js](https://nextjs.org/docs/app/api-reference/functions/fetch)
+
+```ts
+const response = await client.getList({
+  customRequestInit: {
+    next: {
+      revalidate: 60,
+    },
+  },
+  endpoint: "endpoint",
+});
+```
+
 # LICENSE
 
 Apache-2.0
