@@ -57,9 +57,7 @@ export const createClient = ({
     endpoint,
     contentId,
     queries = {},
-    method,
-    customHeaders,
-    customBody,
+    requestInit,
   }: MakeRequest) => {
     const fetchClient = generateFetchClient(apiKey, customFetch);
     const queryString = parseQuery(queries);
@@ -82,9 +80,8 @@ export const createClient = ({
       async (bail) => {
         try {
           const response = await fetchClient(url, {
-            method: method || 'GET',
-            headers: customHeaders,
-            body: customBody,
+            ...requestInit,
+            method: requestInit?.method ?? 'GET',
           });
 
           // If a status code in the 400 range other than 429 is returned, do not retry.
@@ -117,7 +114,7 @@ export const createClient = ({
             );
           }
 
-          if (method === 'DELETE') return;
+          if (requestInit?.method === 'DELETE') return;
 
           return response.json();
         } catch (error) {
@@ -152,11 +149,17 @@ export const createClient = ({
     endpoint,
     contentId,
     queries = {},
+    customRequestInit,
   }: GetRequest): Promise<T> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
-    return await makeRequest({ endpoint, contentId, queries });
+    return await makeRequest({
+      endpoint,
+      contentId,
+      queries,
+      requestInit: customRequestInit,
+    });
   };
 
   /**
@@ -165,11 +168,16 @@ export const createClient = ({
   const getList = async <T = any>({
     endpoint,
     queries = {},
+    customRequestInit,
   }: GetListRequest): Promise<MicroCMSListResponse<T>> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
-    return await makeRequest({ endpoint, queries });
+    return await makeRequest({
+      endpoint,
+      queries,
+      requestInit: customRequestInit,
+    });
   };
 
   /**
@@ -179,6 +187,7 @@ export const createClient = ({
     endpoint,
     contentId,
     queries = {},
+    customRequestInit,
   }: GetListDetailRequest): Promise<T & MicroCMSListContent> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
@@ -187,6 +196,7 @@ export const createClient = ({
       endpoint,
       contentId,
       queries,
+      requestInit: customRequestInit,
     });
   };
 
@@ -196,6 +206,7 @@ export const createClient = ({
   const getObject = async <T = any>({
     endpoint,
     queries = {},
+    customRequestInit,
   }: GetObjectRequest): Promise<T & MicroCMSObjectContent> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
@@ -203,6 +214,7 @@ export const createClient = ({
     return await makeRequest({
       endpoint,
       queries,
+      requestInit: customRequestInit,
     });
   };
 
@@ -214,25 +226,27 @@ export const createClient = ({
     contentId,
     content,
     isDraft = false,
+    customRequestInit,
   }: CreateRequest<T>): Promise<WriteApiRequestResult> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
 
     const queries: MakeRequest['queries'] = isDraft ? { status: 'draft' } : {};
-    const method: MakeRequest['method'] = contentId ? 'PUT' : 'POST';
-    const customHeaders: MakeRequest['customHeaders'] = {
-      'Content-Type': 'application/json',
+    const requestInit: MakeRequest['requestInit'] = {
+      ...customRequestInit,
+      method: contentId ? 'PUT' : 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(content),
     };
-    const customBody: MakeRequest['customBody'] = JSON.stringify(content);
 
     return makeRequest({
       endpoint,
       contentId,
       queries,
-      method,
-      customHeaders,
-      customBody,
+      requestInit,
     });
   };
 
@@ -243,23 +257,25 @@ export const createClient = ({
     endpoint,
     contentId,
     content,
+    customRequestInit,
   }: UpdateRequest<T>): Promise<WriteApiRequestResult> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
 
-    const method: MakeRequest['method'] = 'PATCH';
-    const customHeaders: MakeRequest['customHeaders'] = {
-      'Content-Type': 'application/json',
+    const requestInit: MakeRequest['requestInit'] = {
+      ...customRequestInit,
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(content),
     };
-    const customBody: MakeRequest['customBody'] = JSON.stringify(content);
 
     return makeRequest({
       endpoint,
       contentId,
-      method,
-      customHeaders,
-      customBody,
+      requestInit,
     });
   };
 
@@ -269,6 +285,7 @@ export const createClient = ({
   const _delete = async ({
     endpoint,
     contentId,
+    customRequestInit,
   }: DeleteRequest): Promise<void> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
@@ -278,9 +295,14 @@ export const createClient = ({
       return Promise.reject(new Error('contentId is required'));
     }
 
-    const method: MakeRequest['method'] = 'DELETE';
+    const requestInit: MakeRequest['requestInit'] = {
+      ...customRequestInit,
+      method: 'DELETE',
+      headers: {},
+      body: undefined,
+    };
 
-    await makeRequest({ endpoint, contentId, method });
+    await makeRequest({ endpoint, contentId, requestInit });
   };
 
   return {
