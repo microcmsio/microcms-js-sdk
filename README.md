@@ -279,20 +279,7 @@ client.update<Content>({
 })
 ```
 
-## Tips
-
-### Separate API keys for read and write
-
-```javascript
-const readClient = createClient({
-  serviceDomain: 'serviceDomain',
-  apiKey: 'readApiKey',
-})
-const writeClient = createClient({
-  serviceDomain: 'serviceDomain',
-  apiKey: 'writeApiKey',
-})
-```
+## CustomRequestInit
 
 ### Next.js App Router
 
@@ -311,6 +298,40 @@ const response = await client.getList({
   endpoint: "endpoint",
 });
 ```
+
+### AbortController: abort() method
+
+You can abort fetch requests.
+
+```ts
+const controller = new AbortController()
+const response = await client.getObject({
+  customRequestInit: {
+    signal: controller.signal
+  },
+  endpoint: "config",
+});
+
+setTimeout(() => {
+  controller.abort()
+}, 1000)
+```
+
+## Tips
+
+### Separate API keys for read and write
+
+```javascript
+const readClient = createClient({
+  serviceDomain: 'serviceDomain',
+  apiKey: 'readApiKey',
+})
+const writeClient = createClient({
+  serviceDomain: 'serviceDomain',
+  apiKey: 'writeApiKey',
+})
+```
+
 
 # LICENSE
 
