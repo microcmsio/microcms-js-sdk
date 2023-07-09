@@ -27,6 +27,7 @@ import {
 } from './utils/constants';
 import { generateFetchClient } from './lib/fetch';
 import retry from 'async-retry';
+import { DeepOmit, DeepReadonly } from 'ts-essentials';
 
 /**
  * Initialize SDK Client
@@ -36,7 +37,7 @@ export const createClient = ({
   apiKey,
   customFetch,
   retry: retryOption,
-}: MicroCMSClient) => {
+}: DeepReadonly<MicroCMSClient>) => {
   if (!serviceDomain || !apiKey) {
     throw new Error('parameter is required (check serviceDomain and apiKey)');
   }
@@ -58,7 +59,7 @@ export const createClient = ({
     contentId,
     queries = {},
     requestInit,
-  }: MakeRequest) => {
+  }: DeepReadonly<MakeRequest>) => {
     const fetchClient = generateFetchClient(apiKey, customFetch);
     const queryString = parseQuery(queries);
     const url = `${baseUrl}/${endpoint}${contentId ? `/${contentId}` : ''}${
@@ -80,7 +81,7 @@ export const createClient = ({
       async (bail) => {
         try {
           const response = await fetchClient(url, {
-            ...requestInit,
+            ...(requestInit as RequestInit),
             method: requestInit?.method ?? 'GET',
           });
 
@@ -150,7 +151,7 @@ export const createClient = ({
     contentId,
     queries = {},
     customRequestInit,
-  }: GetRequest): Promise<T> => {
+  }: DeepReadonly<GetRequest>): Promise<T> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
@@ -169,7 +170,7 @@ export const createClient = ({
     endpoint,
     queries = {},
     customRequestInit,
-  }: GetListRequest): Promise<MicroCMSListResponse<T>> => {
+  }: DeepReadonly<GetListRequest>): Promise<MicroCMSListResponse<T>> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
@@ -188,7 +189,7 @@ export const createClient = ({
     contentId,
     queries = {},
     customRequestInit,
-  }: GetListDetailRequest): Promise<T & MicroCMSListContent> => {
+  }: DeepReadonly<GetListDetailRequest>): Promise<T & MicroCMSListContent> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
@@ -207,7 +208,7 @@ export const createClient = ({
     endpoint,
     queries = {},
     customRequestInit,
-  }: GetObjectRequest): Promise<T & MicroCMSObjectContent> => {
+  }: DeepReadonly<GetObjectRequest>): Promise<T & MicroCMSObjectContent> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
@@ -227,7 +228,7 @@ export const createClient = ({
     content,
     isDraft = false,
     customRequestInit,
-  }: CreateRequest<T>): Promise<WriteApiRequestResult> => {
+  }: DeepReadonly<CreateRequest<T>>): Promise<WriteApiRequestResult> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
@@ -258,7 +259,7 @@ export const createClient = ({
     contentId,
     content,
     customRequestInit,
-  }: UpdateRequest<T>): Promise<WriteApiRequestResult> => {
+  }: DeepReadonly<UpdateRequest<T>>): Promise<WriteApiRequestResult> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
@@ -286,7 +287,7 @@ export const createClient = ({
     endpoint,
     contentId,
     customRequestInit,
-  }: DeleteRequest): Promise<void> => {
+  }: DeepReadonly<DeleteRequest>): Promise<void> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
