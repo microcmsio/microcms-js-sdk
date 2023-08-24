@@ -219,7 +219,7 @@ type Content = {
 /**
  * // getList response type
  * {
- *  contents: Content; // This is Content type
+ *  contents: Content[]; // This is array type of Content
  *  totalCount: number;
  *  limit: number;
  *  offset: number;
