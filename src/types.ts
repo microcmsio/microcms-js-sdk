@@ -115,6 +115,14 @@ export interface GetObjectRequest {
   customRequestInit?: CustomRequestInit;
 }
 
+export interface GetAllContentIdsRequest {
+  endpoint: string;
+  draftKey?: string;
+  filters?: string;
+  orders?: string;
+  customRequestInit?: CustomRequestInit;
+}
+
 export interface WriteApiRequestResult {
   id: string;
 }

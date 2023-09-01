@@ -18,6 +18,8 @@ import {
   MicroCMSObjectContent,
   UpdateRequest,
   DeleteRequest,
+  GetAllContentIdsRequest,
+  MicroCMSQueries,
 } from './types';
 import {
   API_VERSION,
@@ -218,6 +220,56 @@ export const createClient = ({
     });
   };
 
+  const getAllContentIds = async ({
+    endpoint,
+    draftKey,
+    filters,
+    orders,
+    customRequestInit,
+  }: GetAllContentIdsRequest): Promise<string[]> => {
+    const limit = 100;
+    const defaultQueries: MicroCMSQueries = {
+      draftKey,
+      filters,
+      orders,
+      limit,
+      fields: 'id',
+    };
+
+    const { totalCount } = await makeRequest({
+      endpoint,
+      queries: { ...defaultQueries, limit: 0 },
+      requestInit: customRequestInit,
+    });
+
+    let contentIds: string[] = [];
+    let offset = 0;
+
+    const sleep = (ms: number) =>
+      new Promise((resolve) => setTimeout(resolve, ms));
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const { contents } = (await makeRequest({
+        endpoint,
+        queries: { ...defaultQueries, offset },
+        requestInit: customRequestInit,
+      })) as MicroCMSListResponse<Record<string, never>>;
+
+      const ids = contents.map((content) => content.id);
+      contentIds = [...contentIds, ...ids];
+
+      if (contentIds.length >= totalCount) {
+        break;
+      }
+
+      offset += limit;
+      await sleep(1000); // sleep for 1 second before the next request
+    }
+
+    return contentIds;
+  };
+
   /**
    * Create new content in the microCMS list API data
    */
@@ -310,6 +362,7 @@ export const createClient = ({
     getList,
     getListDetail,
     getObject,
+    getAllContentIds,
     create,
     update,
     delete: _delete,
