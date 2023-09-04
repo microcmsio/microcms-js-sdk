@@ -98,8 +98,8 @@ export const createClient = ({
               new Error(
                 `fetch API response status: ${response.status}${
                   message ? `\n  message is \`${message}\`` : ''
-                }`
-              )
+                }`,
+              ),
             );
           }
 
@@ -111,8 +111,8 @@ export const createClient = ({
               new Error(
                 `fetch API response status: ${response.status}${
                   message ? `\n  message is \`${message}\`` : ''
-                }`
-              )
+                }`,
+              ),
             );
           }
 
@@ -129,7 +129,7 @@ export const createClient = ({
           }
 
           return Promise.reject(
-            new Error(`Network Error.\n  Details: ${error}`)
+            new Error(`Network Error.\n  Details: ${error}`),
           );
         }
       },
@@ -140,7 +140,7 @@ export const createClient = ({
           console.log(`Waiting for retry (${num}/${MAX_RETRY_COUNT})`);
         },
         minTimeout: MIN_TIMEOUT_MS,
-      }
+      },
     );
   };
 
@@ -248,8 +248,7 @@ export const createClient = ({
     const sleep = (ms: number) =>
       new Promise((resolve) => setTimeout(resolve, ms));
 
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
+    while (contentIds.length < totalCount) {
       const { contents } = (await makeRequest({
         endpoint,
         queries: { ...defaultQueries, offset },
@@ -259,12 +258,10 @@ export const createClient = ({
       const ids = contents.map((content) => content.id);
       contentIds = [...contentIds, ...ids];
 
-      if (contentIds.length >= totalCount) {
-        break;
-      }
-
       offset += limit;
-      await sleep(1000); // sleep for 1 second before the next request
+      if (contentIds.length < totalCount) {
+        await sleep(1000); // sleep for 1 second before the next request
+      }
     }
 
     return contentIds;
