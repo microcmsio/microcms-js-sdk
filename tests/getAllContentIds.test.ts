@@ -149,12 +149,12 @@ describe('getAllContentIds', () => {
       }),
     );
 
-    expect(() =>
+    await expect(
       client.getAllContentIds({
         endpoint: 'getAllContentIds-list-type',
         target: 'image',
       }),
-    ).toThrowError(
+    ).rejects.toThrowError(
       'The value of the field specified by `target` is not a string.',
     );
   });
