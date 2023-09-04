@@ -222,6 +222,7 @@ export const createClient = ({
 
   const getAllContentIds = async ({
     endpoint,
+    target,
     draftKey,
     filters,
     orders,
@@ -233,7 +234,7 @@ export const createClient = ({
       filters,
       orders,
       limit,
-      fields: 'id',
+      fields: target ?? 'id',
     };
 
     const { totalCount } = await makeRequest({
@@ -247,15 +248,24 @@ export const createClient = ({
 
     const sleep = (ms: number) =>
       new Promise((resolve) => setTimeout(resolve, ms));
+    const isStringArray = (arr: unknown[]): arr is string[] =>
+      arr.every((item) => typeof item === 'string');
 
     while (contentIds.length < totalCount) {
       const { contents } = (await makeRequest({
         endpoint,
         queries: { ...defaultQueries, offset },
         requestInit: customRequestInit,
-      })) as MicroCMSListResponse<Record<string, never>>;
+      })) as MicroCMSListResponse<Record<string, unknown>>;
 
-      const ids = contents.map((content) => content.id);
+      const ids = contents.map((content) => content[target ?? 'id']);
+
+      if (!isStringArray(ids)) {
+        throw new Error(
+          'The value of the field specified by `target` is not a string.',
+        );
+      }
+
       contentIds = [...contentIds, ...ids];
 
       offset += limit;
