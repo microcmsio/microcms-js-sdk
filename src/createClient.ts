@@ -18,6 +18,8 @@ import {
   MicroCMSObjectContent,
   UpdateRequest,
   DeleteRequest,
+  GetAllContentIdsRequest,
+  MicroCMSQueries,
 } from './types';
 import {
   API_VERSION,
@@ -96,8 +98,8 @@ export const createClient = ({
               new Error(
                 `fetch API response status: ${response.status}${
                   message ? `\n  message is \`${message}\`` : ''
-                }`
-              )
+                }`,
+              ),
             );
           }
 
@@ -109,8 +111,8 @@ export const createClient = ({
               new Error(
                 `fetch API response status: ${response.status}${
                   message ? `\n  message is \`${message}\`` : ''
-                }`
-              )
+                }`,
+              ),
             );
           }
 
@@ -127,7 +129,7 @@ export const createClient = ({
           }
 
           return Promise.reject(
-            new Error(`Network Error.\n  Details: ${error}`)
+            new Error(`Network Error.\n  Details: ${error}`),
           );
         }
       },
@@ -138,7 +140,7 @@ export const createClient = ({
           console.log(`Waiting for retry (${num}/${MAX_RETRY_COUNT})`);
         },
         minTimeout: MIN_TIMEOUT_MS,
-      }
+      },
     );
   };
 
@@ -216,6 +218,63 @@ export const createClient = ({
       queries,
       requestInit: customRequestInit,
     });
+  };
+
+  const getAllContentIds = async ({
+    endpoint,
+    target,
+    draftKey,
+    filters,
+    orders,
+    customRequestInit,
+  }: GetAllContentIdsRequest): Promise<string[]> => {
+    const limit = 100;
+    const defaultQueries: MicroCMSQueries = {
+      draftKey,
+      filters,
+      orders,
+      limit,
+      fields: target ?? 'id',
+    };
+
+    const { totalCount } = await makeRequest({
+      endpoint,
+      queries: { ...defaultQueries, limit: 0 },
+      requestInit: customRequestInit,
+    });
+
+    let contentIds: string[] = [];
+    let offset = 0;
+
+    const sleep = (ms: number) =>
+      new Promise((resolve) => setTimeout(resolve, ms));
+    const isStringArray = (arr: unknown[]): arr is string[] =>
+      arr.every((item) => typeof item === 'string');
+
+    while (contentIds.length < totalCount) {
+      const { contents } = (await makeRequest({
+        endpoint,
+        queries: { ...defaultQueries, offset },
+        requestInit: customRequestInit,
+      })) as MicroCMSListResponse<Record<string, unknown>>;
+
+      const ids = contents.map((content) => content[target ?? 'id']);
+
+      if (!isStringArray(ids)) {
+        throw new Error(
+          'The value of the field specified by `target` is not a string.',
+        );
+      }
+
+      contentIds = [...contentIds, ...ids];
+
+      offset += limit;
+      if (contentIds.length < totalCount) {
+        await sleep(1000); // sleep for 1 second before the next request
+      }
+    }
+
+    return contentIds;
   };
 
   /**
@@ -310,6 +369,7 @@ export const createClient = ({
     getList,
     getListDetail,
     getObject,
+    getAllContentIds,
     create,
     update,
     delete: _delete,

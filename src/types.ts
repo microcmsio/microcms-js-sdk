@@ -115,6 +115,20 @@ export interface GetObjectRequest {
   customRequestInit?: CustomRequestInit;
 }
 
+export interface GetAllContentIdsRequest {
+  endpoint: string;
+  /**
+   * @type {string} target
+   * @example 'url'
+   * If you are using a URL other than the content ID, for example, you can specify that value in the `target` field.
+   */
+  target?: string;
+  draftKey?: string;
+  filters?: string;
+  orders?: string;
+  customRequestInit?: CustomRequestInit;
+}
+
 export interface WriteApiRequestResult {
   id: string;
 }

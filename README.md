@@ -106,6 +106,49 @@ client
   .catch((err) => console.error(err));
 ```
 
+#### Get all content ids
+
+This function can be used to retrieve all content IDs only.  
+Since `filters` and `draftKey` can also be specified, it is possible to retrieve only the content IDs for a specific category, or to include content from a specific draft.  \
+The `target` property can also be used to address cases where the value of a field other than content ID is used in a URL, etc.
+
+```javascript
+client
+  .getAllContentIds({
+    endpoint: 'endpoint',
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+
+// Get all content ids with filters
+client
+  .getAllContentIds({
+    endpoint: 'endpoint',
+    filters: 'category[equals]uN28Folyn',
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+
+// Get all content ids with draftKey
+client
+  .getAllContentIds({
+    endpoint: 'endpoint',
+    draftKey: 'draftKey',
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+
+// Get all content ids with target
+client
+  .getAllContentIds({
+    endpoint: 'endpoint',
+    target: 'url',
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+```
+```
+
 #### CREATE API
 
 The following is how to use the write system when making a request to the write system API.
@@ -251,6 +294,16 @@ client.getListDetail<Content>({ //other })
  * } 
  */
 client.getObject<Content>({ //other })
+```
+
+The type of `getAllContentIds` is as follows.
+
+```typescript
+/**
+ * // getAllContentIds response type
+ * string[] // This is array type of string
+ */
+client.getAllContentIds({ //other })
 ```
 
 Write functions can also be performed type-safely.
