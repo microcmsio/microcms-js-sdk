@@ -95,7 +95,7 @@ describe('getAllContentIds', () => {
     expect(result).toContain('id249');
   });
 
-  test('should fetch all content ids with target field', async () => {
+  test('should fetch all content ids with alternateField field', async () => {
     server.use(
       rest.get(`${testBaseUrl}/getAllContentIds-list-type`, (_, res, ctx) => {
         return res.once(
@@ -119,7 +119,7 @@ describe('getAllContentIds', () => {
 
     const result = await client.getAllContentIds({
       endpoint: 'getAllContentIds-list-type',
-      target: 'url',
+      alternateField: 'url',
     });
 
     expect(result).toHaveLength(100);
@@ -127,7 +127,7 @@ describe('getAllContentIds', () => {
     expect(result).toContain('id99');
   });
 
-  test('should throw error when target field is not string', async () => {
+  test('should throw error when alternateField field is not string', async () => {
     server.use(
       rest.get(`${testBaseUrl}/getAllContentIds-list-type`, (_, res, ctx) => {
         return res.once(
@@ -152,10 +152,10 @@ describe('getAllContentIds', () => {
     await expect(
       client.getAllContentIds({
         endpoint: 'getAllContentIds-list-type',
-        target: 'image',
+        alternateField: 'image',
       }),
     ).rejects.toThrowError(
-      'The value of the field specified by `target` is not a string.',
+      'The value of the field specified by `alternateField` is not a string.',
     );
   });
 });

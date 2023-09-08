@@ -10,7 +10,7 @@ export interface MicroCMSClient {
   retry?: boolean;
 }
 
-type depthNumber = 1 | 2 | 3;
+type depthNumber = 0 | 1 | 2 | 3;
 
 /**
  * microCMS queries
@@ -118,11 +118,11 @@ export interface GetObjectRequest {
 export interface GetAllContentIdsRequest {
   endpoint: string;
   /**
-   * @type {string} target
+   * @type {string} alternateField
    * @example 'url'
-   * If you are using a URL other than the content ID, for example, you can specify that value in the `target` field.
+   * If you are using a URL other than the content ID, for example, you can specify that value in the `alternateField` field.
    */
-  target?: string;
+  alternateField?: string;
   draftKey?: string;
   filters?: string;
   orders?: string;

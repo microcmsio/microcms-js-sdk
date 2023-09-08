@@ -110,7 +110,7 @@ client
 
 This function can be used to retrieve all content IDs only.  
 Since `filters` and `draftKey` can also be specified, it is possible to retrieve only the content IDs for a specific category, or to include content from a specific draft.  \
-The `target` property can also be used to address cases where the value of a field other than content ID is used in a URL, etc.
+The `alternateField` property can also be used to address cases where the value of a field other than content ID is used in a URL, etc.
 
 ```javascript
 client
@@ -138,11 +138,11 @@ client
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
 
-// Get all content ids with target
+// Get all content ids with alternateField
 client
   .getAllContentIds({
     endpoint: 'endpoint',
-    target: 'url',
+    alternateField: 'url',
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
