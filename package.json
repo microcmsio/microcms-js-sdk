@@ -5,7 +5,7 @@
   "main": "./dist/microcms-js-sdk.js",
   "module": "./dist/esm/microcms-js-sdk.js",
   "unpkg": "./dist/umd/microcms-js-sdk.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/microcms-js-sdk.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/microcmsio/microcms-js-sdk.git"
