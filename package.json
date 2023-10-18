@@ -1,6 +1,6 @@
 {
   "name": "microcms-js-sdk",
-  "version": "2.6.1",
+  "version": "2.7.0",
   "description": "JavaScript SDK Client for microCMS.",
   "main": "./dist/microcms-js-sdk.js",
   "module": "./dist/esm/microcms-js-sdk.js",
