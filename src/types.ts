@@ -129,6 +129,12 @@ export interface GetAllContentIdsRequest {
   customRequestInit?: CustomRequestInit;
 }
 
+export interface GetAllContentRequest {
+  endpoint: string;
+  queries?: Omit<MicroCMSQueries, 'limit' | 'offset' | 'ids'>;
+  customRequestInit?: CustomRequestInit;
+}
+
 export interface WriteApiRequestResult {
   id: string;
 }

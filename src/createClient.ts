@@ -20,6 +20,7 @@ import {
   DeleteRequest,
   GetAllContentIdsRequest,
   MicroCMSQueries,
+  GetAllContentRequest,
 } from './types';
 import {
   API_VERSION,
@@ -279,6 +280,46 @@ export const createClient = ({
   };
 
   /**
+   * Get all content API data for microCMS
+   */
+  const getAllContents = async <T = any>({
+    endpoint,
+    queries = {},
+    customRequestInit,
+  }: GetAllContentRequest): Promise<(T & MicroCMSListContent)[]> => {
+    const limit = 100;
+
+    const { totalCount } = await makeRequest({
+      endpoint,
+      queries: { ...queries, limit: 0 },
+      requestInit: customRequestInit,
+    });
+
+    let contents: (T & MicroCMSListContent)[] = [];
+    let offset = 0;
+
+    const sleep = (ms: number) =>
+      new Promise((resolve) => setTimeout(resolve, ms));
+
+    while (contents.length < totalCount) {
+      const { contents: _contents } = (await makeRequest({
+        endpoint,
+        queries: { ...queries, limit, offset },
+        requestInit: customRequestInit,
+      })) as MicroCMSListResponse<T>;
+
+      contents = contents.concat(_contents);
+
+      offset += limit;
+      if (contents.length < totalCount) {
+        await sleep(1000); // sleep for 1 second before the next request
+      }
+    }
+
+    return contents;
+  };
+
+  /**
    * Create new content in the microCMS list API data
    */
   const create = async <T extends Record<string | number, any>>({
@@ -371,6 +412,7 @@ export const createClient = ({
     getListDetail,
     getObject,
     getAllContentIds,
+    getAllContents,
     create,
     update,
     delete: _delete,
