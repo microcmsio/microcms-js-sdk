@@ -147,6 +147,27 @@ client
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
 ```
+
+#### Get all contents
+
+This function can be used to retrieve all content data.
+
+```javascript
+client
+  .getAllContents({
+    endpoint: 'endpoint',
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+
+// with queries
+client
+  .getAllContents({
+    endpoint: 'endpoint',
+    queries: { filters: 'createdAt[greater_than]2021', orders: '-createdAt' },
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
 ```
 
 #### CREATE API
