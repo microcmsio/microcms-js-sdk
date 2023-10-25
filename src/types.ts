@@ -133,6 +133,8 @@ export interface GetAllContentRequest {
   endpoint: string;
   queries?: Omit<MicroCMSQueries, 'limit' | 'offset' | 'ids'>;
   customRequestInit?: CustomRequestInit;
+  limit?: number
+  interval?: number
 }
 
 export interface WriteApiRequestResult {
