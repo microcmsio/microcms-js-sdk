@@ -2,25 +2,26 @@
  * microCMS API SDK
  * https://github.com/microcmsio/microcms-js-sdk
  */
-import { parseQuery } from './utils/parseQuery';
-import { isString } from './utils/isCheckValue';
+import { partialPromiseAll, sleep } from '@/utils/promise';
+import retry from 'async-retry';
+import { generateFetchClient } from './lib/fetch';
 import {
-  MicroCMSClient,
-  MakeRequest,
-  GetRequest,
-  GetListRequest,
-  GetListDetailRequest,
-  GetObjectRequest,
-  WriteApiRequestResult,
   CreateRequest,
-  MicroCMSListResponse,
-  MicroCMSListContent,
-  MicroCMSObjectContent,
-  UpdateRequest,
   DeleteRequest,
   GetAllContentIdsRequest,
-  MicroCMSQueries,
   GetAllContentRequest,
+  GetListDetailRequest,
+  GetListRequest,
+  GetObjectRequest,
+  GetRequest,
+  MakeRequest,
+  MicroCMSClient,
+  MicroCMSListContent,
+  MicroCMSListResponse,
+  MicroCMSObjectContent,
+  MicroCMSQueries,
+  UpdateRequest,
+  WriteApiRequestResult,
 } from './types';
 import {
   API_VERSION,
@@ -28,8 +29,8 @@ import {
   MAX_RETRY_COUNT,
   MIN_TIMEOUT_MS,
 } from './utils/constants';
-import { generateFetchClient } from './lib/fetch';
-import retry from 'async-retry';
+import { isString } from './utils/isCheckValue';
+import { parseQuery } from './utils/parseQuery';
 
 /**
  * Initialize SDK Client
@@ -56,12 +57,12 @@ export const createClient = ({
   /**
    * Make request
    */
-  const makeRequest = async ({
+  const makeRequest = async <T=MicroCMSListResponse<any>>({
     endpoint,
     contentId,
     queries = {},
     requestInit,
-  }: MakeRequest) => {
+  }: MakeRequest): Promise<T> => {
     const fetchClient = generateFetchClient(apiKey, customFetch);
     const queryString = parseQuery(queries);
     const url = `${baseUrl}/${endpoint}${contentId ? `/${contentId}` : ''}${
@@ -286,36 +287,47 @@ export const createClient = ({
     endpoint,
     queries = {},
     customRequestInit,
+    limit=100,
+    interval=1000
   }: GetAllContentRequest): Promise<(T & MicroCMSListContent)[]> => {
-    const limit = 100;
 
-    const { totalCount } = await makeRequest({
+    // info: https://document.microcms.io/manual/limitations#h9e37a059c1
+    const limitPerSecond = 60;
+
+    const { totalCount } = await makeRequest<MicroCMSListResponse<T>>({
       endpoint,
       queries: { ...queries, limit: 0 },
       requestInit: customRequestInit,
     });
+    const countPerPacket = limit * limitPerSecond;
+    const packetCount = Math.ceil(totalCount / countPerPacket);
+    const requestingList = Array.from({ length: packetCount }, (_, i) => {
+      const baseOffset = i * countPerPacket;
+      return Array.from({ length: limitPerSecond }, async (_, j) => {
+        const offset = baseOffset + j * limit;
+        const { contents } = await makeRequest<MicroCMSListResponse<T>>({
+          endpoint,
+          queries: { ...queries, limit, offset },
+          requestInit: customRequestInit,
+        });
+        return contents;
+      })
+    });
 
-    let contents: (T & MicroCMSListContent)[] = [];
-    let offset = 0;
-
-    const sleep = (ms: number) =>
-      new Promise((resolve) => setTimeout(resolve, ms));
-
-    while (contents.length < totalCount) {
-      const { contents: _contents } = (await makeRequest({
-        endpoint,
-        queries: { ...queries, limit, offset },
-        requestInit: customRequestInit,
-      })) as MicroCMSListResponse<T>;
-
-      contents = contents.concat(_contents);
-
-      offset += limit;
-      if (contents.length < totalCount) {
-        await sleep(1000); // sleep for 1 second before the next request
+    const promises = await ((lastRequestDatetime=0) => requestingList.map(async (requesting, i) => {
+      // do not wait for the first run
+      if (i !== 0) {
+        const shouldWaitTime = lastRequestDatetime + interval - Date.now();
+        if (shouldWaitTime > 0) {
+          await sleep(shouldWaitTime);
+        }
       }
-    }
+      const response = await Promise.all(requesting);
+      lastRequestDatetime = Date.now();
+      return response.flat();
+    }))();
 
+    const contents = (await partialPromiseAll(promises)).flat();
     return contents;
   };
 

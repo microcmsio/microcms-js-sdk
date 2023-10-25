@@ -5,4 +5,7 @@ module.exports = {
   setupFilesAfterEnv: ['./jest.setup.ts'],
   collectCoverageFrom: ['src/**/*.ts', '!src/index.ts', '!src/types.ts'],
   coverageProvider: 'v8',
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1",
+  }
 };
