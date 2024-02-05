@@ -2,25 +2,25 @@
  * microCMS API SDK
  * https://github.com/microcmsio/microcms-js-sdk
  */
-import retry from 'async-retry';
-import { generateFetchClient } from './lib/fetch';
+import { parseQuery } from './utils/parseQuery';
+import { isString } from './utils/isCheckValue';
 import {
+  MicroCMSClient,
+  MakeRequest,
+  GetRequest,
+  GetListRequest,
+  GetListDetailRequest,
+  GetObjectRequest,
+  WriteApiRequestResult,
   CreateRequest,
+  MicroCMSListResponse,
+  MicroCMSListContent,
+  MicroCMSObjectContent,
+  UpdateRequest,
   DeleteRequest,
   GetAllContentIdsRequest,
-  GetAllContentRequest,
-  GetListDetailRequest,
-  GetListRequest,
-  GetObjectRequest,
-  GetRequest,
-  MakeRequest,
-  MicroCMSClient,
-  MicroCMSListContent,
-  MicroCMSListResponse,
-  MicroCMSObjectContent,
   MicroCMSQueries,
-  UpdateRequest,
-  WriteApiRequestResult,
+  GetAllContentRequest,
 } from './types';
 import {
   API_VERSION,
@@ -28,7 +28,8 @@ import {
   MAX_RETRY_COUNT,
   MIN_TIMEOUT_MS,
 } from './utils/constants';
-import { isString } from './utils/isCheckValue';
+import { generateFetchClient } from './lib/fetch';
+import retry from 'async-retry';
 
 /**
  * Initialize SDK Client
@@ -62,7 +63,7 @@ export const createClient = ({
     requestInit,
   }: MakeRequest) => {
     const fetchClient = generateFetchClient(apiKey, customFetch);
-    const queryString = new URLSearchParams(queries).toString();
+    const queryString = parseQuery(queries);
     const url = `${baseUrl}/${endpoint}${contentId ? `/${contentId}` : ''}${
       queryString ? `?${queryString}` : ''
     }`;
