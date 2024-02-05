@@ -1,11 +1,10 @@
 import { createClient } from '../src/createClient';
-import { resolveHeadersConstructor } from '../src/lib/fetch';
 
 const fetchMock = jest.fn(() =>
   Promise.resolve({
     ok: true,
     json: () => Promise.resolve(),
-  })
+  }),
 );
 
 const client = createClient({
@@ -13,8 +12,6 @@ const client = createClient({
   apiKey: 'apiKey',
   customFetch: fetchMock as any,
 });
-
-const Headers = resolveHeadersConstructor();
 
 beforeEach(() => {
   fetchMock.mockClear();
