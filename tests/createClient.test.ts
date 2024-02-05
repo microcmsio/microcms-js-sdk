@@ -25,24 +25,24 @@ describe('createClient', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     expect(() => createClient({ serviceDomain: 'foo' })).toThrowError(
-      new Error('parameter is required (check serviceDomain and apiKey)')
+      new Error('parameter is required (check serviceDomain and apiKey)'),
     );
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     expect(() => createClient({ apiKey: 'foo' })).toThrowError(
-      new Error('parameter is required (check serviceDomain and apiKey)')
+      new Error('parameter is required (check serviceDomain and apiKey)'),
     );
   });
   test('Throws an error if `serviceDomain` or `apiKey` is missing', () => {
     expect(() =>
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
-      createClient({ serviceDomain: 10, apiKey: 'foo' })
+      createClient({ serviceDomain: 10, apiKey: 'foo' }),
     ).toThrowError(new Error('parameter is not string'));
     expect(() =>
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
-      createClient({ serviceDomain: 'foo', apiKey: 10 })
+      createClient({ serviceDomain: 'foo', apiKey: 10 }),
     ).toThrowError(new Error('parameter is not string'));
   });
 
@@ -52,9 +52,9 @@ describe('createClient', () => {
         rest.get(`${testBaseUrl}/list-type`, async (_, res, ctx) => {
           return res(
             ctx.status(401),
-            ctx.json({ message: 'X-MICROCMS-KEY header is invalid.' })
+            ctx.json({ message: 'X-MICROCMS-KEY header is invalid.' }),
           );
-        })
+        }),
       );
       const client = createClient({
         serviceDomain: 'serviceDomain',
@@ -63,15 +63,15 @@ describe('createClient', () => {
 
       expect(client.get({ endpoint: 'list-type' })).rejects.toThrowError(
         new Error(
-          'fetch API response status: 401\n  message is `X-MICROCMS-KEY header is invalid.`'
-        )
+          'fetch API response status: 401\n  message is `X-MICROCMS-KEY header is invalid.`',
+        ),
       );
     });
     test('If there is no message', () => {
       server.use(
         rest.get(`${testBaseUrl}/list-type`, async (_, res, ctx) => {
           return res(ctx.status(404));
-        })
+        }),
       );
       const client = createClient({
         serviceDomain: 'serviceDomain',
@@ -79,7 +79,7 @@ describe('createClient', () => {
       });
 
       expect(client.get({ endpoint: 'list-type' })).rejects.toThrowError(
-        new Error('fetch API response status: 404')
+        new Error('fetch API response status: 404'),
       );
     });
   });
@@ -88,7 +88,7 @@ describe('createClient', () => {
     server.use(
       rest.get(`${testBaseUrl}/list-type`, async (_, res) => {
         return res.networkError('Failed to fetch');
-      })
+      }),
     );
     const client = createClient({
       serviceDomain: 'serviceDomain',
@@ -114,11 +114,11 @@ describe('createClient', () => {
         rest.get(`${testBaseUrl}/500`, async (_, res, ctx) => {
           apiCallCount++;
           return res(ctx.status(500));
-        })
+        }),
       );
 
       await expect(
-        retryableClient.get({ endpoint: '500' })
+        retryableClient.get({ endpoint: '500' }),
       ).rejects.toThrowError(new Error('fetch API response status: 500'));
       expect(apiCallCount).toBe(3);
     }, 30000);
@@ -130,11 +130,11 @@ describe('createClient', () => {
         rest.get(`${testBaseUrl}/400`, async (_, res, ctx) => {
           apiCallCount++;
           return res(ctx.status(400));
-        })
+        }),
       );
 
       await expect(
-        retryableClient.get({ endpoint: '400' })
+        retryableClient.get({ endpoint: '400' }),
       ).rejects.toThrowError(new Error('fetch API response status: 400'));
       expect(apiCallCount).toBe(1);
     });
@@ -163,10 +163,10 @@ describe('createClient', () => {
                 totalCount: 1,
                 limit: 10,
                 offset: 0,
-              })
+              }),
             );
           }
-        })
+        }),
       );
 
       const data = await retryableClient.get({ endpoint: 'two-times-fail' });
@@ -209,12 +209,12 @@ describe('createClient', () => {
                 totalCount: 1,
                 limit: 10,
                 offset: 0,
-              })
+              }),
             );
           } else {
             return res(ctx.status(500));
           }
-        })
+        }),
       );
 
       const data = await retryableClient.get({
