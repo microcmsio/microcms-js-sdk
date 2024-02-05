@@ -96,9 +96,7 @@ describe('createClient', () => {
     });
 
     expect(client.get({ endpoint: 'list-type' })).rejects.toThrowError(
-      new Error(
-        'Network Error.\n  Details: FetchError: request to https://servicedomain.microcms.io/api/v1/list-type failed, reason: Failed to fetch'
-      )
+      new Error('Network Error.\n  Details: Failed to fetch'),
     );
   });
 

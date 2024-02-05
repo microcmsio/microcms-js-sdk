@@ -2,25 +2,25 @@
  * microCMS API SDK
  * https://github.com/microcmsio/microcms-js-sdk
  */
-import { parseQuery } from './utils/parseQuery';
-import { isString } from './utils/isCheckValue';
+import retry from 'async-retry';
+import { generateFetchClient } from './lib/fetch';
 import {
-  MicroCMSClient,
-  MakeRequest,
-  GetRequest,
-  GetListRequest,
-  GetListDetailRequest,
-  GetObjectRequest,
-  WriteApiRequestResult,
   CreateRequest,
-  MicroCMSListResponse,
-  MicroCMSListContent,
-  MicroCMSObjectContent,
-  UpdateRequest,
   DeleteRequest,
   GetAllContentIdsRequest,
-  MicroCMSQueries,
   GetAllContentRequest,
+  GetListDetailRequest,
+  GetListRequest,
+  GetObjectRequest,
+  GetRequest,
+  MakeRequest,
+  MicroCMSClient,
+  MicroCMSListContent,
+  MicroCMSListResponse,
+  MicroCMSObjectContent,
+  MicroCMSQueries,
+  UpdateRequest,
+  WriteApiRequestResult,
 } from './types';
 import {
   API_VERSION,
@@ -28,8 +28,8 @@ import {
   MAX_RETRY_COUNT,
   MIN_TIMEOUT_MS,
 } from './utils/constants';
-import { generateFetchClient } from './lib/fetch';
-import retry from 'async-retry';
+import { isString } from './utils/isCheckValue';
+import { parseQuery } from './utils/parseQuery';
 
 /**
  * Initialize SDK Client
@@ -81,8 +81,9 @@ export const createClient = ({
 
     return await retry(
       async (bail) => {
+        let response;
         try {
-          const response = await fetchClient(url, {
+          response = await fetchClient(url, {
             ...requestInit,
             method: requestInit?.method ?? 'GET',
           });
@@ -130,7 +131,7 @@ export const createClient = ({
           }
 
           return Promise.reject(
-            new Error(`Network Error.\n  Details: ${error}`),
+            new Error(`Network Error.\n  Details: ${error.message ?? ''}`),
           );
         }
       },
