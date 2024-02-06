@@ -8,7 +8,6 @@ describe('createClient', () => {
     const client = createClient({
       serviceDomain: 'serviceDomain',
       apiKey: 'apiKey',
-      customFetch: () => Promise.resolve(new Response()),
       retry: false,
     });
 

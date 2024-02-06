@@ -10,11 +10,11 @@ const fetchMock = jest.fn(() =>
 const client = createClient({
   serviceDomain: 'serviceDomain',
   apiKey: 'apiKey',
-  customFetch: fetchMock as any,
 });
 
 beforeEach(() => {
   fetchMock.mockClear();
+  global.fetch = fetchMock as any;
 });
 
 describe('requestInit', () => {
