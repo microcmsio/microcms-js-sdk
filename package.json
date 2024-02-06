@@ -2,6 +2,9 @@
   "name": "microcms-js-sdk",
   "version": "3.0.0",
   "description": "JavaScript SDK Client for microCMS.",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "main": "./dist/microcms-js-sdk.js",
   "module": "./dist/esm/microcms-js-sdk.js",
   "unpkg": "./dist/umd/microcms-js-sdk.js",
