@@ -37,7 +37,6 @@ import { parseQuery } from './utils/parseQuery';
 export const createClient = ({
   serviceDomain,
   apiKey,
-  customFetch,
   retry: retryOption,
 }: MicroCMSClient) => {
   if (!serviceDomain || !apiKey) {
@@ -62,7 +61,7 @@ export const createClient = ({
     queries = {},
     requestInit,
   }: MakeRequest) => {
-    const fetchClient = generateFetchClient(apiKey, customFetch);
+    const fetchClient = generateFetchClient(apiKey);
     const queryString = parseQuery(queries);
     const url = `${baseUrl}/${endpoint}${contentId ? `/${contentId}` : ''}${
       queryString ? `?${queryString}` : ''
