@@ -10,6 +10,9 @@ It helps you to use microCMS from JavaScript and Node.js applications.
 
 Install npm package.
 
+[!NOTE]
+v3.0.0 or later requires Node.js **v18 or higher**.
+
 ```bash
 $ npm install microcms-js-sdk
 
