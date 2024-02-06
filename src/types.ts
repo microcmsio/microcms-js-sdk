@@ -6,7 +6,6 @@ export type Fetch = typeof fetch;
 export interface MicroCMSClient {
   serviceDomain: string;
   apiKey: string;
-  customFetch?: Fetch;
   retry?: boolean;
 }
 

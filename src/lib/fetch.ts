@@ -1,21 +1,6 @@
 import { Fetch } from 'src/types';
 
-export const resolveFetch = (customFetch?: Fetch): Fetch => {
-  let _fetch: Fetch;
-  if (customFetch) {
-    _fetch = customFetch;
-  } else {
-    _fetch = fetch;
-  }
-  return (...args) => _fetch(...args);
-};
-
-export const generateFetchClient = (
-  apiKey: string,
-  customFetch?: Fetch,
-): Fetch => {
-  const fetch = resolveFetch(customFetch);
-
+export const generateFetchClient = (apiKey: string): Fetch => {
   return async (req, init) => {
     const headers = new Headers(init?.headers);
 
