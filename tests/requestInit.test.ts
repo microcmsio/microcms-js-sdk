@@ -1,23 +1,20 @@
 import { createClient } from '../src/createClient';
-import { resolveHeadersConstructor } from '../src/lib/fetch';
 
 const fetchMock = jest.fn(() =>
   Promise.resolve({
     ok: true,
     json: () => Promise.resolve(),
-  })
+  }),
 );
 
 const client = createClient({
   serviceDomain: 'serviceDomain',
   apiKey: 'apiKey',
-  customFetch: fetchMock as any,
 });
-
-const Headers = resolveHeadersConstructor();
 
 beforeEach(() => {
   fetchMock.mockClear();
+  global.fetch = fetchMock as any;
 });
 
 describe('requestInit', () => {

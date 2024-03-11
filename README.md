@@ -10,6 +10,9 @@ It helps you to use microCMS from JavaScript and Node.js applications.
 
 Install npm package.
 
+[!NOTE]
+v3.0.0 or later requires Node.js **v18 or higher**.
+
 ```bash
 $ npm install microcms-js-sdk
 
@@ -51,7 +54,6 @@ const client = createClient({
   serviceDomain: "YOUR_DOMAIN", // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
   apiKey: "YOUR_API_KEY",
   // retry: true // Retry attempts up to a maximum of two times.
-  // customFetcher: fetch.bind(globalThis), // Provide a custom `fetch` implementation as an option
 });
 </script>
 ```
