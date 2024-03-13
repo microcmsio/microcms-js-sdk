@@ -169,6 +169,6 @@ export interface DeleteRequest {
 }
 
 export type UploadMediaRequest =
+  | [data: File]
   | [data: Blob, name: string]
-  | [data: File, name?: undefined]
-  | [data: ReadableStream, name: string];
+  | [data: ReadableStream, name: string, type: `image/${string}`];
