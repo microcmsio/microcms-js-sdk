@@ -129,7 +129,7 @@ export const createManagementClient = ({
   const uploadMedia = async (
     ...args: UploadMediaRequest
   ): Promise<{ url: string }> => {
-    const [data, name] = args;
+    const [data, name, type] = args;
 
     const formData = new FormData();
 
@@ -146,11 +146,7 @@ export const createManagementClient = ({
           const currentData = formData.get('file');
 
           if (!currentData) {
-            formData.set(
-              'file',
-              new Blob([chunk], { type: 'image/png' }),
-              name,
-            );
+            formData.set('file', new Blob([chunk], { type }), name);
           } else if (currentData instanceof Blob) {
             formData.set(
               'file',
