@@ -118,23 +118,18 @@ export const createManagementClient = ({
       if (!type) {
         throw new Error('type is required when data is a ReadableStream');
       }
-      const writable = new WritableStream({
-        write(chunk) {
-          const currentData = formData.get('file');
 
-          if (!currentData) {
-            formData.set('file', new Blob([chunk], { type }), name);
-          } else if (currentData instanceof Blob) {
-            formData.set(
-              'file',
-              new Blob([currentData, chunk], { type: currentData.type }),
-              name,
-            );
-          }
-        },
-      });
+      const chunks = [];
+      const reader = data.getReader();
 
-      await data.pipeTo(writable);
+      let chunk;
+      while (!(chunk = await reader.read()).done) {
+        chunks.push(chunk.value);
+      }
+
+      const blob = new Blob(chunks, { type });
+
+      formData.set('file', blob, name);
     }
 
     return makeRequest({
