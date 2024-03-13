@@ -126,11 +126,11 @@ export const createManagementClient = ({
     );
   };
 
-  const uploadMedia = async (
-    ...args: UploadMediaRequest
-  ): Promise<{ url: string }> => {
-    const [data, name, type] = args;
-
+  const uploadMedia = async ({
+    data,
+    name,
+    type,
+  }: UploadMediaRequest): Promise<{ url: string }> => {
     const formData = new FormData();
 
     if (data instanceof Blob) {
@@ -148,7 +148,7 @@ export const createManagementClient = ({
         throw new Error('name is required when data is a ReadableStream');
       }
       if (!type) {
-        throw new Error('mime-type is required when data is a ReadableStream');
+        throw new Error('type is required when data is a ReadableStream');
       }
       const writable = new WritableStream({
         write(chunk) {
