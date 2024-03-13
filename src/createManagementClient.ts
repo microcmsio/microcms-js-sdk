@@ -1,5 +1,3 @@
-import retry from 'async-retry';
-
 import { generateFetchClient } from './lib/fetch';
 import { MicroCMSManagementClient, UploadMediaRequest } from './types';
 import {
@@ -22,7 +20,6 @@ interface MakeRequest {
 export const createManagementClient = ({
   serviceDomain,
   apiKey,
-  retry: retryOption,
 }: MicroCMSManagementClient) => {
   if (!serviceDomain || !apiKey) {
     throw new Error('parameter is required (check serviceDomain and apiKey)');
@@ -61,69 +58,40 @@ export const createManagementClient = ({
       }
     };
 
-    return retry(
-      async (bail) => {
-        let response;
-        try {
-          response = await fetchClient(url, {
-            ...requestInit,
-            method: requestInit?.method ?? 'GET',
-          });
+    let response: Response;
+    try {
+      response = await fetchClient(url, {
+        ...requestInit,
+        method: requestInit?.method ?? 'GET',
+      });
+    } catch (error) {
+      if (error.data) {
+        throw error.data;
+      }
 
-          // If a status code in the 400 range other than 429 is returned, do not retry.
-          if (
-            response.status !== 429 &&
-            response.status >= 400 &&
-            response.status < 500
-          ) {
-            const message = await getMessageFromResponse(response);
+      if (error.response?.data) {
+        throw error.response.data;
+      }
 
-            return bail(
-              new Error(
-                `fetch API response status: ${response.status}${
-                  message ? `\n  message is \`${message}\`` : ''
-                }`,
-              ),
-            );
-          }
+      return Promise.reject(
+        new Error(`Network Error.\n  Details: ${error.message ?? ''}`),
+      );
+    }
 
-          // If the response fails with any other status code, retry until the set number of attempts is reached.
-          if (!response.ok) {
-            const message = await getMessageFromResponse(response);
+    // If the response fails with any other status code, retry until the set number of attempts is reached.
+    if (!response.ok) {
+      const message = await getMessageFromResponse(response);
 
-            return Promise.reject(
-              new Error(
-                `fetch API response status: ${response.status}${
-                  message ? `\n  message is \`${message}\`` : ''
-                }`,
-              ),
-            );
-          }
+      return Promise.reject(
+        new Error(
+          `fetch API response status: ${response.status}${
+            message ? `\n  message is \`${message}\`` : ''
+          }`,
+        ),
+      );
+    }
 
-          return response.json();
-        } catch (error) {
-          if (error.data) {
-            throw error.data;
-          }
-
-          if (error.response?.data) {
-            throw error.response.data;
-          }
-
-          return Promise.reject(
-            new Error(`Network Error.\n  Details: ${error.message ?? ''}`),
-          );
-        }
-      },
-      {
-        retries: retryOption ? MAX_RETRY_COUNT : 0,
-        onRetry: (err, num) => {
-          console.log(err);
-          console.log(`Waiting for retry (${num}/${MAX_RETRY_COUNT})`);
-        },
-        minTimeout: MIN_TIMEOUT_MS,
-      },
-    );
+    return response.json();
   };
 
   const uploadMedia = async ({

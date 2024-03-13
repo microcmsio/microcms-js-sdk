@@ -15,7 +15,6 @@ export interface MicroCMSClient {
 export interface MicroCMSManagementClient {
   serviceDomain: string;
   apiKey: string;
-  retry?: boolean;
 }
 
 type depthNumber = 0 | 1 | 2 | 3;
