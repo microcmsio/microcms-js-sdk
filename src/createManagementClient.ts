@@ -130,6 +130,12 @@ export const createManagementClient = ({
       const blob = new Blob(chunks, { type });
 
       formData.set('file', blob, name);
+    } else if (typeof data === 'string' || data instanceof URL) {
+      const url = data instanceof URL ? data : new URL(data);
+      const response = await fetch(url.toString());
+      const blob = await response.blob();
+      const nameFromURL = new URL(response.url).pathname.split('/').pop();
+      formData.set('file', blob, name ?? nameFromURL);
     }
 
     return makeRequest({
