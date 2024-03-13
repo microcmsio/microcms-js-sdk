@@ -138,9 +138,18 @@ export const createManagementClient = ({
       if ((data as File).name) {
         formData.set('file', data, (data as File).name);
       } else {
+        if (!name) {
+          throw new Error('name is required when data is a Blob');
+        }
         formData.set('file', data, name);
       }
     } else if (data instanceof ReadableStream) {
+      if (!name) {
+        throw new Error('name is required when data is a ReadableStream');
+      }
+      if (!type) {
+        throw new Error('mime-type is required when data is a ReadableStream');
+      }
       const writable = new WritableStream({
         write(chunk) {
           const currentData = formData.get('file');
@@ -151,6 +160,7 @@ export const createManagementClient = ({
             formData.set(
               'file',
               new Blob([currentData, chunk], { type: currentData.type }),
+              name,
             );
           }
         },
