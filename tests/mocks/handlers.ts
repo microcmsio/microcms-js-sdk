@@ -1,8 +1,15 @@
 import { DefaultBodyType, http, HttpResponse, StrictRequest } from 'msw';
 
-import { API_VERSION_1, BASE_DOMAIN } from '../../src/utils/constants';
+import {
+  API_VERSION_1,
+  API_VERSION_2,
+  BASE_DOMAIN,
+  BASE_MANAGEMENT_DOMAIN,
+} from '../../src/utils/constants';
 
 const baseUrl = `https://serviceDomain.${BASE_DOMAIN}/api/${API_VERSION_1}`;
+const baseManagementUrlOfVersion1 = `https://serviceDomain.${BASE_MANAGEMENT_DOMAIN}/api/${API_VERSION_1}`;
+const baseManagementUrlOfVersion2 = `https://serviceDomain.${BASE_MANAGEMENT_DOMAIN}/api/${API_VERSION_2}`;
 
 const hasValidApiKey = (req: StrictRequest<DefaultBodyType>) => {
   return req.headers.get('X-MICROCMS-API-KEY') === 'apiKey';
@@ -146,4 +153,8 @@ export const handlers = [
   }),
 ];
 
-export { baseUrl as testBaseUrl };
+export {
+  baseUrl as testBaseUrl,
+  baseManagementUrlOfVersion1 as testBaseManagementUrlOfVersion1,
+  baseManagementUrlOfVersion2 as testBaseManagementUrlOfVersion2,
+};

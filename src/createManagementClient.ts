@@ -4,8 +4,6 @@ import {
   API_VERSION_1,
   API_VERSION_2,
   BASE_MANAGEMENT_DOMAIN,
-  MAX_RETRY_COUNT,
-  MIN_TIMEOUT_MS,
 } from './utils/constants';
 import { isString } from './utils/isCheckValue';
 import { parseQuery } from './utils/parseQuery';
@@ -127,9 +125,7 @@ export const createManagementClient = ({
         chunks.push(chunk.value);
       }
 
-      const blob = new Blob(chunks, { type });
-
-      formData.set('file', blob, name);
+      formData.set('file', new Blob(chunks, { type }), name);
     } else if (typeof data === 'string' || data instanceof URL) {
       const url = data instanceof URL ? data : new URL(data);
       const response = await fetch(url.toString());
