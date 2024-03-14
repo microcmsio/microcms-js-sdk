@@ -1,4 +1,4 @@
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 import { createClient } from '../src/createClient';
 
@@ -21,18 +21,20 @@ describe('create', () => {
 
   beforeEach(() => {
     server.use(
-      rest.post(`${testBaseUrl}/list-type`, async (req, res, ctx) => {
-        const statusParams = req.url.searchParams.get('status');
-        const body = await req.json();
+      http.post(`${testBaseUrl}/list-type`, async ({ request }) => {
+        const url = new URL(request.url);
+        const statusParams = url.searchParams.get('status');
+        const body = await request.json();
         postApiMockFn(statusParams, body);
-        return res(ctx.json({ id: 'foo' }));
+        return HttpResponse.json({ id: 'foo' });
       }),
-      rest.put(`${testBaseUrl}/list-type/foo`, async (req, res, ctx) => {
-        const statusParams = req.url.searchParams.get('status');
-        const body = await req.json();
+      http.put(`${testBaseUrl}/list-type/foo`, async ({ request }) => {
+        const url = new URL(request.url);
+        const statusParams = url.searchParams.get('status');
+        const body = await request.json();
         putApiMockFn(statusParams, body);
-        return res(ctx.status(201), ctx.json({ id: 'foo' }));
-      })
+        return HttpResponse.json({ id: 'foo' }, { status: 201 });
+      }),
     );
   });
   afterEach(() => {
@@ -117,7 +119,7 @@ describe('create', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     expect(client.create({})).rejects.toThrow(
-      new Error('endpoint is required')
+      new Error('endpoint is required'),
     );
   });
 });
@@ -128,16 +130,16 @@ describe('update', () => {
 
   beforeEach(() => {
     server.use(
-      rest.patch(`${testBaseUrl}/list-type/foo`, async (req, res, ctx) => {
-        const body = await req.json();
+      http.patch(`${testBaseUrl}/list-type/foo`, async ({ request }) => {
+        const body = await request.json();
         patchListApiMockFn(body);
-        return res(ctx.status(200), ctx.json({ id: 'foo' }));
+        return HttpResponse.json({ id: 'foo' }, { status: 200 });
       }),
-      rest.patch(`${testBaseUrl}/object-type`, async (req, res, ctx) => {
-        const body = await req.json();
+      http.patch(`${testBaseUrl}/object-type`, async ({ request }) => {
+        const body = await request.json();
         patchObjectApiMockFn(body);
-        return res(ctx.status(200), ctx.json({ id: 'foo' }));
-      })
+        return HttpResponse.json({ id: 'foo' }, { status: 200 });
+      }),
     );
   });
   afterEach(() => {
@@ -181,7 +183,7 @@ describe('update', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     expect(client.update({})).rejects.toThrow(
-      new Error('endpoint is required')
+      new Error('endpoint is required'),
     );
   });
 });
@@ -191,10 +193,10 @@ describe('delete', () => {
 
   beforeEach(() => {
     server.use(
-      rest.delete(`${testBaseUrl}/list-type/foo`, (_, res, ctx) => {
+      http.delete(`${testBaseUrl}/list-type/foo`, () => {
         deleteApiMockFn();
-        return res(ctx.status(202));
-      })
+        return new HttpResponse(null, { status: 202 });
+      }),
     );
   });
   afterEach(() => {
@@ -210,14 +212,14 @@ describe('delete', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     expect(client.delete({})).rejects.toThrow(
-      new Error('endpoint is required')
+      new Error('endpoint is required'),
     );
   });
   test('Returns an error message if `contentId` is not specified', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     expect(client.delete({ endpoint: 'list-type' })).rejects.toThrow(
-      new Error('contentId is required')
+      new Error('contentId is required'),
     );
   });
 });

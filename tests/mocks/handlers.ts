@@ -1,137 +1,147 @@
-import { RestRequest, rest } from 'msw';
+import { DefaultBodyType, http, HttpResponse, StrictRequest } from 'msw';
 
 import { API_VERSION, BASE_DOMAIN } from '../../src/utils/constants';
 
 const baseUrl = `https://serviceDomain.${BASE_DOMAIN}/api/${API_VERSION}`;
 
-const hasValidApiKey = (req: RestRequest) => {
+const hasValidApiKey = (req: StrictRequest<DefaultBodyType>) => {
   return req.headers.get('X-MICROCMS-API-KEY') === 'apiKey';
 };
 
 export const handlers = [
-  rest.get('http://example.com', (req, res, ctx) => {
-    if (!hasValidApiKey(req)) return res(ctx.status(401));
-    return res(ctx.status(200));
+  http.get('http://example.com', ({ request }) => {
+    if (!hasValidApiKey(request))
+      return new HttpResponse(null, { status: 401 });
+    return new HttpResponse(null, { status: 200 });
   }),
-  rest.get(`${baseUrl}/list-type`, (req, res, ctx) => {
-    if (!hasValidApiKey(req)) return res(ctx.status(401));
+  http.get(`${baseUrl}/list-type`, ({ request }) => {
+    if (!hasValidApiKey(request))
+      return new HttpResponse(null, { status: 401 });
 
-    return res(
-      ctx.json({
-        contents: [
-          {
-            id: 'foo',
-            title: 'Hello, microCMS!',
-            createdAt: '2022-10-28T04:04:29.625Z',
-            updatedAt: '2022-10-28T04:04:29.625Z',
-            publishedAt: '2022-10-28T04:04:29.625Z',
-            revisedAt: '2022-10-28T04:04:29.625Z',
-          },
-        ],
-        totalCount: 1,
-        limit: 10,
-        offset: 0,
-      })
+    return HttpResponse.json({
+      contents: [
+        {
+          id: 'foo',
+          title: 'Hello, microCMS!',
+          createdAt: '2022-10-28T04:04:29.625Z',
+          updatedAt: '2022-10-28T04:04:29.625Z',
+          publishedAt: '2022-10-28T04:04:29.625Z',
+          revisedAt: '2022-10-28T04:04:29.625Z',
+        },
+      ],
+      totalCount: 1,
+      limit: 10,
+      offset: 0,
+    });
+  }),
+  http.post(`${baseUrl}/list-type`, ({ request }) => {
+    if (!hasValidApiKey(request))
+      return new HttpResponse(null, { status: 401 });
+    return HttpResponse.json({ id: 'foo' });
+  }),
+  http.put(`${baseUrl}/list-type`, ({ request }) => {
+    if (!hasValidApiKey(request))
+      return new HttpResponse(null, { status: 401 });
+    return HttpResponse.json(
+      { massage: 'contentId is necessary.' },
+      { status: 400 },
     );
   }),
-  rest.post(`${baseUrl}/list-type`, (req, res, ctx) => {
-    if (!hasValidApiKey(req)) return res(ctx.status(401));
-    return res(ctx.json({ id: 'foo' }));
-  }),
-  rest.put(`${baseUrl}/list-type`, (req, res, ctx) => {
-    if (!hasValidApiKey(req)) return res(ctx.status(401));
-    return res(
-      ctx.status(400),
-      ctx.json({ massage: 'contentId is necessary.' })
+  http.patch(`${baseUrl}/list-type`, ({ request }) => {
+    if (!hasValidApiKey(request))
+      return new HttpResponse(null, { status: 401 });
+    return HttpResponse.json(
+      { massage: 'Content is not exists.' },
+      { status: 400 },
     );
   }),
-  rest.patch(`${baseUrl}/list-type`, (req, res, ctx) => {
-    if (!hasValidApiKey(req)) return res(ctx.status(401));
-    return res(
-      ctx.status(400),
-      ctx.json({ massage: 'Content is not exists.' })
+  http.delete(`${baseUrl}/list-type`, ({ request }) => {
+    if (!hasValidApiKey(request))
+      return new HttpResponse(null, { status: 401 });
+    return HttpResponse.json(
+      { massage: 'Content is not exists.' },
+      { status: 400 },
     );
-  }),
-  rest.delete(`${baseUrl}/list-type`, (req, res, ctx) => {
-    if (!hasValidApiKey(req)) return res(ctx.status(401));
-    return res(
-      ctx.status(400),
-      ctx.json({ massage: 'Content is not exists.' })
-    );
-  }),
-
-  rest.get(`${baseUrl}/list-type/foo`, (req, res, ctx) => {
-    if (!hasValidApiKey(req)) return res(ctx.status(401));
-    return res(
-      ctx.json({
-        id: 'foo',
-        title: 'Hello, microCMS!',
-        createdAt: '2022-10-28T04:04:29.625Z',
-        updatedAt: '2022-10-28T04:04:29.625Z',
-        publishedAt: '2022-10-28T04:04:29.625Z',
-        revisedAt: '2022-10-28T04:04:29.625Z',
-      })
-    );
-  }),
-  rest.post(`${baseUrl}/list-type/foo`, (req, res, ctx) => {
-    if (!hasValidApiKey(req)) return res(ctx.status(401));
-    return res(ctx.status(404), ctx.json({}));
-  }),
-  rest.put(`${baseUrl}/list-type/foo`, (req, res, ctx) => {
-    if (!hasValidApiKey(req)) return res(ctx.status(401));
-    return res(ctx.status(201), ctx.json({ id: 'foo' }));
-  }),
-  rest.patch(`${baseUrl}/list-type/foo`, (req, res, ctx) => {
-    if (!hasValidApiKey(req)) return res(ctx.status(401));
-    return res(ctx.status(200), ctx.json({ id: 'foo' }));
-  }),
-  rest.delete(`${baseUrl}/list-type/foo`, (req, res, ctx) => {
-    if (!hasValidApiKey(req)) return res(ctx.status(401));
-    return res(ctx.status(202), ctx.json({}));
   }),
 
-  rest.get(`${baseUrl}/object-type`, (req, res, ctx) => {
-    if (!hasValidApiKey(req)) return res(ctx.status(401));
-    return res(
-      ctx.json({
-        id: 'foo',
-        title: 'Hello, microCMS!',
-        createdAt: '2022-10-28T04:04:29.625Z',
-        updatedAt: '2022-10-28T04:04:29.625Z',
-        publishedAt: '2022-10-28T04:04:29.625Z',
-        revisedAt: '2022-10-28T04:04:29.625Z',
-      })
-    );
+  http.get(`${baseUrl}/list-type/foo`, ({ request }) => {
+    if (!hasValidApiKey(request))
+      return new HttpResponse(null, { status: 401 });
+    return HttpResponse.json({
+      id: 'foo',
+      title: 'Hello, microCMS!',
+      createdAt: '2022-10-28T04:04:29.625Z',
+      updatedAt: '2022-10-28T04:04:29.625Z',
+      publishedAt: '2022-10-28T04:04:29.625Z',
+      revisedAt: '2022-10-28T04:04:29.625Z',
+    });
   }),
-  rest.post(`${baseUrl}/object-type`, (req, res, ctx) => {
-    if (!hasValidApiKey(req)) return res(ctx.status(401));
-    return res(
-      ctx.status(400),
-      ctx.json({
+  http.post(`${baseUrl}/list-type/foo`, ({ request }) => {
+    if (!hasValidApiKey(request))
+      return new HttpResponse(null, { status: 401 });
+    return HttpResponse.json({}, { status: 404 });
+  }),
+  http.put(`${baseUrl}/list-type/foo`, ({ request }) => {
+    if (!hasValidApiKey(request))
+      return new HttpResponse(null, { status: 401 });
+    return HttpResponse.json({ id: 'foo' }, { status: 201 });
+  }),
+  http.patch(`${baseUrl}/list-type/foo`, ({ request }) => {
+    if (!hasValidApiKey(request))
+      return new HttpResponse(null, { status: 401 });
+    return HttpResponse.json({ id: 'foo' }, { status: 200 });
+  }),
+  http.delete(`${baseUrl}/list-type/foo`, ({ request }) => {
+    if (!hasValidApiKey(request))
+      return new HttpResponse(null, { status: 401 });
+    return HttpResponse.json({}, { status: 202 });
+  }),
+
+  http.get(`${baseUrl}/object-type`, ({ request }) => {
+    if (!hasValidApiKey(request))
+      return new HttpResponse(null, { status: 401 });
+    return HttpResponse.json({
+      id: 'foo',
+      title: 'Hello, microCMS!',
+      createdAt: '2022-10-28T04:04:29.625Z',
+      updatedAt: '2022-10-28T04:04:29.625Z',
+      publishedAt: '2022-10-28T04:04:29.625Z',
+      revisedAt: '2022-10-28T04:04:29.625Z',
+    });
+  }),
+  http.post(`${baseUrl}/object-type`, ({ request }) => {
+    if (!hasValidApiKey(request))
+      return new HttpResponse(null, { status: 401 });
+    return HttpResponse.json(
+      {
         message: 'POST is forbidden.',
-      })
+      },
+      { status: 400 },
     );
   }),
-  rest.put(`${baseUrl}/object-type`, (req, res, ctx) => {
-    if (!hasValidApiKey(req)) return res(ctx.status(401));
-    return res(
-      ctx.status(400),
-      ctx.json({
+  http.put(`${baseUrl}/object-type`, ({ request }) => {
+    if (!hasValidApiKey(request))
+      return new HttpResponse(null, { status: 401 });
+    return HttpResponse.json(
+      {
         message: 'PUT is forbidden.',
-      })
+      },
+      { status: 400 },
     );
   }),
-  rest.patch(`${baseUrl}/object-type`, (req, res, ctx) => {
-    if (!hasValidApiKey(req)) return res(ctx.status(401));
-    return res(ctx.status(200), ctx.json({ id: 'foo' }));
+  http.patch(`${baseUrl}/object-type`, ({ request }) => {
+    if (!hasValidApiKey(request))
+      return new HttpResponse(null, { status: 401 });
+    return HttpResponse.json({ id: 'foo' }, { status: 200 });
   }),
-  rest.delete(`${baseUrl}/object-type`, (req, res, ctx) => {
-    if (!hasValidApiKey(req)) return res(ctx.status(401));
-    return res(
-      ctx.status(400),
-      ctx.json({
+  http.delete(`${baseUrl}/object-type`, ({ request }) => {
+    if (!hasValidApiKey(request))
+      return new HttpResponse(null, { status: 401 });
+    return HttpResponse.json(
+      {
         message: 'DELETE is forbidden.',
-      })
+      },
+      { status: 400 },
     );
   }),
 ];
