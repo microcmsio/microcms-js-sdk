@@ -1,4 +1,4 @@
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { createClient } from '../src/createClient';
 import { testBaseUrl } from './mocks/handlers';
 import { server } from './mocks/server';
@@ -23,12 +23,12 @@ describe('createClient', () => {
   test('Throws an error if `serviceDomain` or `apiKey` is missing', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    expect(() => createClient({ serviceDomain: 'foo' })).toThrowError(
+    expect(() => createClient({ serviceDomain: 'foo' })).toThrow(
       new Error('parameter is required (check serviceDomain and apiKey)'),
     );
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    expect(() => createClient({ apiKey: 'foo' })).toThrowError(
+    expect(() => createClient({ apiKey: 'foo' })).toThrow(
       new Error('parameter is required (check serviceDomain and apiKey)'),
     );
   });
@@ -37,21 +37,21 @@ describe('createClient', () => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       createClient({ serviceDomain: 10, apiKey: 'foo' }),
-    ).toThrowError(new Error('parameter is not string'));
+    ).toThrow(new Error('parameter is not string'));
     expect(() =>
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       createClient({ serviceDomain: 'foo', apiKey: 10 }),
-    ).toThrowError(new Error('parameter is not string'));
+    ).toThrow(new Error('parameter is not string'));
   });
 
   describe('Throws an error when response.ok is false', () => {
     test('If there is a message', () => {
       server.use(
-        rest.get(`${testBaseUrl}/list-type`, async (_, res, ctx) => {
-          return res(
-            ctx.status(401),
-            ctx.json({ message: 'X-MICROCMS-KEY header is invalid.' }),
+        http.get(`${testBaseUrl}/list-type`, async () => {
+          return HttpResponse.json(
+            { message: 'X-MICROCMS-KEY header is invalid.' },
+            { status: 401 },
           );
         }),
       );
@@ -60,7 +60,7 @@ describe('createClient', () => {
         apiKey: 'apiKey',
       });
 
-      expect(client.get({ endpoint: 'list-type' })).rejects.toThrowError(
+      expect(client.get({ endpoint: 'list-type' })).rejects.toThrow(
         new Error(
           'fetch API response status: 401\n  message is `X-MICROCMS-KEY header is invalid.`',
         ),
@@ -68,8 +68,8 @@ describe('createClient', () => {
     });
     test('If there is no message', () => {
       server.use(
-        rest.get(`${testBaseUrl}/list-type`, async (_, res, ctx) => {
-          return res(ctx.status(404));
+        http.get(`${testBaseUrl}/list-type`, async () => {
+          return new HttpResponse(null, { status: 404 });
         }),
       );
       const client = createClient({
@@ -77,7 +77,7 @@ describe('createClient', () => {
         apiKey: 'apiKey',
       });
 
-      expect(client.get({ endpoint: 'list-type' })).rejects.toThrowError(
+      expect(client.get({ endpoint: 'list-type' })).rejects.toThrow(
         new Error('fetch API response status: 404'),
       );
     });
@@ -85,8 +85,8 @@ describe('createClient', () => {
 
   test('Throws an error in the event of a network error.', () => {
     server.use(
-      rest.get(`${testBaseUrl}/list-type`, async (_, res) => {
-        return res.networkError('Failed to fetch');
+      http.get(`${testBaseUrl}/list-type`, async () => {
+        return HttpResponse.error();
       }),
     );
     const client = createClient({
@@ -94,7 +94,7 @@ describe('createClient', () => {
       apiKey: 'apiKey',
     });
 
-    expect(client.get({ endpoint: 'list-type' })).rejects.toThrowError(
+    expect(client.get({ endpoint: 'list-type' })).rejects.toThrow(
       new Error('Network Error.\n  Details: Failed to fetch'),
     );
   });
@@ -110,15 +110,17 @@ describe('createClient', () => {
       let apiCallCount = 0;
 
       server.use(
-        rest.get(`${testBaseUrl}/500`, async (_, res, ctx) => {
+        http.get(`${testBaseUrl}/500`, async () => {
           apiCallCount++;
-          return res(ctx.status(500));
+          return new HttpResponse(null, {
+            status: 500,
+          });
         }),
       );
 
-      await expect(
-        retryableClient.get({ endpoint: '500' }),
-      ).rejects.toThrowError(new Error('fetch API response status: 500'));
+      await expect(retryableClient.get({ endpoint: '500' })).rejects.toThrow(
+        new Error('fetch API response status: 500'),
+      );
       expect(apiCallCount).toBe(3);
     }, 30000);
 
@@ -126,29 +128,28 @@ describe('createClient', () => {
       let apiCallCount = 0;
 
       server.use(
-        rest.get(`${testBaseUrl}/400`, async (_, res, ctx) => {
+        http.get(`${testBaseUrl}/400`, async () => {
           apiCallCount++;
-          return res(ctx.status(400));
+          return new HttpResponse(null, { status: 400 });
         }),
       );
 
-      await expect(
-        retryableClient.get({ endpoint: '400' }),
-      ).rejects.toThrowError(new Error('fetch API response status: 400'));
+      await expect(retryableClient.get({ endpoint: '400' })).rejects.toThrow(
+        new Error('fetch API response status: 400'),
+      );
       expect(apiCallCount).toBe(1);
     });
 
     test('List format contents can be retrieved if failed twice and succeeded once', async () => {
       let failedRequestCount = 0;
       server.use(
-        rest.get(`${testBaseUrl}/two-times-fail`, (_, res, ctx) => {
+        http.get(`${testBaseUrl}/two-times-fail`, () => {
           if (failedRequestCount < 2) {
             failedRequestCount++;
-            return res(ctx.status(500));
+            return new HttpResponse(null, { status: 500 });
           } else {
-            return res(
-              ctx.status(200),
-              ctx.json({
+            return HttpResponse.json(
+              {
                 contents: [
                   {
                     id: 'foo',
@@ -162,7 +163,8 @@ describe('createClient', () => {
                 totalCount: 1,
                 limit: 10,
                 offset: 0,
-              }),
+              },
+              { status: 200 },
             );
           }
         }),
@@ -189,12 +191,11 @@ describe('createClient', () => {
     test('List format contents can be retrieved if succeeded once and failed twice', async () => {
       let apiCallCount = 0;
       server.use(
-        rest.get(`${testBaseUrl}/only-first-time-success`, (_, res, ctx) => {
+        http.get(`${testBaseUrl}/only-first-time-success`, () => {
           apiCallCount++;
           if (apiCallCount === 1) {
-            return res(
-              ctx.status(200),
-              ctx.json({
+            return HttpResponse.json(
+              {
                 contents: [
                   {
                     id: 'foo',
@@ -208,10 +209,11 @@ describe('createClient', () => {
                 totalCount: 1,
                 limit: 10,
                 offset: 0,
-              }),
+              },
+              { status: 200 },
             );
           } else {
-            return res(ctx.status(500));
+            return new HttpResponse(null, { status: 500 });
           }
         }),
       );

@@ -1,4 +1,4 @@
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { createClient } from '../src/createClient';
 import { testBaseUrl } from './mocks/handlers';
 import { server } from './mocks/server';
@@ -15,24 +15,18 @@ describe('getAllContents', () => {
 
   test('should fetch all contents', async () => {
     server.use(
-      rest.get(`${testBaseUrl}/getAllContents-list-type`, (_, res, ctx) => {
-        return res.once(
-          ctx.status(200),
-          ctx.json({
-            totalCount: 100,
-          }),
-        );
-      }),
-      rest.get(`${testBaseUrl}/getAllContents-list-type`, (_, res, ctx) => {
-        return res.once(
-          ctx.status(200),
-          ctx.json({
-            contents: Array(100)
-              .fill(null)
-              .map((_, index) => ({ id: `id${index}` })),
-          }),
-        );
-      }),
+      http.get(`${testBaseUrl}/getAllContents-list-type`, () => {
+          return HttpResponse.json({
+              totalCount: 100,
+          }, { status: 200 });
+      }, { once: true }),
+      http.get(`${testBaseUrl}/getAllContents-list-type`, () => {
+          return HttpResponse.json({
+              contents: Array(100)
+                  .fill(null)
+                  .map((_, index) => ({ id: `id${index}` })),
+          }, { status: 200 });
+      }, { once: true }),
     );
 
     const result = await client.getAllContents({
@@ -46,44 +40,32 @@ describe('getAllContents', () => {
 
   test('should handle pagination and fetch more than limit', async () => {
     server.use(
-      rest.get(`${testBaseUrl}/getAllContents-list-type`, (_, res, ctx) => {
-        return res.once(
-          ctx.status(200),
-          ctx.json({
-            totalCount: 250,
-          }),
-        );
-      }),
-      rest.get(`${testBaseUrl}/getAllContents-list-type`, (_, res, ctx) => {
-        return res.once(
-          ctx.status(200),
-          ctx.json({
-            contents: Array(100)
-              .fill(null)
-              .map((_, index) => ({ id: `id${index}` })),
-          }),
-        );
-      }),
-      rest.get(`${testBaseUrl}/getAllContents-list-type`, (_, res, ctx) => {
-        return res.once(
-          ctx.status(200),
-          ctx.json({
-            contents: Array(100)
-              .fill(null)
-              .map((_, index) => ({ id: `id${index + 100}` })),
-          }),
-        );
-      }),
-      rest.get(`${testBaseUrl}/getAllContents-list-type`, (_, res, ctx) => {
-        return res.once(
-          ctx.status(200),
-          ctx.json({
-            contents: Array(50)
-              .fill(null)
-              .map((_, index) => ({ id: `id${index + 200}` })),
-          }),
-        );
-      }),
+      http.get(`${testBaseUrl}/getAllContents-list-type`, () => {
+          return HttpResponse.json({
+              totalCount: 250,
+          }, { status: 200 });
+      }, { once: true }),
+      http.get(`${testBaseUrl}/getAllContents-list-type`, () => {
+          return HttpResponse.json({
+              contents: Array(100)
+                  .fill(null)
+                  .map((_, index) => ({ id: `id${index}` })),
+          }, { status: 200 });
+      }, { once: true }),
+      http.get(`${testBaseUrl}/getAllContents-list-type`, () => {
+          return HttpResponse.json({
+              contents: Array(100)
+                  .fill(null)
+                  .map((_, index) => ({ id: `id${index + 100}` })),
+          }, { status: 200 });
+      }, { once: true }),
+      http.get(`${testBaseUrl}/getAllContents-list-type`, () => {
+          return HttpResponse.json({
+              contents: Array(50)
+                  .fill(null)
+                  .map((_, index) => ({ id: `id${index + 200}` })),
+          }, { status: 200 });
+      }, { once: true }),
     );
 
     const result = await client.getAllContents({

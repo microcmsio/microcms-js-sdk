@@ -1,4 +1,4 @@
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { createClient } from '../src/createClient';
 import { testBaseUrl } from './mocks/handlers';
 import { server } from './mocks/server';
@@ -58,12 +58,9 @@ describe('get', () => {
   test('Return error message in case of server error', () => {
     // Create temporary server error
     server.use(
-      rest.get(`${testBaseUrl}/list-type`, (_, res, ctx) => {
-        return res.once(
-          ctx.status(500),
-          ctx.json({ message: 'Internal Server Error' })
-        );
-      })
+      http.get(`${testBaseUrl}/list-type`, () => {
+          return HttpResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+      }, { once: true })
     );
 
     expect(client.get({ endpoint: 'list-type' })).rejects.toThrow(
