@@ -419,7 +419,7 @@ const client = createManagementClient({
 
 Media files can be uploaded using the 'POST /api/v1/media' endpoint of the Management API.
 
-Node.js
+#### Node.js
 
 ```javascript
 // Blob
@@ -458,7 +458,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-Browser
+#### Browser
 
 ```javascript
 // File
