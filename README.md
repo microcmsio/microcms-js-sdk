@@ -486,10 +486,14 @@ client
 
 ```typescript
 type UploadMediaRequest =
-  | { data: File; name?: undefined; type?: undefined }
-  | { data: Blob; name: string; type?: undefined }
+  | { data: File }
+  | { data: Blob; name: string }
   | { data: ReadableStream; name: string; type: `image/${string}` }
-  | { data: URL | string; name?: string | null | undefined; type?: undefined };
+  | {
+      data: URL | string;
+      name?: string | null | undefined;
+      requestHeader?: HeadersInit;
+    };
 function uploadMedia(params: UploadMediaRequest): Promise<{ url: string }>;
 ```
 

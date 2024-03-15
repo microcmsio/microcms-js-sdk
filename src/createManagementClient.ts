@@ -96,6 +96,7 @@ export const createManagementClient = ({
     data,
     name,
     type,
+    requestHeader,
   }: UploadMediaRequest): Promise<{ url: string }> => {
     const formData = new FormData();
 
@@ -128,7 +129,10 @@ export const createManagementClient = ({
       formData.set('file', new Blob(chunks, { type }), name);
     } else if (typeof data === 'string' || data instanceof URL) {
       const url = data instanceof URL ? data : new URL(data);
-      const response = await fetch(url.toString());
+      const response = await fetch(
+        url.toString(),
+        requestHeader ? { headers: requestHeader } : undefined,
+      );
       const blob = await response.blob();
       const nameFromURL = new URL(response.url).pathname.split('/').pop();
       formData.set('file', blob, name ?? nameFromURL);
