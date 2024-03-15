@@ -36,14 +36,14 @@ or
 First, create a client.
 
 ```javascript
-const { createClient } = require("microcms-js-sdk"); // CommonJS
+const { createClient } = require('microcms-js-sdk'); // CommonJS
 import { createClient } from 'microcms-js-sdk'; //ES6
 
 // Initialize Client SDK.
 const client = createClient({
-  serviceDomain: "YOUR_DOMAIN", // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
-  apiKey: "YOUR_API_KEY",
- // retry: true // Retry attempts up to a maximum of two times.
+  serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
+  apiKey: 'YOUR_API_KEY',
+  // retry: true // Retry attempts up to a maximum of two times.
 });
 ```
 
@@ -51,14 +51,14 @@ When using with a browser.
 
 ```html
 <script>
-const { createClient } = microcms;
+  const { createClient } = microcms;
 
-// Initialize Client SDK.
-const client = createClient({
-  serviceDomain: "YOUR_DOMAIN", // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
-  apiKey: "YOUR_API_KEY",
-  // retry: true // Retry attempts up to a maximum of two times.
-});
+  // Initialize Client SDK.
+  const client = createClient({
+    serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
+    apiKey: 'YOUR_API_KEY',
+    // retry: true // Retry attempts up to a maximum of two times.
+  });
 </script>
 ```
 
@@ -115,7 +115,7 @@ client
 #### Get all content ids
 
 This function can be used to retrieve all content IDs only.  
-Since `filters` and `draftKey` can also be specified, it is possible to retrieve only the content IDs for a specific category, or to include content from a specific draft.  \
+Since `filters` and `draftKey` can also be specified, it is possible to retrieve only the content IDs for a specific category, or to include content from a specific draft. \
 The `alternateField` property can also be used to address cases where the value of a field other than content ID is used in a URL, etc.
 
 ```javascript
@@ -276,7 +276,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-### TypeScript 
+### TypeScript
 
 If you are using TypeScript, use `getList`, `getListDetail`, `getObject`. This internally contains a common type of content.
 
@@ -293,7 +293,7 @@ type Content = {
  *  totalCount: number;
  *  limit: number;
  *  offset: number;
- * } 
+ * }
  */
 client.getList<Content>({ //other })
 
@@ -306,7 +306,7 @@ client.getList<Content>({ //other })
  *  publishedAt?: string;
  *  revisedAt?: string;
  *  text: string; // This is Content type.
- * } 
+ * }
  */
 client.getListDetail<Content>({ //other })
 
@@ -318,7 +318,7 @@ client.getListDetail<Content>({ //other })
  *  publishedAt?: string;
  *  revisedAt?: string;
  *  text: string; // This is Content type.
- * } 
+ * }
  */
 client.getObject<Content>({ //other })
 ```
@@ -337,9 +337,9 @@ Write functions can also be performed type-safely.
 
 ```typescript
 type Content = {
-  title: string
-  body?: string
-}
+  title: string;
+  body?: string;
+};
 
 client.create<Content>({
   endpoint: 'endpoint',
@@ -348,7 +348,7 @@ client.create<Content>({
     title: 'title',
     body: 'body',
   },
-})
+});
 
 client.update<Content>({
   endpoint: 'endpoint',
@@ -356,7 +356,7 @@ client.update<Content>({
   content: {
     body: 'body',
   },
-})
+});
 ```
 
 ## CustomRequestInit
@@ -375,7 +375,7 @@ const response = await client.getList({
       revalidate: 60,
     },
   },
-  endpoint: "endpoint",
+  endpoint: 'endpoint',
 });
 ```
 
@@ -384,17 +384,113 @@ const response = await client.getList({
 You can abort fetch requests.
 
 ```ts
-const controller = new AbortController()
+const controller = new AbortController();
 const response = await client.getObject({
   customRequestInit: {
-    signal: controller.signal
+    signal: controller.signal,
   },
-  endpoint: "config",
+  endpoint: 'config',
 });
 
 setTimeout(() => {
-  controller.abort()
-}, 1000)
+  controller.abort();
+}, 1000);
+```
+
+## Management API
+
+Clients can be created for the Management API.
+
+### How to use
+
+First, create a client.
+
+```javascript
+import { createManagementClient } from 'microcms-js-sdk'; //ES6
+
+// Initialize Client SDK.
+const client = createManagementClient({
+  serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
+  apiKey: 'YOUR_API_KEY',
+});
+```
+
+### UploadMedia API
+
+Media files can be uploaded using the 'POST /api/v1/media' endpoint of the Management API.
+
+Node.js
+
+```javascript
+// Blob
+import { readFileSync } from 'fs';
+
+const file = readFileSync('path/to/file');
+client
+  .uploadMedia({
+    data: new Blob([file], { type: 'image/png' }),
+    name: 'image.png',
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+
+// or ReadableStream
+import { createReadStream } from 'fs';
+import { Stream } from 'stream';
+
+const file = createReadStream('path/to/file');
+client
+  .uploadMedia({
+    data: Stream.Readable.toWeb(file),
+    name: 'image.png',
+    type: 'image/png',
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+
+// or URL
+client
+  .uploadMedia({
+    data: 'https://example.com/image.png',
+    // name: 'image.png', ← Optional
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+```
+
+Browser
+
+```javascript
+// File
+const file = document.querySelector('input[type="file"]').files[0];
+client
+  .uploadMedia({
+    data: file,
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+
+// or URL
+client
+  .uploadMedia({
+    data: 'https://example.com/image.png',
+    // name: 'image.png', ← Optional
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+```
+
+### Type Definition
+
+#### UploadMedia
+
+```typescript
+type UploadMediaRequest =
+  | { data: File; name?: undefined; type?: undefined }
+  | { data: Blob; name: string; type?: undefined }
+  | { data: ReadableStream; name: string; type: `image/${string}` }
+  | { data: URL | string; name?: string | null | undefined; type?: undefined };
+function uploadMedia(params: UploadMediaRequest): Promise<{ url: string }>;
 ```
 
 ## Tips
@@ -405,13 +501,12 @@ setTimeout(() => {
 const readClient = createClient({
   serviceDomain: 'serviceDomain',
   apiKey: 'readApiKey',
-})
+});
 const writeClient = createClient({
   serviceDomain: 'serviceDomain',
   apiKey: 'writeApiKey',
-})
+});
 ```
-
 
 # LICENSE
 
