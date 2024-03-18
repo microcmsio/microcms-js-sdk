@@ -172,18 +172,23 @@ export type UploadMediaRequest =
       data: File;
       name?: undefined;
       type?: undefined;
-      requestHeaders?: undefined;
+      customRequestHeaders?: undefined;
     }
-  | { data: Blob; name: string; type?: undefined; requestHeaders?: undefined }
+  | {
+      data: Blob;
+      name: string;
+      type?: undefined;
+      customRequestHeaders?: undefined;
+    }
   | {
       data: ReadableStream;
       name: string;
       type: `image/${string}`;
-      requestHeaders?: undefined;
+      customRequestHeaders?: undefined;
     }
   | {
       data: URL | string;
       name?: string | null | undefined;
       type?: undefined;
-      requestHeaders?: HeadersInit | null | undefined;
+      customRequestHeaders?: HeadersInit | null | undefined;
     };

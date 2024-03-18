@@ -492,7 +492,7 @@ type UploadMediaRequest =
   | {
       data: URL | string;
       name?: string | null | undefined;
-      requestHeaders?: HeadersInit;
+      customRequestHeaders?: HeadersInit;
     };
 function uploadMedia(params: UploadMediaRequest): Promise<{ url: string }>;
 ```
