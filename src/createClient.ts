@@ -23,7 +23,7 @@ import {
   WriteApiRequestResult,
 } from './types';
 import {
-  API_VERSION,
+  API_VERSION_1,
   BASE_DOMAIN,
   MAX_RETRY_COUNT,
   MIN_TIMEOUT_MS,
@@ -50,7 +50,7 @@ export const createClient = ({
   /**
    * Defined microCMS base URL
    */
-  const baseUrl = `https://${serviceDomain}.${BASE_DOMAIN}/api/${API_VERSION}`;
+  const baseUrl = `https://${serviceDomain}.${BASE_DOMAIN}/api/${API_VERSION_1}`;
 
   /**
    * Make request

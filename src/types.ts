@@ -9,6 +9,14 @@ export interface MicroCMSClient {
   retry?: boolean;
 }
 
+/**
+ * microCMS createManagementClient params
+ */
+export interface MicroCMSManagementClient {
+  serviceDomain: string;
+  apiKey: string;
+}
+
 type depthNumber = 0 | 1 | 2 | 3;
 
 /**
@@ -158,3 +166,29 @@ export interface DeleteRequest {
   contentId: string;
   customRequestInit?: CustomRequestInit;
 }
+
+export type UploadMediaRequest =
+  | {
+      data: File;
+      name?: undefined;
+      type?: undefined;
+      customRequestHeaders?: undefined;
+    }
+  | {
+      data: Blob;
+      name: string;
+      type?: undefined;
+      customRequestHeaders?: undefined;
+    }
+  | {
+      data: ReadableStream;
+      name: string;
+      type: `image/${string}`;
+      customRequestHeaders?: undefined;
+    }
+  | {
+      data: URL | string;
+      name?: string | null | undefined;
+      type?: undefined;
+      customRequestHeaders?: HeadersInit | null | undefined;
+    };
