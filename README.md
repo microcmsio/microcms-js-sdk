@@ -21,14 +21,15 @@ or
 $ yarn add microcms-js-sdk
 ```
 
-CDN support.
+> [!WARNING]
+> The hosting service (unpkg.com) is not related to microCMS. For production use, we recommend self-hosting on your own server.
 
 ```html
-<script src="https://unpkg.com/microcms-js-sdk@latest/dist/umd/microcms-js-sdk.js"></script>
+<script src="https://unpkg.com/microcms-js-sdk@3.1.0/dist/umd/microcms-js-sdk.js"></script>
 
 or
 
-<script src="https://unpkg.com/microcms-js-sdk@2.7.0/dist/umd/microcms-js-sdk.js"></script>
+<script src="https://unpkg.com/microcms-js-sdk@latest/dist/umd/microcms-js-sdk.js"></script>
 ```
 
 ### How to use
