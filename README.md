@@ -36,7 +36,7 @@ Download and unzip `microcms-js-sdk-x.y.z.tgz` from the [releases page](https://
 Please load and use the URL provided by an external provider.
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/microcms-js-sdk@3.1.0/dist/umd/microcms-js-sdk.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microcms-js-sdk@3.1.1/dist/umd/microcms-js-sdk.min.js"></script>
 
 or
 
