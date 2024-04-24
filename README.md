@@ -25,8 +25,7 @@ $ yarn add microcms-js-sdk
 
 #### Browser（Self-hosting）
 
-Download and unzip `microcms-js-sdk-x.y.z.zip` from the [releases page](https://github.com/microcmsio/microcms-js-sdk/releases). Then, host it on any server of your choice and use it.
-The target file is `./dist/umd/microcms-js-sdk.js`.
+Download and unzip `microcms-js-sdk-x.y.z.tgz` from the [releases page](https://github.com/microcmsio/microcms-js-sdk/releases). Then, host it on any server of your choice and use it. The target file is `./dist/umd/microcms-js-sdk.js`.
 
 ```html
 <script src="./microcms-js-sdk.js"></script>
@@ -37,11 +36,11 @@ The target file is `./dist/umd/microcms-js-sdk.js`.
 Please load and use the URL provided by an external provider.
 
 ```html
-<script src="https://unpkg.com/microcms-js-sdk@3.1.0/dist/umd/microcms-js-sdk.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microcms-js-sdk@3.1.0/dist/umd/microcms-js-sdk.min.js"></script>
 
 or
 
-<script src="https://unpkg.com/microcms-js-sdk@latest/dist/umd/microcms-js-sdk.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microcms-js-sdk/dist/umd/microcms-js-sdk.min.js"></script>
 ```
 
 > [!WARNING]
