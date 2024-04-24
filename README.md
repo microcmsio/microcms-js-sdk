@@ -8,10 +8,9 @@ It helps you to use microCMS from JavaScript and Node.js applications.
 
 ### Install
 
-Install npm package.
+#### Node.js
 
-> [!IMPORTANT]
-> v3.0.0 or later requires Node.js **v18 or higher**.
+Install npm package.
 
 ```bash
 $ npm install microcms-js-sdk
@@ -21,16 +20,31 @@ or
 $ yarn add microcms-js-sdk
 ```
 
-> [!WARNING]
-> The hosting service (unpkg.com) is not related to microCMS. For production use, we recommend self-hosting on your own server.
+> [!IMPORTANT]
+> v3.0.0 or later requires Node.js **v18 or higher**.
+
+#### Browser（Self-hosting）
+
+Download and unzip `microcms-js-sdk-x.y.z.tgz` from the [releases page](https://github.com/microcmsio/microcms-js-sdk/releases). Then, host it on any server of your choice and use it. The target file is `./dist/umd/microcms-js-sdk.js`.
 
 ```html
-<script src="https://unpkg.com/microcms-js-sdk@3.1.0/dist/umd/microcms-js-sdk.js"></script>
+<script src="./microcms-js-sdk.js"></script>
+```
+
+#### Browser（CDN）
+
+Please load and use the URL provided by an external provider.
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/microcms-js-sdk@3.1.1/dist/umd/microcms-js-sdk.min.js"></script>
 
 or
 
-<script src="https://unpkg.com/microcms-js-sdk@latest/dist/umd/microcms-js-sdk.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microcms-js-sdk/dist/umd/microcms-js-sdk.min.js"></script>
 ```
+
+> [!WARNING]
+> The hosting service (unpkg.com) is not related to microCMS. For production use, we recommend self-hosting on your own server.
 
 ### How to use
 
