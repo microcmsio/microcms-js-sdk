@@ -44,7 +44,7 @@ or
 ```
 
 > [!WARNING]
-> The hosting service (unpkg.com) is not related to microCMS. For production use, we recommend self-hosting on your own server.
+> The hosting service (cdn.jsdelivr.net) is not related to microCMS. For production use, we recommend self-hosting on your own server.
 
 ### How to use
 
