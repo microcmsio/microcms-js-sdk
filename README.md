@@ -4,13 +4,11 @@ It helps you to use microCMS from JavaScript and Node.js applications.
 
 <a href="https://discord.com/invite/K3DPqw4EJ2" target="_blank"><img src="https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white" alt="Discord"></a>
 
+## Tutorial
+See the [official tutorial](https://document.microcms.io/tutorial/javascript/javascript-top).
 ## Getting Started
 
-### Install
-
-#### Node.js
-
-Install npm package.
+### Installation
 
 ```bash
 $ npm install microcms-js-sdk
@@ -46,15 +44,18 @@ or
 > [!WARNING]
 > The hosting service (cdn.jsdelivr.net) is not related to microCMS. For production use, we recommend self-hosting on your own server.
 
-### How to use
+### Usage
 
-First, create a client.
+#### Import
 
 ```javascript
 const { createClient } = require('microcms-js-sdk'); // CommonJS
 import { createClient } from 'microcms-js-sdk'; //ES6
+```
 
-// Initialize Client SDK.
+#### Create client object
+
+```javascript
 const client = createClient({
   serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
   apiKey: 'YOUR_API_KEY',
@@ -62,13 +63,12 @@ const client = createClient({
 });
 ```
 
-When using with a browser.
+#### Using with a browser.
 
 ```html
 <script>
   const { createClient } = microcms;
 
-  // Initialize Client SDK.
   const client = createClient({
     serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
     apiKey: 'YOUR_API_KEY',
@@ -77,39 +77,53 @@ When using with a browser.
 </script>
 ```
 
-After, How to use `get` it below.
+#### Get content list
 
 ```javascript
-client
-  .get({
-    endpoint: 'endpoint',
-    queries: { limit: 20, filters: 'createdAt[greater_than]2021' },
-  })
-  .then((res) => console.log(res))
-  .catch((err) => console.error(err));
-
-client
-  .get({
-    endpoint: 'endpoint',
-    contentId: 'contentId',
-    queries: { fields: 'title,publishedAt' },
-  })
-  .then((res) => console.log(res))
-  .catch((err) => console.error(err));
-```
-
-And, Api corresponding to each content are also available. example.
-
-```javascript
-// Get list API data
 client
   .getList({
     endpoint: 'endpoint',
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
+```
 
-// Get list API detail data
+or
+
+```javascript
+client
+  .get({
+    endpoint: 'endpoint',
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+```
+
+#### Get content list with parameters
+
+```javascript
+client
+  .getList({
+    endpoint: 'endpoint',
+    queries: {
+      draftKey: 'abcd',
+      limit: 100,
+      offset: 1,
+      orders: 'createdAt',
+      q: 'Hello',
+      fields: 'id,title',
+      ids: 'foo',
+      filters: 'publishedAt[greater_than]2021-01-01',
+      depth: 1,
+    }
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+```
+
+#### Get single content
+
+```javascript
 client
   .getListDetail({
     endpoint: 'endpoint',
@@ -117,8 +131,41 @@ client
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
+```
 
-// Get object API data
+or
+
+```javascript
+client
+  .get({
+    endpoint: 'endpoint',
+    contentId: 'contentId',
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+```
+
+#### Get single content with parameters
+
+```javascript
+client
+  .getListDetail({
+    endpoint: 'endpoint',
+    contentId: 'contentId',
+    queries: {
+      draftKey: 'abcd',
+      fields: 'id,title',
+      depth: 1,
+    }
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+
+```
+
+#### Get object form content
+
+```javascript
 client
   .getObject({
     endpoint: 'endpoint',
@@ -127,11 +174,9 @@ client
   .catch((err) => console.error(err));
 ```
 
-#### Get all content ids
+#### Get all contentIds
 
 This function can be used to retrieve all content IDs only.  
-Since `filters` and `draftKey` can also be specified, it is possible to retrieve only the content IDs for a specific category, or to include content from a specific draft. \
-The `alternateField` property can also be used to address cases where the value of a field other than content ID is used in a URL, etc.
 
 ```javascript
 client
@@ -140,8 +185,13 @@ client
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
+```
 
-// Get all content ids with filters
+#### Get all contentIds with filters
+
+It is possible to retrieve only the content IDs for a specific category by specifying the `filters`.
+
+```javascript
 client
   .getAllContentIds({
     endpoint: 'endpoint',
@@ -149,8 +199,13 @@ client
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
+```
 
-// Get all content ids with draftKey
+#### Get all contentIds with draftKey
+
+It is possible to include content from a specific draft by specifying the `draftKey`.
+
+```javascript
 client
   .getAllContentIds({
     endpoint: 'endpoint',
@@ -158,8 +213,13 @@ client
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
+```
 
-// Get all content ids with alternateField
+#### Get all contentIds with alternateField
+
+The `alternateField` property can be used to address cases where the value of a field other than content ID is used in a URL, etc.
+
+```javascript
 client
   .getAllContentIds({
     endpoint: 'endpoint',
@@ -180,8 +240,11 @@ client
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
+```
 
-// with queries
+#### Get all contents with parameters
+
+```javascript
 client
   .getAllContents({
     endpoint: 'endpoint',
@@ -191,12 +254,11 @@ client
   .catch((err) => console.error(err));
 ```
 
-#### CREATE API
+#### Create content
 
 The following is how to use the write system when making a request to the write system API.
 
 ```javascript
-// Create content
 client
   .create({
     endpoint: 'endpoint',
@@ -207,8 +269,11 @@ client
   })
   .then((res) => console.log(res.id))
   .catch((err) => console.error(err));
+```
 
-// Create content with specified ID
+#### Create content with specified ID
+
+```javascript
 client
   .create({
     endpoint: 'endpoint',
@@ -220,7 +285,11 @@ client
   })
   .then((res) => console.log(res.id))
   .catch((err) => console.error(err));
-// Create draft content
+```
+
+#### Create draft content
+
+```javascript
 client
   .create({
     endpoint: 'endpoint',
@@ -234,8 +303,11 @@ client
   })
   .then((res) => console.log(res.id))
   .catch((err) => console.error(err));
+```
 
-// Create draft content with specified ID
+#### Create draft content with specified ID
+
+```javascript
 client
   .create({
     endpoint: 'endpoint',
@@ -252,10 +324,9 @@ client
   .catch((err) => console.error(err));
 ```
 
-### UPDATE API
+#### Update content
 
 ```javascript
-// Update content
 client
   .update({
     endpoint: 'endpoint',
@@ -266,8 +337,11 @@ client
   })
   .then((res) => console.log(res.id))
   .catch((err) => console.error(err));
+```
 
-// Update object form content
+#### Update object form content
+
+```javascript
 client
   .update({
     endpoint: 'endpoint',
@@ -279,10 +353,9 @@ client
   .catch((err) => console.error(err));
 ```
 
-### DELETE API
+#### Delete content
 
 ```javascript
-// Delete content
 client
   .delete({
     endpoint: 'endpoint',
@@ -300,9 +373,12 @@ If you are using TypeScript, use `getList`, `getListDetail`, `getObject`. This i
 type Content = {
   text: string,
 }
+```
 
+#### `getList` response type
+
+```typescript
 /**
- * // getList response type
  * {
  *  contents: Content[]; // This is array type of Content
  *  totalCount: number;
@@ -310,10 +386,13 @@ type Content = {
  *  offset: number;
  * }
  */
-client.getList<Content>({ //other })
+client.getList<Content>({ /* other */ })
+```
 
+#### `getListDetail` response type
+
+```typescript
 /**
- * // getListDetail response type
  * {
  *  id: string;
  *  createdAt: string;
@@ -323,10 +402,13 @@ client.getList<Content>({ //other })
  *  text: string; // This is Content type.
  * }
  */
-client.getListDetail<Content>({ //other })
+client.getListDetail<Content>({ /* other */ })
+```
 
+#### `getObject` response type
+
+```typescript
 /**
- * // getObject response type
  * {
  *  createdAt: string;
  *  updatedAt: string;
@@ -335,20 +417,20 @@ client.getListDetail<Content>({ //other })
  *  text: string; // This is Content type.
  * }
  */
-client.getObject<Content>({ //other })
+
+client.getObject<Content>({ /* other */ })
 ```
 
-The type of `getAllContentIds` is as follows.
+#### `getAllContentIds` response type
 
 ```typescript
 /**
- * // getAllContentIds response type
  * string[] // This is array type of string
  */
-client.getAllContentIds({ //other })
+client.getAllContentIds({ /* other */ })
 ```
 
-Write functions can also be performed type-safely.
+#### `create` response type
 
 ```typescript
 type Content = {
@@ -364,6 +446,15 @@ client.create<Content>({
     body: 'body',
   },
 });
+```
+
+#### `create` response type
+
+```typescript
+type Content = {
+  title: string;
+  body?: string;
+};
 
 client.update<Content>({
   endpoint: 'endpoint',
@@ -416,14 +507,17 @@ setTimeout(() => {
 
 Clients can be created for the Management API.
 
-### How to use
+### Using
 
-First, create a client.
+#### Import
 
 ```javascript
 import { createManagementClient } from 'microcms-js-sdk'; //ES6
+```
 
-// Initialize Client SDK.
+#### Create client object
+
+```javascript
 const client = createManagementClient({
   serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
   apiKey: 'YOUR_API_KEY',
