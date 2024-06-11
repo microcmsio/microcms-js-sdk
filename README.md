@@ -368,16 +368,12 @@ client
 
 If you are using TypeScript, use `getList`, `getListDetail`, `getObject`. This internally contains a common type of content.
 
+#### Response Type for getList Method
+
 ```typescript
-// Type definition
 type Content = {
   text: string,
-}
-```
-
-#### `getList` response type
-
-```typescript
+};
 /**
  * {
  *  contents: Content[]; // This is array type of Content
@@ -389,9 +385,12 @@ type Content = {
 client.getList<Content>({ /* other */ })
 ```
 
-#### `getListDetail` response type
+#### Response Type for getListDetail Method
 
 ```typescript
+type Content = {
+  text: string,
+};
 /**
  * {
  *  id: string;
@@ -405,9 +404,12 @@ client.getList<Content>({ /* other */ })
 client.getListDetail<Content>({ /* other */ })
 ```
 
-#### `getObject` response type
+#### Response Type for getObject Method
 
 ```typescript
+type Content = {
+  text: string,
+};
 /**
  * {
  *  createdAt: string;
@@ -421,7 +423,7 @@ client.getListDetail<Content>({ /* other */ })
 client.getObject<Content>({ /* other */ })
 ```
 
-#### `getAllContentIds` response type
+#### Response Type for getAllContentIds Method
 
 ```typescript
 /**
@@ -430,7 +432,7 @@ client.getObject<Content>({ /* other */ })
 client.getAllContentIds({ /* other */ })
 ```
 
-#### `create` response type
+#### Response Type for create Method
 
 ```typescript
 type Content = {
@@ -448,7 +450,7 @@ client.create<Content>({
 });
 ```
 
-#### `create` response type
+#### Response Type for update Method
 
 ```typescript
 type Content = {
