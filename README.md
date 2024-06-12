@@ -47,7 +47,7 @@ or
 > [!WARNING]
 > The hosting service (cdn.jsdelivr.net) is not related to microCMS. For production use, we recommend self-hosting on your own server.
 
-## Content API
+## Contents API
 
 ### Usage
 
