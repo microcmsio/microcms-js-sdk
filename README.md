@@ -5,6 +5,7 @@ It helps you to use microCMS from JavaScript and Node.js applications.
 <a href="https://discord.com/invite/K3DPqw4EJ2" target="_blank"><img src="https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white" alt="Discord"></a>
 
 ## Tutorial
+
 See the [official tutorial](https://document.microcms.io/tutorial/javascript/javascript-top).
 
 ## Getting Started
@@ -334,7 +335,7 @@ client
 
 #### Update content
 
-The `update` method is used to update content by specifying the `contentId`.
+The `update` method is used to update a single content specified by its ID.
 
 ```javascript
 client
@@ -351,7 +352,7 @@ client
 
 ##### Update object form content
 
-When updating object content, use the `update` method without specifying a `contentId`.
+When updating object content, use the `update` method without specifying a `contentId` property.
 
 ```javascript
 client
@@ -367,7 +368,7 @@ client
 
 #### Delete content
 
-The `delete` method is used to delete content by specifying the `contentId`.
+The `delete` method is used to delete a single content specified by its ID.
 
 > [!WARNING]
 > Only list content APIs are available. Please note that object content APIs cannot be used.
