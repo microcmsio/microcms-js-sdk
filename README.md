@@ -74,7 +74,7 @@ const client = createClient({
 });
 ```
 
-#### Usage with a browser.
+#### Usage with a browser
 
 ```html
 <script>
@@ -548,7 +548,7 @@ const client = createManagementClient({
 });
 ```
 
-#### Usage with a browser.
+#### Usage with a browser
 
 ```html
 <script>
