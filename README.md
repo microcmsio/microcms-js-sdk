@@ -52,11 +52,9 @@ or
 
 ## Contents API
 
-### Usage
+### Import
 
-#### Import
-
-##### Node.js
+#### Node.js
 
 ```javascript
 const { createClient } = require('microcms-js-sdk'); // CommonJS
@@ -68,7 +66,7 @@ or
 import { createClient } from 'microcms-js-sdk'; //ES6
 ```
 
-##### Usage with a browser
+#### Usage with a browser
 
 ```html
 <script>
@@ -76,7 +74,7 @@ import { createClient } from 'microcms-js-sdk'; //ES6
 </script>
 ```
 
-#### Create client object
+### Create client object
 
 ```javascript
 // Initialize Client SDK.
@@ -87,7 +85,7 @@ const client = createClient({
 });
 ```
 
-#### API Methods
+### API Methods
 
 The table below shows each API method of microCMS and indicates which API format (List Format or Object Format) they can be used with using ✔️.
 
@@ -107,7 +105,7 @@ The table below shows each API method of microCMS and indicates which API format
 > - ✔️ in "Object Format" indicates the method can be used when the API type is set to Object Format.
 > - ✔️ in "Both" indicates the method can be used with both List and Object Formats.
 
-#### Get content list
+### Get content list
 
 The `getList` method is used to retrieve a list of content from a specified endpoint.
 
@@ -120,7 +118,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-##### Get content list with parameters
+#### Get content list with parameters
 
 The `queries` property can be used to specify parameters for retrieving content that matches specific criteria. For more details on each available property, refer to the [microCMS Documentation](https://document.microcms.io/content-api/get-list-contents#h929d25d495).
 
@@ -144,7 +142,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-#### Get single content
+### Get single content
 
 The `getListDetail` method is used to retrieve a single content specified by its ID.
 
@@ -158,7 +156,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-##### Get single content with parameters
+#### Get single content with parameters
 
 The `queries` property can be used to specify parameters for retrieving a single content that matches specific criteria. For more details on each available property, refer to the [microCMS Documentation](https://document.microcms.io/content-api/get-content#h929d25d495).
 
@@ -178,7 +176,7 @@ client
 
 ```
 
-#### Get object format content
+### Get object format content
 
 The `getObject` method is used to retrieve a single object format content
 
@@ -191,7 +189,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-#### Get all contentIds
+### Get all contentIds
 
 The `getAllContentIds` method is used to retrieve all content IDs only.  
 
@@ -204,7 +202,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-##### Get all contentIds with filters
+#### Get all contentIds with filters
 
 It is possible to retrieve only the content IDs for a specific category by specifying the `filters`.
 
@@ -218,7 +216,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-##### Get all contentIds with draftKey
+#### Get all contentIds with draftKey
 
 It is possible to include content from a specific draft by specifying the `draftKey`.
 
@@ -232,7 +230,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-##### Get all contentIds with alternateField
+#### Get all contentIds with alternateField
 
 The `alternateField` property can be used to address cases where the value of a field other than content ID is used in a URL, etc.
 
@@ -246,7 +244,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-#### Get all contents
+### Get all contents
 
 The `getAllContents` method is used to retrieve all content data.
 
@@ -259,7 +257,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-##### Get all contents with parameters
+#### Get all contents with parameters
 
 The `queries` property can be used to specify parameters for retrieving all content that matches specific criteria. For more details on each available property, refer to the [microCMS Documentation](https://document.microcms.io/content-api/get-list-contents#h929d25d495).
 
@@ -273,7 +271,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-#### Create content
+### Create content
 
 The `create` method is used to register content.
 
@@ -290,7 +288,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-##### Create content with specified ID
+#### Create content with specified ID
 
 By specifying the `contentId` property, it is possible to register content with a specified ID.
 
@@ -308,7 +306,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-##### Create draft content
+#### Create draft content
 
 By specifying the `isDraft` property, it is possible to register the content as a draft.
 
@@ -328,7 +326,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-##### Create draft content with specified ID
+#### Create draft content with specified ID
 
 By specifying the `contentId` and `isDraft` properties, it is possible to register the content as a draft with a specified ID.
 
@@ -349,7 +347,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-#### Update content
+### Update content
 
 The `update` method is used to update a single content specified by its ID.
 
@@ -366,7 +364,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-##### Update object format content
+#### Update object format content
 
 When updating object content, use the `update` method without specifying a `contentId` property.
 
@@ -382,7 +380,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-#### Delete content
+### Delete content
 
 The `delete` method is used to delete a single content specified by its ID.
 
@@ -500,9 +498,9 @@ client.update<Content>({
 });
 ```
 
-## CustomRequestInit
+### CustomRequestInit
 
-### Next.js App Router
+#### Next.js App Router
 
 You can now use the fetch option of the Next.js App Router as CustomRequestInit.
 Please refer to the official Next.js documentation as the available options depend on the Next.js Type file.
@@ -520,7 +518,7 @@ const response = await client.getList({
 });
 ```
 
-### AbortController: abort() method
+#### AbortController: abort() method
 
 You can abort fetch requests.
 
@@ -540,11 +538,9 @@ setTimeout(() => {
 
 ## Management API
 
-### Usage
+### Import
 
-#### Import
-
-##### Node.js
+#### Node.js
 
 ```javascript
 const { createManagementClient } = require('microcms-js-sdk'); // CommonJS
@@ -556,7 +552,7 @@ or
 import { createManagementClient } from 'microcms-js-sdk'; //ES6
 ```
 
-##### Usage with a browser
+#### Usage with a browser
 
 ```html
 <script>
@@ -564,7 +560,7 @@ import { createManagementClient } from 'microcms-js-sdk'; //ES6
 </script>
 ```
 
-#### Create client object
+### Create client object
 
 ```javascript
 const client = createManagementClient({
@@ -573,11 +569,11 @@ const client = createManagementClient({
 });
 ```
 
-#### Upload Media
+### Upload Media
 
 Media files can be uploaded using the 'POST /api/v1/media' endpoint of the Management API.
 
-##### Node.js
+#### Node.js
 
 ```javascript
 // Blob
@@ -616,7 +612,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-##### Browser
+#### Browser
 
 ```javascript
 // File
