@@ -68,7 +68,7 @@ or
 import { createClient } from 'microcms-js-sdk'; //ES6
 ```
 
-#### Usage with a browser
+##### Usage with a browser
 
 ```html
 <script>
