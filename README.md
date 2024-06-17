@@ -89,15 +89,6 @@ const client = createClient({
 
 #### API Methods
 
-<style>
-  table {
-    width: 100%;
-  }
-  th, td {
-    text-align: center;
-    padding: 8px;
-  }
-</style>
 The table below shows each API method of microCMS and indicates which API format (List Format or Object Format) they can be used with using ✔️.
 
 | Method            | List Format | Object Format | Both |
@@ -132,7 +123,6 @@ client
 ##### Get content list with parameters
 
 The `queries` property can be used to specify parameters for retrieving content that matches specific criteria. For more details on each available property, refer to the [microCMS Documentation](https://document.microcms.io/content-api/get-list-contents#h929d25d495).
-
 
 ```javascript
 client
