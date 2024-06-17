@@ -39,9 +39,11 @@ Please load and use the URL provided by an external provider.
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/microcms-js-sdk@3.1.1/dist/umd/microcms-js-sdk.min.js"></script>
+```
 
 or
 
+```html
 <script src="https://cdn.jsdelivr.net/npm/microcms-js-sdk/dist/umd/microcms-js-sdk.min.js"></script>
 ```
 
@@ -54,6 +56,8 @@ or
 
 #### Import
 
+##### Node.js
+
 ```javascript
 const { createClient } = require('microcms-js-sdk'); // CommonJS
 ```
@@ -64,9 +68,18 @@ or
 import { createClient } from 'microcms-js-sdk'; //ES6
 ```
 
+#### Usage with a browser
+
+```html
+<script>
+  const { createClient } = microcms;
+</script>
+```
+
 #### Create client object
 
 ```javascript
+// Initialize Client SDK.
 const client = createClient({
   serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
   apiKey: 'YOUR_API_KEY',
@@ -74,19 +87,34 @@ const client = createClient({
 });
 ```
 
-#### Usage with a browser
+#### API Methods
 
-```html
-<script>
-  const { createClient } = microcms;
+<style>
+  table {
+    width: 100%;
+  }
+  th, td {
+    text-align: center;
+    padding: 8px;
+  }
+</style>
+The table below shows each API method of microCMS and indicates which API format (List Format or Object Format) they can be used with using ✔️.
 
-  const client = createClient({
-    serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
-    apiKey: 'YOUR_API_KEY',
-    // retry: true // Retry attempts up to a maximum of two times.
-  });
-</script>
-```
+| Method            | List Format | Object Format | Both |
+|-------------------|-------------|---------------|------|
+| getList           | ✔️          |               |      |
+| getListDetail     | ✔️          |               |      |
+| getObject         |             | ✔️            |      |
+| getAllContentIds  | ✔️          |               |      |
+| getAllContents    | ✔️          |               |      |
+| create            | ✔️          |               |      |
+| update            |             |               | ✔️   |
+| delete            | ✔️          |               |      |
+
+> [!NOTE]
+> - ✔️ in "List Format" indicates the method can be used when the API type is set to List Format.
+> - ✔️ in "Object Format" indicates the method can be used when the API type is set to Object Format.
+> - ✔️ in "Both" indicates the method can be used with both List and Object Formats.
 
 #### Get content list
 
@@ -103,7 +131,8 @@ client
 
 ##### Get content list with parameters
 
-The `queries` property can be used to specify parameters for retrieving content that matches specific criteria.
+The `queries` property can be used to specify parameters for retrieving content that matches specific criteria. For more details on each available property, refer to the [microCMS Documentation](https://document.microcms.io/content-api/get-list-contents#h929d25d495).
+
 
 ```javascript
 client
@@ -117,7 +146,7 @@ client
       q: 'Hello',
       fields: 'id,title',
       ids: 'foo',
-      filters: 'publishedAt[greater_than]2021-01-01',
+      filters: 'publishedAt[greater_than]2021-01-01T03:00:00.000Z',
       depth: 1,
     }
   })
@@ -141,7 +170,7 @@ client
 
 ##### Get single content with parameters
 
-The `queries` property can be used to specify parameters for retrieving a single content that matches specific criteria.
+The `queries` property can be used to specify parameters for retrieving a single content that matches specific criteria. For more details on each available property, refer to the [microCMS Documentation](https://document.microcms.io/content-api/get-content#h929d25d495).
 
 ```javascript
 client
@@ -159,9 +188,9 @@ client
 
 ```
 
-#### Get object form content
+#### Get object format content
 
-The `getObject` method is used to retrieve a single object form content
+The `getObject` method is used to retrieve a single object format content
 
 ```javascript
 client
@@ -242,13 +271,13 @@ client
 
 ##### Get all contents with parameters
 
-The `queries` property can be used to specify parameters for retrieving all content that matches specific criteria.
+The `queries` property can be used to specify parameters for retrieving all content that matches specific criteria. For more details on each available property, refer to the [microCMS Documentation](https://document.microcms.io/content-api/get-list-contents#h929d25d495).
 
 ```javascript
 client
   .getAllContents({
     endpoint: 'endpoint',
-    queries: { filters: 'createdAt[greater_than]2021', orders: '-createdAt' },
+    queries: { filters: 'createdAt[greater_than]2021-01-01T03:00:00.000Z', orders: '-createdAt' },
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
@@ -257,9 +286,6 @@ client
 #### Create content
 
 The `create` method is used to register content.
-
-> [!WARNING]
-> Only list content APIs are available. Please note that object content APIs cannot be used.
 
 ```javascript
 client
@@ -350,7 +376,7 @@ client
   .catch((err) => console.error(err));
 ```
 
-##### Update object form content
+##### Update object format content
 
 When updating object content, use the `update` method without specifying a `contentId` property.
 
@@ -369,9 +395,6 @@ client
 #### Delete content
 
 The `delete` method is used to delete a single content specified by its ID.
-
-> [!WARNING]
-> Only list content APIs are available. Please note that object content APIs cannot be used.
 
 ```javascript
 client
@@ -450,7 +473,9 @@ client.getObject<Content>({ /* other */ })
 client.getAllContentIds({ /* other */ })
 ```
 
-#### Response Type for create Method
+#### create Method with Type Safety
+
+Since `content` will be of type `Content`, no required fields will be missed.
 
 ```typescript
 type Content = {
@@ -460,7 +485,6 @@ type Content = {
 
 client.create<Content>({
   endpoint: 'endpoint',
-  // Since `content` will be of type `Content`, no required fields will be missed.
   content: {
     title: 'title',
     body: 'body',
@@ -468,7 +492,9 @@ client.create<Content>({
 });
 ```
 
-#### Response Type for update Method
+#### update Method with Type Safety
+
+ The `content` will be of type `Partial<Content>`, so you can enter only the items needed for the update.
 
 ```typescript
 type Content = {
@@ -478,7 +504,6 @@ type Content = {
 
 client.update<Content>({
   endpoint: 'endpoint',
-  // The `content` will be of type `Partial<Content>`, so you can enter only the items needed for the update.
   content: {
     body: 'body',
   },
@@ -529,6 +554,8 @@ setTimeout(() => {
 
 #### Import
 
+##### Node.js
+
 ```javascript
 const { createManagementClient } = require('microcms-js-sdk'); // CommonJS
 ```
@@ -539,6 +566,14 @@ or
 import { createManagementClient } from 'microcms-js-sdk'; //ES6
 ```
 
+##### Usage with a browser
+
+```html
+<script>
+  const { createManagementClient } = microcms;
+</script>
+```
+
 #### Create client object
 
 ```javascript
@@ -546,19 +581,6 @@ const client = createManagementClient({
   serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
   apiKey: 'YOUR_API_KEY',
 });
-```
-
-#### Usage with a browser
-
-```html
-<script>
-  const { createClient } = microcms;
-
-  const client = createManagementClient({
-    serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
-    apiKey: 'YOUR_API_KEY',
-  });
-</script>
 ```
 
 #### Upload Media
