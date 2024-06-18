@@ -8,7 +8,7 @@ It helps you to use microCMS from JavaScript and Node.js applications.
 
 See the [official tutorial](https://document.microcms.io/tutorial/javascript/javascript-top).
 
-## Getting Started
+## Getting started
 
 ### Installation
 
@@ -87,23 +87,22 @@ const client = createClient({
 
 ### API Methods
 
-The table below shows each API method of microCMS and indicates which API format (List Format or Object Format) they can be used with using ✔️.
+The table below shows each API method of microCMS JavaScript SDK and indicates which API format (List Format or Object Format) they can be used with using ✔️.
 
-| Method            | List Format | Object Format | Both |
-|-------------------|-------------|---------------|------|
-| getList           | ✔️          |               |      |
-| getListDetail     | ✔️          |               |      |
-| getObject         |             | ✔️            |      |
-| getAllContentIds  | ✔️          |               |      |
-| getAllContents    | ✔️          |               |      |
-| create            | ✔️          |               |      |
-| update            |             |               | ✔️   |
-| delete            | ✔️          |               |      |
+| Method            | List Format | Object Format |
+|-------------------|-------------|---------------|
+| getList           | ✔️          |               |
+| getListDetail     | ✔️          |               |
+| getObject         |            | ✔️             |
+| getAllContentIds  | ✔️          |               |
+| getAllContents    | ✔️          |               |
+| create            | ✔️          |               |
+| update            | ✔️          | ✔️             |
+| delete            | ✔️          |               |
 
 > [!NOTE]
 > - ✔️ in "List Format" indicates the method can be used when the API type is set to List Format.
 > - ✔️ in "Object Format" indicates the method can be used when the API type is set to Object Format.
-> - ✔️ in "Both" indicates the method can be used with both List and Object Formats.
 
 ### Get content list
 
@@ -397,7 +396,7 @@ client
 
 If you are using TypeScript, use `getList`, `getListDetail`, `getObject`. This internally contains a common type of content.
 
-#### Response Type for getList Method
+#### Response type for getList method
 
 ```typescript
 type Content = {
@@ -414,7 +413,7 @@ type Content = {
 client.getList<Content>({ /* other */ })
 ```
 
-#### Response Type for getListDetail Method
+#### Response type for getListDetail method
 
 ```typescript
 type Content = {
@@ -433,7 +432,7 @@ type Content = {
 client.getListDetail<Content>({ /* other */ })
 ```
 
-#### Response Type for getObject Method
+#### Response type for getObject method
 
 ```typescript
 type Content = {
@@ -452,7 +451,7 @@ type Content = {
 client.getObject<Content>({ /* other */ })
 ```
 
-#### Response Type for getAllContentIds Method
+#### Response type for getAllContentIds method
 
 ```typescript
 /**
@@ -461,7 +460,7 @@ client.getObject<Content>({ /* other */ })
 client.getAllContentIds({ /* other */ })
 ```
 
-#### create Method with Type Safety
+#### Create method with type safety
 
 Since `content` will be of type `Content`, no required fields will be missed.
 
@@ -480,7 +479,7 @@ client.create<Content>({
 });
 ```
 
-#### update Method with Type Safety
+#### Update method with type safety
 
  The `content` will be of type `Partial<Content>`, so you can enter only the items needed for the update.
 
@@ -569,7 +568,7 @@ const client = createManagementClient({
 });
 ```
 
-### Upload Media
+### Upload media
 
 Media files can be uploaded using the 'POST /api/v1/media' endpoint of the Management API.
 
@@ -636,7 +635,7 @@ client
 
 ### TypeScript
 
-#### Parameter Type for uploadMedia Method
+#### Parameter type for uploadMedia method
 
 ```typescript
 type UploadMediaRequest =
