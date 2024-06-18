@@ -85,7 +85,7 @@ const client = createClient({
 });
 ```
 
-### API Methods
+### API methods
 
 The table below shows each API method of microCMS JavaScript SDK and indicates which API format (List Format or Object Format) they can be used with using ✔️.
 
