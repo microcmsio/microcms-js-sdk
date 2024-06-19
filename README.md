@@ -4,13 +4,15 @@ It helps you to use microCMS from JavaScript and Node.js applications.
 
 <a href="https://discord.com/invite/K3DPqw4EJ2" target="_blank"><img src="https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white" alt="Discord"></a>
 
-## Getting Started
+## Tutorial
 
-### Install
+See the [official tutorial](https://document.microcms.io/tutorial/javascript/javascript-top).
+
+## Getting started
+
+### Installation
 
 #### Node.js
-
-Install npm package.
 
 ```bash
 $ npm install microcms-js-sdk
@@ -37,23 +39,44 @@ Please load and use the URL provided by an external provider.
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/microcms-js-sdk@3.1.1/dist/umd/microcms-js-sdk.min.js"></script>
+```
 
 or
 
+```html
 <script src="https://cdn.jsdelivr.net/npm/microcms-js-sdk/dist/umd/microcms-js-sdk.min.js"></script>
 ```
 
 > [!WARNING]
 > The hosting service (cdn.jsdelivr.net) is not related to microCMS. For production use, we recommend self-hosting on your own server.
 
-### How to use
+## Contents API
 
-First, create a client.
+### Import
+
+#### Node.js
 
 ```javascript
 const { createClient } = require('microcms-js-sdk'); // CommonJS
-import { createClient } from 'microcms-js-sdk'; //ES6
+```
 
+or
+
+```javascript
+import { createClient } from 'microcms-js-sdk'; //ES6
+```
+
+#### Usage with a browser
+
+```html
+<script>
+  const { createClient } = microcms;
+</script>
+```
+
+### Create client object
+
+```javascript
 // Initialize Client SDK.
 const client = createClient({
   serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
@@ -62,54 +85,67 @@ const client = createClient({
 });
 ```
 
-When using with a browser.
+### API methods
 
-```html
-<script>
-  const { createClient } = microcms;
+The table below shows each API method of microCMS JavaScript SDK and indicates which API format (List Format or Object Format) they can be used with using ✔️.
 
-  // Initialize Client SDK.
-  const client = createClient({
-    serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
-    apiKey: 'YOUR_API_KEY',
-    // retry: true // Retry attempts up to a maximum of two times.
-  });
-</script>
-```
+| Method            | List Format | Object Format |
+|-------------------|-------------|---------------|
+| getList           | ✔️          |               |
+| getListDetail     | ✔️          |               |
+| getObject         |            | ✔️             |
+| getAllContentIds  | ✔️          |               |
+| getAllContents    | ✔️          |               |
+| create            | ✔️          |               |
+| update            | ✔️          | ✔️             |
+| delete            | ✔️          |               |
 
-After, How to use `get` it below.
+> [!NOTE]
+> - ✔️ in "List Format" indicates the method can be used when the API type is set to List Format.
+> - ✔️ in "Object Format" indicates the method can be used when the API type is set to Object Format.
 
-```javascript
-client
-  .get({
-    endpoint: 'endpoint',
-    queries: { limit: 20, filters: 'createdAt[greater_than]2021' },
-  })
-  .then((res) => console.log(res))
-  .catch((err) => console.error(err));
+### Get content list
 
-client
-  .get({
-    endpoint: 'endpoint',
-    contentId: 'contentId',
-    queries: { fields: 'title,publishedAt' },
-  })
-  .then((res) => console.log(res))
-  .catch((err) => console.error(err));
-```
-
-And, Api corresponding to each content are also available. example.
+The `getList` method is used to retrieve a list of content from a specified endpoint.
 
 ```javascript
-// Get list API data
 client
   .getList({
     endpoint: 'endpoint',
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
+```
 
-// Get list API detail data
+#### Get content list with parameters
+
+The `queries` property can be used to specify parameters for retrieving content that matches specific criteria. For more details on each available property, refer to the [microCMS Documentation](https://document.microcms.io/content-api/get-list-contents#h929d25d495).
+
+```javascript
+client
+  .getList({
+    endpoint: 'endpoint',
+    queries: {
+      draftKey: 'abcd',
+      limit: 100,
+      offset: 1,
+      orders: 'createdAt',
+      q: 'Hello',
+      fields: 'id,title',
+      ids: 'foo',
+      filters: 'publishedAt[greater_than]2021-01-01T03:00:00.000Z',
+      depth: 1,
+    }
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+```
+
+### Get single content
+
+The `getListDetail` method is used to retrieve a single content specified by its ID.
+
+```javascript
 client
   .getListDetail({
     endpoint: 'endpoint',
@@ -117,8 +153,33 @@ client
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
+```
 
-// Get object API data
+#### Get single content with parameters
+
+The `queries` property can be used to specify parameters for retrieving a single content that matches specific criteria. For more details on each available property, refer to the [microCMS Documentation](https://document.microcms.io/content-api/get-content#h929d25d495).
+
+```javascript
+client
+  .getListDetail({
+    endpoint: 'endpoint',
+    contentId: 'contentId',
+    queries: {
+      draftKey: 'abcd',
+      fields: 'id,title',
+      depth: 1,
+    }
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+
+```
+
+### Get object format content
+
+The `getObject` method is used to retrieve a single object format content
+
+```javascript
 client
   .getObject({
     endpoint: 'endpoint',
@@ -127,11 +188,9 @@ client
   .catch((err) => console.error(err));
 ```
 
-#### Get all content ids
+### Get all contentIds
 
-This function can be used to retrieve all content IDs only.  
-Since `filters` and `draftKey` can also be specified, it is possible to retrieve only the content IDs for a specific category, or to include content from a specific draft. \
-The `alternateField` property can also be used to address cases where the value of a field other than content ID is used in a URL, etc.
+The `getAllContentIds` method is used to retrieve all content IDs only.  
 
 ```javascript
 client
@@ -140,8 +199,13 @@ client
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
+```
 
-// Get all content ids with filters
+#### Get all contentIds with filters
+
+It is possible to retrieve only the content IDs for a specific category by specifying the `filters`.
+
+```javascript
 client
   .getAllContentIds({
     endpoint: 'endpoint',
@@ -149,8 +213,13 @@ client
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
+```
 
-// Get all content ids with draftKey
+#### Get all contentIds with draftKey
+
+It is possible to include content from a specific draft by specifying the `draftKey`.
+
+```javascript
 client
   .getAllContentIds({
     endpoint: 'endpoint',
@@ -158,8 +227,13 @@ client
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
+```
 
-// Get all content ids with alternateField
+#### Get all contentIds with alternateField
+
+The `alternateField` property can be used to address cases where the value of a field other than content ID is used in a URL, etc.
+
+```javascript
 client
   .getAllContentIds({
     endpoint: 'endpoint',
@@ -169,34 +243,38 @@ client
   .catch((err) => console.error(err));
 ```
 
-#### Get all contents
+### Get all contents
 
-This function can be used to retrieve all content data.
+The `getAllContents` method is used to retrieve all content data.
 
 ```javascript
 client
   .getAllContents({
     endpoint: 'endpoint',
-  })
-  .then((res) => console.log(res))
-  .catch((err) => console.error(err));
-
-// with queries
-client
-  .getAllContents({
-    endpoint: 'endpoint',
-    queries: { filters: 'createdAt[greater_than]2021', orders: '-createdAt' },
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
 ```
 
-#### CREATE API
+#### Get all contents with parameters
 
-The following is how to use the write system when making a request to the write system API.
+The `queries` property can be used to specify parameters for retrieving all content that matches specific criteria. For more details on each available property, refer to the [microCMS Documentation](https://document.microcms.io/content-api/get-list-contents#h929d25d495).
 
 ```javascript
-// Create content
+client
+  .getAllContents({
+    endpoint: 'endpoint',
+    queries: { filters: 'createdAt[greater_than]2021-01-01T03:00:00.000Z', orders: '-createdAt' },
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+```
+
+### Create content
+
+The `create` method is used to register content.
+
+```javascript
 client
   .create({
     endpoint: 'endpoint',
@@ -207,8 +285,13 @@ client
   })
   .then((res) => console.log(res.id))
   .catch((err) => console.error(err));
+```
 
-// Create content with specified ID
+#### Create content with specified ID
+
+By specifying the `contentId` property, it is possible to register content with a specified ID.
+
+```javascript
 client
   .create({
     endpoint: 'endpoint',
@@ -220,7 +303,13 @@ client
   })
   .then((res) => console.log(res.id))
   .catch((err) => console.error(err));
-// Create draft content
+```
+
+#### Create draft content
+
+By specifying the `isDraft` property, it is possible to register the content as a draft.
+
+```javascript
 client
   .create({
     endpoint: 'endpoint',
@@ -234,8 +323,13 @@ client
   })
   .then((res) => console.log(res.id))
   .catch((err) => console.error(err));
+```
 
-// Create draft content with specified ID
+#### Create draft content with specified ID
+
+By specifying the `contentId` and `isDraft` properties, it is possible to register the content as a draft with a specified ID.
+
+```javascript
 client
   .create({
     endpoint: 'endpoint',
@@ -252,10 +346,11 @@ client
   .catch((err) => console.error(err));
 ```
 
-### UPDATE API
+### Update content
+
+The `update` method is used to update a single content specified by its ID.
 
 ```javascript
-// Update content
 client
   .update({
     endpoint: 'endpoint',
@@ -266,8 +361,13 @@ client
   })
   .then((res) => console.log(res.id))
   .catch((err) => console.error(err));
+```
 
-// Update object form content
+#### Update object format content
+
+When updating object content, use the `update` method without specifying a `contentId` property.
+
+```javascript
 client
   .update({
     endpoint: 'endpoint',
@@ -279,10 +379,11 @@ client
   .catch((err) => console.error(err));
 ```
 
-### DELETE API
+### Delete content
+
+The `delete` method is used to delete a single content specified by its ID.
 
 ```javascript
-// Delete content
 client
   .delete({
     endpoint: 'endpoint',
@@ -295,14 +396,13 @@ client
 
 If you are using TypeScript, use `getList`, `getListDetail`, `getObject`. This internally contains a common type of content.
 
+#### Response type for getList method
+
 ```typescript
-// Type definition
 type Content = {
   text: string,
-}
-
+};
 /**
- * // getList response type
  * {
  *  contents: Content[]; // This is array type of Content
  *  totalCount: number;
@@ -310,10 +410,16 @@ type Content = {
  *  offset: number;
  * }
  */
-client.getList<Content>({ //other })
+client.getList<Content>({ /* other */ })
+```
 
+#### Response type for getListDetail method
+
+```typescript
+type Content = {
+  text: string,
+};
 /**
- * // getListDetail response type
  * {
  *  id: string;
  *  createdAt: string;
@@ -323,10 +429,16 @@ client.getList<Content>({ //other })
  *  text: string; // This is Content type.
  * }
  */
-client.getListDetail<Content>({ //other })
+client.getListDetail<Content>({ /* other */ })
+```
 
+#### Response type for getObject method
+
+```typescript
+type Content = {
+  text: string,
+};
 /**
- * // getObject response type
  * {
  *  createdAt: string;
  *  updatedAt: string;
@@ -335,20 +447,22 @@ client.getListDetail<Content>({ //other })
  *  text: string; // This is Content type.
  * }
  */
-client.getObject<Content>({ //other })
+
+client.getObject<Content>({ /* other */ })
 ```
 
-The type of `getAllContentIds` is as follows.
+#### Response type for getAllContentIds method
 
 ```typescript
 /**
- * // getAllContentIds response type
  * string[] // This is array type of string
  */
-client.getAllContentIds({ //other })
+client.getAllContentIds({ /* other */ })
 ```
 
-Write functions can also be performed type-safely.
+#### Create method with type safety
+
+Since `content` will be of type `Content`, no required fields will be missed.
 
 ```typescript
 type Content = {
@@ -358,25 +472,34 @@ type Content = {
 
 client.create<Content>({
   endpoint: 'endpoint',
-  // Since `content` will be of type `Content`, no required fields will be missed.
   content: {
     title: 'title',
     body: 'body',
   },
 });
+```
+
+#### Update method with type safety
+
+ The `content` will be of type `Partial<Content>`, so you can enter only the items needed for the update.
+
+```typescript
+type Content = {
+  title: string;
+  body?: string;
+};
 
 client.update<Content>({
   endpoint: 'endpoint',
-  // The `content` will be of type `Partial<Content>`, so you can enter only the items needed for the update.
   content: {
     body: 'body',
   },
 });
 ```
 
-## CustomRequestInit
+### CustomRequestInit
 
-### Next.js App Router
+#### Next.js App Router
 
 You can now use the fetch option of the Next.js App Router as CustomRequestInit.
 Please refer to the official Next.js documentation as the available options depend on the Next.js Type file.
@@ -394,7 +517,7 @@ const response = await client.getList({
 });
 ```
 
-### AbortController: abort() method
+#### AbortController: abort() method
 
 You can abort fetch requests.
 
@@ -414,23 +537,38 @@ setTimeout(() => {
 
 ## Management API
 
-Clients can be created for the Management API.
+### Import
 
-### How to use
+#### Node.js
 
-First, create a client.
+```javascript
+const { createManagementClient } = require('microcms-js-sdk'); // CommonJS
+```
+
+or
 
 ```javascript
 import { createManagementClient } from 'microcms-js-sdk'; //ES6
+```
 
-// Initialize Client SDK.
+#### Usage with a browser
+
+```html
+<script>
+  const { createManagementClient } = microcms;
+</script>
+```
+
+### Create client object
+
+```javascript
 const client = createManagementClient({
   serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
   apiKey: 'YOUR_API_KEY',
 });
 ```
 
-### UploadMedia API
+### Upload media
 
 Media files can be uploaded using the 'POST /api/v1/media' endpoint of the Management API.
 
@@ -495,9 +633,9 @@ client
   .catch((err) => console.error(err));
 ```
 
-### Type Definition
+### TypeScript
 
-#### UploadMedia
+#### Parameter type for uploadMedia method
 
 ```typescript
 type UploadMediaRequest =
