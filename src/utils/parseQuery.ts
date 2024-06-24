@@ -14,7 +14,9 @@ export const parseQuery = (queries: MicroCMSQueries): string => {
   const queryString = new URLSearchParams(
     Object.entries(queries).reduce(
       (acc, [key, value]) => {
-        acc[key] = String(value);
+        if (value !== undefined) {
+          acc[key] = String(value);
+        }
         return acc;
       },
       {} as Record<string, string>,
