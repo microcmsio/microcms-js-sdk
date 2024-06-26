@@ -1,60 +1,62 @@
 # microCMS JavaScript SDK
 
-[日本語版 README](README_jp.md)
+[English README](README.md)
 
-It helps you to use microCMS from JavaScript and Node.js applications.
+JavaScriptやNode.jsのアプリケーションからmicroCMSのAPIと簡単に通信できます。
 
 <a href="https://discord.com/invite/K3DPqw4EJ2" target="_blank"><img src="https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white" alt="Discord"></a>
 
-## Tutorial
 
-See the [official tutorial](https://document.microcms.io/tutorial/javascript/javascript-top).
+## チュートリアル
 
-## Getting started
+公式ドキュメントの [チュートリアル](https://document.microcms.io/tutorial/javascript/javascript-top)をご覧ください。
 
-### Installation
+## はじめに
+
+### インストール
 
 #### Node.js
 
 ```bash
 $ npm install microcms-js-sdk
 
-or
+または
 
 $ yarn add microcms-js-sdk
 ```
 
 > [!IMPORTANT]
-> v3.0.0 or later requires Node.js **v18 or higher**.
+> v3.0.0以上を使用する場合は、Node.jsのv18以上が必要です。
 
-#### Browser（Self-hosting）
+#### ブラウザ（セルフホスティング）
 
-Download and unzip `microcms-js-sdk-x.y.z.tgz` from the [releases page](https://github.com/microcmsio/microcms-js-sdk/releases). Then, host it on any server of your choice and use it. The target file is `./dist/umd/microcms-js-sdk.js`.
+[リリースページ](https://github.com/microcmsio/microcms-js-sdk/releases)から`microcms-js-sdk-x.y.z.tgz`をダウンロードして解凍してください。その後、お好みのサーバーにアップロードして使用してください。対象ファイルは `./dist/umd/microcms-js-sdk.js` です。
+
 
 ```html
 <script src="./microcms-js-sdk.js"></script>
 ```
 
-#### Browser（CDN）
+#### ブラウザ（CDN）
 
-Please load and use the URL provided by an external provider.
+外部プロバイダーが提供するURLを読み込んでご利用ください。
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/microcms-js-sdk@3.1.1/dist/umd/microcms-js-sdk.min.js"></script>
 ```
 
-or
+または
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/microcms-js-sdk/dist/umd/microcms-js-sdk.min.js"></script>
 ```
 
 > [!WARNING]
-> The hosting service (cdn.jsdelivr.net) is not related to microCMS. For production use, we recommend self-hosting on your own server.
+> ホスティングサービス（cdn.jsdelivr.net）はmicroCMSとは関係ありません。本番環境でのご利用には、お客様のサーバーでのセルフホスティングをお勧めします。
 
-## Contents API
+## コンテンツAPI
 
-### Import
+### インポート
 
 #### Node.js
 
@@ -62,13 +64,13 @@ or
 const { createClient } = require('microcms-js-sdk'); // CommonJS
 ```
 
-or
+または
 
 ```javascript
 import { createClient } from 'microcms-js-sdk'; //ES6
 ```
 
-#### Usage with a browser
+#### ブラウザでの使用方法
 
 ```html
 <script>
@@ -76,22 +78,22 @@ import { createClient } from 'microcms-js-sdk'; //ES6
 </script>
 ```
 
-### Create client object
+### クライアントオブジェクトの作成
 
 ```javascript
-// Initialize Client SDK.
+// クライアントオブジェクトを作成します。
 const client = createClient({
-  serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
+  serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAINはXXXX.microcms.ioのXXXXの部分です。
   apiKey: 'YOUR_API_KEY',
-  // retry: true // Retry attempts up to a maximum of two times.
+  // retry: true // 最大2回まで再試行します。
 });
 ```
 
-### API methods
+### APIメソッド
 
-The table below shows each API method of microCMS JavaScript SDK and indicates which API format (List Format or Object Format) they can be used with using ✔️.
+以下の表は、microCMS JavaScript SDKの各メソッドがリスト形式のAPIまたはオブジェクト形式のAPI、どちらで使用できるかを示しています。
 
-| Method            | List Format | Object Format |
+| メソッド            | リスト形式 | オブジェクト形式 |
 |-------------------|-------------|---------------|
 | getList           | ✔️          |               |
 | getListDetail     | ✔️          |               |
@@ -103,12 +105,12 @@ The table below shows each API method of microCMS JavaScript SDK and indicates w
 | delete            | ✔️          |               |
 
 > [!NOTE]
-> - ✔️ in "List Format" indicates the method can be used when the API type is set to List Format.
-> - ✔️ in "Object Format" indicates the method can be used when the API type is set to Object Format.
+> - 「リスト形式」✔️は、APIの型がリスト形式に設定されている場合に使用できるメソッドを示します。
+> - 「オブジェクト形式」の✔️は、APIの型がオブジェクト形式に設定されている場合に使用できるメソッドを示します。
 
-### Get content list
+### コンテンツ一覧の取得
 
-The `getList` method is used to retrieve a list of content from a specified endpoint.
+`getList`メソッドは、指定されたエンドポイントからコンテンツ一覧を取得するために使用します。
 
 ```javascript
 client
@@ -119,9 +121,9 @@ client
   .catch((err) => console.error(err));
 ```
 
-#### Get content list with parameters
+#### queriesプロパティを使用したコンテンツ一覧の取得
 
-The `queries` property can be used to specify parameters for retrieving content that matches specific criteria. For more details on each available property, refer to the [microCMS Documentation](https://document.microcms.io/content-api/get-list-contents#h929d25d495).
+`queries`プロパティを使用して、特定の条件に一致するコンテンツ一覧を取得できます。利用可能な各プロパティの詳細については、[microCMSのドキュメント](https://document.microcms.io/content-api/get-list-contents#h929d25d495)を参照してください。
 
 ```javascript
 client
@@ -132,7 +134,7 @@ client
       limit: 100,
       offset: 1,
       orders: 'createdAt',
-      q: 'Hello',
+      q: 'こんにちは',
       fields: 'id,title',
       ids: 'foo',
       filters: 'publishedAt[greater_than]2021-01-01T03:00:00.000Z',
@@ -143,9 +145,9 @@ client
   .catch((err) => console.error(err));
 ```
 
-### Get single content
+### 単一コンテンツの取得
 
-The `getListDetail` method is used to retrieve a single content specified by its ID.
+`getListDetail`メソッドは、指定されたエンドポイントから、IDで指定された単一コンテンツを取得するために使用します。
 
 ```javascript
 client
@@ -157,9 +159,9 @@ client
   .catch((err) => console.error(err));
 ```
 
-#### Get single content with parameters
+#### queriesプロパティを使用した単一コンテンツの取得
 
-The `queries` property can be used to specify parameters for retrieving a single content that matches specific criteria. For more details on each available property, refer to the [microCMS Documentation](https://document.microcms.io/content-api/get-content#h929d25d495).
+`queries`プロパティを使用して、特定の条件に一致する単一コンテンツを取得できます。利用可能な各プロパティの詳細については、[microCMSのドキュメント](https://document.microcms.io/content-api/get-content#h929d25d495)を参照してください。
 
 ```javascript
 client
@@ -177,9 +179,9 @@ client
 
 ```
 
-### Get object format content
+### オブジェクト形式のコンテンツの取得
 
-The `getObject` method is used to retrieve a single object format content
+`getObject`メソッドは、指定されたエンドポイントからオブジェクト形式のコンテンツを取得するために使用します。
 
 ```javascript
 client
@@ -190,9 +192,9 @@ client
   .catch((err) => console.error(err));
 ```
 
-### Get all contentIds
+### コンテンツIDの全件取得
 
-The `getAllContentIds` method is used to retrieve all content IDs only.  
+`getAllContentIds`メソッドは、指定されたエンドポイントからコンテンツIDのみを全件取得するために使用します。
 
 ```javascript
 client
@@ -203,9 +205,9 @@ client
   .catch((err) => console.error(err));
 ```
 
-#### Get all contentIds with filters
+#### filtersプロパティを使用したコンテンツIDの全件取得
 
-It is possible to retrieve only the content IDs for a specific category by specifying the `filters`.
+`filters`プロパティを使用することで、条件に一致するコンテンツIDを全件取得できます。
 
 ```javascript
 client
@@ -217,9 +219,9 @@ client
   .catch((err) => console.error(err));
 ```
 
-#### Get all contentIds with draftKey
+#### 下書き中のコンテンツのIDを全件取得
 
-It is possible to include content from a specific draft by specifying the `draftKey`.
+`draftKey`プロパティを使用することで、下書き中のコンテンツのIDを全件取得できます。
 
 ```javascript
 client
@@ -231,9 +233,9 @@ client
   .catch((err) => console.error(err));
 ```
 
-#### Get all contentIds with alternateField
+#### コンテンツID以外のフィールドの値を全件取得
 
-The `alternateField` property can be used to address cases where the value of a field other than content ID is used in a URL, etc.
+`alternateField`プロパティにフィールドIDを指定することで、コンテンツID以外のフィールドの値を全件取得できます。
 
 ```javascript
 client
@@ -245,9 +247,9 @@ client
   .catch((err) => console.error(err));
 ```
 
-### Get all contents
+### コンテンツの全件取得
 
-The `getAllContents` method is used to retrieve all content data.
+`getAllContents`メソッドは、指定されたエンドポイントから、コンテンツを全件取得するために使用します。
 
 ```javascript
 client
@@ -258,9 +260,9 @@ client
   .catch((err) => console.error(err));
 ```
 
-#### Get all contents with parameters
+#### queriesプロパティを使用したコンテンツの全件取得
 
-The `queries` property can be used to specify parameters for retrieving all content that matches specific criteria. For more details on each available property, refer to the [microCMS Documentation](https://document.microcms.io/content-api/get-list-contents#h929d25d495).
+`queries`プロパティを使用して、特定の条件に一致するすべてのコンテンツを取得できます。利用可能な各プロパティの詳細については、[microCMSのドキュメント](https://document.microcms.io/content-api/get-list-contents#h929d25d495)を参照してください。
 
 ```javascript
 client
@@ -272,26 +274,26 @@ client
   .catch((err) => console.error(err));
 ```
 
-### Create content
+### コンテンツの登録
 
-The `create` method is used to register content.
+`create`メソッドは指定されたエンドポイントにコンテンツを登録するために使用します。
 
 ```javascript
 client
   .create({
     endpoint: 'endpoint',
     content: {
-      title: 'title',
-      body: 'body',
+      title: 'タイトル',
+      body: '本文',
     },
   })
   .then((res) => console.log(res.id))
   .catch((err) => console.error(err));
 ```
 
-#### Create content with specified ID
+#### IDを指定してコンテンツを登録
 
-By specifying the `contentId` property, it is possible to register content with a specified ID.
+`contentId`プロパティを使用することで、指定されたIDでコンテンツを登録できます。
 
 ```javascript
 client
@@ -299,27 +301,27 @@ client
     endpoint: 'endpoint',
     contentId: 'contentId',
     content: {
-      title: 'title',
-      body: 'body',
+      title: 'タイトル',
+      body: '本文',
     },
   })
   .then((res) => console.log(res.id))
   .catch((err) => console.error(err));
 ```
 
-#### Create draft content
+#### 下書き中のステータスでコンテンツを登録
 
-By specifying the `isDraft` property, it is possible to register the content as a draft.
+`isDraft`プロパティを使用することで、下書き中のステータスでコンテンツを登録できます。
 
 ```javascript
 client
   .create({
     endpoint: 'endpoint',
     content: {
-      title: 'title',
-      body: 'body',
+      title: 'タイトル',
+      body: '本文',
     },
-    // Available with microCMS paid plans
+    // 有料プランから利用可能
     // https://microcms.io/pricing
     isDraft: true,
   })
@@ -327,9 +329,9 @@ client
   .catch((err) => console.error(err));
 ```
 
-#### Create draft content with specified ID
+#### 指定されたIDかつ下書き中のステータスでコンテンツを登録
 
-By specifying the `contentId` and `isDraft` properties, it is possible to register the content as a draft with a specified ID.
+`contentId`プロパティと`isDraft`プロパティを使用することで、指定されたIDかつ下書き中のステータスでコンテンツを登録できます。
 
 ```javascript
 client
@@ -337,10 +339,10 @@ client
     endpoint: 'endpoint',
     contentId: 'contentId',
     content: {
-      title: 'title',
-      body: 'body',
+      title: 'タイトル',
+      body: '本文',
     },
-    // Available with microCMS paid plans
+    // 有料プランから利用可能
     // https://microcms.io/pricing
     isDraft: true,
   })
@@ -348,9 +350,9 @@ client
   .catch((err) => console.error(err));
 ```
 
-### Update content
+### コンテンツの編集
 
-The `update` method is used to update a single content specified by its ID.
+`update`メソッドは特定のコンテンツを編集するために使用します。
 
 ```javascript
 client
@@ -358,32 +360,32 @@ client
     endpoint: 'endpoint',
     contentId: 'contentId',
     content: {
-      title: 'title',
+      title: 'タイトル',
     },
   })
   .then((res) => console.log(res.id))
   .catch((err) => console.error(err));
 ```
 
-#### Update object format content
+#### オブジェクト形式のコンテンツの編集
 
-When updating object content, use the `update` method without specifying a `contentId` property.
+APIの型がオブジェクト形式のコンテンツを編集する場合は、`contentId`プロパティを使用せずに、エンドポイントのみを指定します。
 
 ```javascript
 client
   .update({
     endpoint: 'endpoint',
     content: {
-      title: 'title',
+      title: 'タイトル',
     },
   })
   .then((res) => console.log(res.id))
   .catch((err) => console.error(err));
 ```
 
-### Delete content
+### コンテンツの削除
 
-The `delete` method is used to delete a single content specified by its ID.
+`delete`メソッドは指定されたエンドポイントから特定のコンテンツを削除するために使用します。
 
 ```javascript
 client
@@ -396,9 +398,9 @@ client
 
 ### TypeScript
 
-If you are using TypeScript, use `getList`, `getListDetail`, `getObject`. This internally contains a common type of content.
+`getList`メソッド、`getListDetail`メソッド、`getObject`メソッドはデフォルトのレスポンスの型を定義しています。
 
-#### Response type for getList method
+#### getListメソッドのレスポンスの型
 
 ```typescript
 type Content = {
@@ -406,16 +408,16 @@ type Content = {
 };
 /**
  * {
- *  contents: Content[]; // This is array type of Content
+ *  contents: Content[]; // 設定したスキーマの型を格納する配列
  *  totalCount: number;
  *  limit: number;
  *  offset: number;
  * }
  */
-client.getList<Content>({ /* other */ })
+client.getList<Content>({ /* その他のプロパティ */ })
 ```
 
-#### Response type for getListDetail method
+#### getListDetailメソッドのレスポンスの型
 
 ```typescript
 type Content = {
@@ -428,13 +430,13 @@ type Content = {
  *  updatedAt: string;
  *  publishedAt?: string;
  *  revisedAt?: string;
- *  text: string; // This is Content type.
+ *  text: string; // 設定したスキーマの型
  * }
  */
-client.getListDetail<Content>({ /* other */ })
+client.getListDetail<Content>({ /* その他のプロパティ */ })
 ```
 
-#### Response type for getObject method
+#### getObjectメソッドのレスポンスの型
 
 ```typescript
 type Content = {
@@ -446,25 +448,24 @@ type Content = {
  *  updatedAt: string;
  *  publishedAt?: string;
  *  revisedAt?: string;
- *  text: string; // This is Content type.
+ *  text: string; // 設定したスキーマの型
  * }
  */
-
-client.getObject<Content>({ /* other */ })
+client.getObject<Content>({ /* その他のプロパティ */ })
 ```
 
-#### Response type for getAllContentIds method
+#### getAllContentIdsメソッドのレスポンスの型
 
 ```typescript
 /**
- * string[] // This is array type of string
+ * string[]
  */
-client.getAllContentIds({ /* other */ })
+client.getAllContentIds({ /* その他のプロパティ */ })
 ```
 
-#### Create method with type safety
+#### 型安全なコンテンツの登録
 
-Since `content` will be of type `Content`, no required fields will be missed.
+`content`の型は`Content`であるため、型安全なコンテンツの登録が可能です。
 
 ```typescript
 type Content = {
@@ -475,15 +476,15 @@ type Content = {
 client.create<Content>({
   endpoint: 'endpoint',
   content: {
-    title: 'title',
-    body: 'body',
+    title: 'タイトル',
+    body: '本文',
   },
 });
 ```
 
-#### Update method with type safety
+#### 型安全なコンテンツの編集
 
- The `content` will be of type `Partial<Content>`, so you can enter only the items needed for the update.
+`content`は`Partial<Content>`型であるため、編集したいプロパティだけを渡せます。
 
 ```typescript
 type Content = {
@@ -494,7 +495,7 @@ type Content = {
 client.update<Content>({
   endpoint: 'endpoint',
   content: {
-    body: 'body',
+    body: '本文',
   },
 });
 ```
@@ -503,8 +504,9 @@ client.update<Content>({
 
 #### Next.js App Router
 
-You can now use the fetch option of the Next.js App Router as CustomRequestInit.
-Please refer to the official Next.js documentation as the available options depend on the Next.js Type file.
+Next.jsのApp Routerで利用されるfetchのcacheオプションを指定できます。
+
+指定可能なオプションは、Next.jsの公式ドキュメントを参照してください。
 
 [Functions: fetch \| Next\.js](https://nextjs.org/docs/app/api-reference/functions/fetch)
 
@@ -519,9 +521,9 @@ const response = await client.getList({
 });
 ```
 
-#### AbortController: abort() method
+#### AbortController: abortメソッド
 
-You can abort fetch requests.
+fetchリクエストを中断できます。
 
 ```ts
 const controller = new AbortController();
@@ -537,9 +539,9 @@ setTimeout(() => {
 }, 1000);
 ```
 
-## Management API
+## マネジメントAPI
 
-### Import
+### インポート
 
 #### Node.js
 
@@ -547,13 +549,13 @@ setTimeout(() => {
 const { createManagementClient } = require('microcms-js-sdk'); // CommonJS
 ```
 
-or
+または
 
 ```javascript
 import { createManagementClient } from 'microcms-js-sdk'; //ES6
 ```
 
-#### Usage with a browser
+#### ブラウザでの使用方法
 
 ```html
 <script>
@@ -561,18 +563,18 @@ import { createManagementClient } from 'microcms-js-sdk'; //ES6
 </script>
 ```
 
-### Create client object
+### クライアントオブジェクトの作成
 
 ```javascript
 const client = createManagementClient({
-  serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
+  serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAINはXXXX.microcms.ioのXXXXの部分です。
   apiKey: 'YOUR_API_KEY',
 });
 ```
 
-### Upload media
+### メディアのアップロード
 
-Media files can be uploaded using the 'POST /api/v1/media' endpoint of the Management API.
+メディアに画像やファイルをアップロードできます。
 
 #### Node.js
 
@@ -607,13 +609,13 @@ client
 client
   .uploadMedia({
     data: 'https://example.com/image.png',
-    // name: 'image.png', ← Optional
+    // name: 'image.png', ← 任意
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
 ```
 
-#### Browser
+#### ブラウザ
 
 ```javascript
 // File
@@ -629,7 +631,7 @@ client
 client
   .uploadMedia({
     data: 'https://example.com/image.png',
-    // name: 'image.png', ← Optional
+    // name: 'image.png', ← 任意
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
@@ -637,7 +639,7 @@ client
 
 ### TypeScript
 
-#### Parameter type for uploadMedia method
+#### uploadMediaメソッドのパラメータの型
 
 ```typescript
 type UploadMediaRequest =
@@ -652,9 +654,9 @@ type UploadMediaRequest =
 function uploadMedia(params: UploadMediaRequest): Promise<{ url: string }>;
 ```
 
-## Tips
+## ヒント
 
-### Separate API keys for read and write
+### 読み取り用と書き込み用で別々のAPIキーを使用する
 
 ```javascript
 const readClient = createClient({
@@ -667,6 +669,6 @@ const writeClient = createClient({
 });
 ```
 
-## LICENSE
+## ライセンス
 
 Apache-2.0
