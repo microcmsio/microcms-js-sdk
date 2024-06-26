@@ -68,7 +68,7 @@ const { createClient } = require('microcms-js-sdk'); // CommonJS
 import { createClient } from 'microcms-js-sdk'; //ES6
 ```
 
-#### ブラウザでの使用方法
+#### ブラウザ
 
 ```html
 <script>
@@ -553,7 +553,7 @@ const { createManagementClient } = require('microcms-js-sdk'); // CommonJS
 import { createManagementClient } from 'microcms-js-sdk'; //ES6
 ```
 
-#### ブラウザでの使用方法
+#### ブラウザ
 
 ```html
 <script>
