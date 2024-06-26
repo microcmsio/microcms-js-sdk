@@ -6,7 +6,6 @@ JavaScriptやNode.jsのアプリケーションからmicroCMSのAPIと簡単に�
 
 <a href="https://discord.com/invite/K3DPqw4EJ2" target="_blank"><img src="https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white" alt="Discord"></a>
 
-
 ## チュートリアル
 
 公式ドキュメントの [チュートリアル](https://document.microcms.io/tutorial/javascript/javascript-top)をご覧ください。
@@ -31,7 +30,6 @@ $ yarn add microcms-js-sdk
 #### ブラウザ（セルフホスティング）
 
 [リリースページ](https://github.com/microcmsio/microcms-js-sdk/releases)から`microcms-js-sdk-x.y.z.tgz`をダウンロードして解凍してください。その後、お好みのサーバーにアップロードして使用してください。対象ファイルは `./dist/umd/microcms-js-sdk.js` です。
-
 
 ```html
 <script src="./microcms-js-sdk.js"></script>
@@ -105,7 +103,7 @@ const client = createClient({
 | delete            | ✔️          |               |
 
 > [!NOTE]
-> - 「リスト形式」✔️は、APIの型がリスト形式に設定されている場合に使用できるメソッドを示します。
+> - 「リスト形式」の✔️は、APIの型がリスト形式に設定されている場合に使用できるメソッドを示します。
 > - 「オブジェクト形式」の✔️は、APIの型がオブジェクト形式に設定されている場合に使用できるメソッドを示します。
 
 ### コンテンツ一覧の取得
