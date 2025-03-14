@@ -62,6 +62,7 @@ export interface MicroCMSImage {
   url: string;
   width?: number;
   height?: number;
+  alt?: string;
 }
 
 /**
