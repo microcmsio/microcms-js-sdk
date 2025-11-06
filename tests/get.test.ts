@@ -58,15 +58,22 @@ describe('get', () => {
   test('Return error message in case of server error', () => {
     // Create temporary server error
     server.use(
-      http.get(`${testBaseUrl}/list-type`, () => {
-          return HttpResponse.json({ message: 'Internal Server Error' }, { status: 500 });
-      }, { once: true })
+      http.get(
+        `${testBaseUrl}/list-type`,
+        () => {
+          return HttpResponse.json(
+            { message: 'Internal Server Error' },
+            { status: 500 },
+          );
+        },
+        { once: true },
+      ),
     );
 
     expect(client.get({ endpoint: 'list-type' })).rejects.toThrow(
       new Error(
-        'fetch API response status: 500\n  message is `Internal Server Error`'
-      )
+        'fetch API response status: 500\n  message is `Internal Server Error`',
+      ),
     );
   });
 });

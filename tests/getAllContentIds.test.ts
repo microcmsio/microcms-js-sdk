@@ -15,18 +15,32 @@ describe('getAllContentIds', () => {
 
   test('should fetch all content ids', async () => {
     server.use(
-      http.get(`${testBaseUrl}/getAllContentIds-list-type`, () => {
-          return HttpResponse.json({
+      http.get(
+        `${testBaseUrl}/getAllContentIds-list-type`,
+        () => {
+          return HttpResponse.json(
+            {
               totalCount: 100,
-          }, { status: 200 });
-      }, { once: true }),
-      http.get(`${testBaseUrl}/getAllContentIds-list-type`, () => {
-          return HttpResponse.json({
+            },
+            { status: 200 },
+          );
+        },
+        { once: true },
+      ),
+      http.get(
+        `${testBaseUrl}/getAllContentIds-list-type`,
+        () => {
+          return HttpResponse.json(
+            {
               contents: Array(100)
-                  .fill(null)
-                  .map((_, index) => ({ id: `id${index}` })),
-          }, { status: 200 });
-      }, { once: true }),
+                .fill(null)
+                .map((_, index) => ({ id: `id${index}` })),
+            },
+            { status: 200 },
+          );
+        },
+        { once: true },
+      ),
     );
 
     const result = await client.getAllContentIds({
@@ -40,32 +54,60 @@ describe('getAllContentIds', () => {
 
   test('should handle pagination and fetch more than limit', async () => {
     server.use(
-      http.get(`${testBaseUrl}/getAllContentIds-list-type`, () => {
-          return HttpResponse.json({
+      http.get(
+        `${testBaseUrl}/getAllContentIds-list-type`,
+        () => {
+          return HttpResponse.json(
+            {
               totalCount: 250,
-          }, { status: 200 });
-      }, { once: true }),
-      http.get(`${testBaseUrl}/getAllContentIds-list-type`, () => {
-          return HttpResponse.json({
+            },
+            { status: 200 },
+          );
+        },
+        { once: true },
+      ),
+      http.get(
+        `${testBaseUrl}/getAllContentIds-list-type`,
+        () => {
+          return HttpResponse.json(
+            {
               contents: Array(100)
-                  .fill(null)
-                  .map((_, index) => ({ id: `id${index}` })),
-          }, { status: 200 });
-      }, { once: true }),
-      http.get(`${testBaseUrl}/getAllContentIds-list-type`, () => {
-          return HttpResponse.json({
+                .fill(null)
+                .map((_, index) => ({ id: `id${index}` })),
+            },
+            { status: 200 },
+          );
+        },
+        { once: true },
+      ),
+      http.get(
+        `${testBaseUrl}/getAllContentIds-list-type`,
+        () => {
+          return HttpResponse.json(
+            {
               contents: Array(100)
-                  .fill(null)
-                  .map((_, index) => ({ id: `id${index + 100}` })),
-          }, { status: 200 });
-      }, { once: true }),
-      http.get(`${testBaseUrl}/getAllContentIds-list-type`, () => {
-          return HttpResponse.json({
+                .fill(null)
+                .map((_, index) => ({ id: `id${index + 100}` })),
+            },
+            { status: 200 },
+          );
+        },
+        { once: true },
+      ),
+      http.get(
+        `${testBaseUrl}/getAllContentIds-list-type`,
+        () => {
+          return HttpResponse.json(
+            {
               contents: Array(50)
-                  .fill(null)
-                  .map((_, index) => ({ id: `id${index + 200}` })),
-          }, { status: 200 });
-      }, { once: true }),
+                .fill(null)
+                .map((_, index) => ({ id: `id${index + 200}` })),
+            },
+            { status: 200 },
+          );
+        },
+        { once: true },
+      ),
     );
 
     const result = await client.getAllContentIds({
@@ -79,18 +121,32 @@ describe('getAllContentIds', () => {
 
   test('should fetch all content ids with alternateField field', async () => {
     server.use(
-      http.get(`${testBaseUrl}/getAllContentIds-list-type`, () => {
-          return HttpResponse.json({
+      http.get(
+        `${testBaseUrl}/getAllContentIds-list-type`,
+        () => {
+          return HttpResponse.json(
+            {
               totalCount: 100,
-          }, { status: 200 });
-      }, { once: true }),
-      http.get(`${testBaseUrl}/getAllContentIds-list-type`, () => {
-          return HttpResponse.json({
+            },
+            { status: 200 },
+          );
+        },
+        { once: true },
+      ),
+      http.get(
+        `${testBaseUrl}/getAllContentIds-list-type`,
+        () => {
+          return HttpResponse.json(
+            {
               contents: Array(100)
-                  .fill(null)
-                  .map((_, index) => ({ url: `id${index}` })),
-          }, { status: 200 });
-      }, { once: true }),
+                .fill(null)
+                .map((_, index) => ({ url: `id${index}` })),
+            },
+            { status: 200 },
+          );
+        },
+        { once: true },
+      ),
     );
 
     const result = await client.getAllContentIds({
@@ -105,18 +161,34 @@ describe('getAllContentIds', () => {
 
   test('should throw error when alternateField field is not string', async () => {
     server.use(
-      http.get(`${testBaseUrl}/getAllContentIds-list-type`, () => {
-          return HttpResponse.json({
+      http.get(
+        `${testBaseUrl}/getAllContentIds-list-type`,
+        () => {
+          return HttpResponse.json(
+            {
               totalCount: 100,
-          }, { status: 200 });
-      }, { once: true }),
-      http.get(`${testBaseUrl}/getAllContentIds-list-type`, () => {
-          return HttpResponse.json({
+            },
+            { status: 200 },
+          );
+        },
+        { once: true },
+      ),
+      http.get(
+        `${testBaseUrl}/getAllContentIds-list-type`,
+        () => {
+          return HttpResponse.json(
+            {
               contents: Array(100)
-                  .fill(null)
-                  .map(() => ({ image: { url: 'url', width: 100, height: 100 } })),
-          }, { status: 200 });
-      }, { once: true }),
+                .fill(null)
+                .map(() => ({
+                  image: { url: 'url', width: 100, height: 100 },
+                })),
+            },
+            { status: 200 },
+          );
+        },
+        { once: true },
+      ),
     );
 
     await expect(

@@ -24,8 +24,11 @@
   "scripts": {
     "build": "tsup",
     "postbuild": "mkdir -p ./dist/umd/ && cp -pR ./dist/iife/* ./dist/umd",
-    "lint": "eslint ./src",
-    "lint:fix": "eslint --fix ./src",
+    "lint": "eslint ./src ./tests",
+    "lint:fix": "eslint --fix ./src ./tests",
+    "format": "prettier --check ./src ./tests",
+    "format:fix": "prettier --write ./src ./tests",
+    "typecheck": "tsc --noEmit",
     "test": "jest --coverage=false",
     "test:coverage": "jest --coverage=true"
   },

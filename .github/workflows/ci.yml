@@ -10,7 +10,24 @@ on:
     branches: ["main"]
 
 jobs:
-  build:
+  static-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        with:
+          node-version-file: ".node-version"
+          cache: "npm"
+      - run: npm ci
+      - name: Format Check
+        run: npm run format
+      - name: Lint
+        run: npm run lint
+      - name: Type Check
+        run: npm run typecheck
+
+  build-and-test:
     runs-on: ubuntu-latest
 
     strategy:
@@ -26,5 +43,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
       - run: npm ci
-      - run: npm run build
-      - run: npm test
+      - name: Build
+        run: npm run build
+      - name: Unit Tests
+        run: npm run test
