@@ -5,6 +5,10 @@ on:
     tags:
       - "v*"
 
+permissions:
+  id-token: write # Required for OIDC
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,5 +26,3 @@ jobs:
           npm run test
           npm run build
       - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
