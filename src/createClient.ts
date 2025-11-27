@@ -358,12 +358,14 @@ export const createClient = ({
     endpoint,
     contentId,
     content,
+    isDraft = false,
     customRequestInit,
   }: UpdateRequest<T>): Promise<WriteApiRequestResult> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
 
+    const queries: MakeRequest['queries'] = isDraft ? { status: 'draft' } : {};
     const requestInit: MakeRequest['requestInit'] = {
       ...customRequestInit,
       method: 'PATCH',
@@ -376,6 +378,7 @@ export const createClient = ({
     return makeRequest({
       endpoint,
       contentId,
+      queries,
       requestInit,
     });
   };

@@ -131,13 +131,17 @@ describe('update', () => {
   beforeEach(() => {
     server.use(
       http.patch(`${testBaseUrl}/list-type/foo`, async ({ request }) => {
+        const url = new URL(request.url);
+        const statusParams = url.searchParams.get('status');
         const body = await request.json();
-        patchListApiMockFn(body);
+        patchListApiMockFn(statusParams, body);
         return HttpResponse.json({ id: 'foo' }, { status: 200 });
       }),
       http.patch(`${testBaseUrl}/object-type`, async ({ request }) => {
+        const url = new URL(request.url);
+        const statusParams = url.searchParams.get('status');
         const body = await request.json();
-        patchObjectApiMockFn(body);
+        patchObjectApiMockFn(statusParams, body);
         return HttpResponse.json({ id: 'foo' }, { status: 200 });
       }),
     );
@@ -159,10 +163,29 @@ describe('update', () => {
     // Confirm PUT api was called
     expect(patchListApiMockFn).toHaveBeenCalledTimes(1);
     // Confirm that body is specified.
-    expect(patchListApiMockFn).toHaveBeenCalledWith({
+    expect(patchListApiMockFn).toHaveBeenCalledWith(null, {
       title: 'title',
     });
   });
+
+  test('Draft list format content can be updated', async () => {
+    const data = await client.update<ContentType>({
+      endpoint: 'list-type',
+      contentId: 'foo',
+      content: {
+        title: 'title',
+      },
+      isDraft: true,
+    });
+    expect(data).toEqual({ id: 'foo' });
+    // Confirm PUT api was called
+    expect(patchListApiMockFn).toHaveBeenCalledTimes(1);
+    // Confirm that body is specified.
+    expect(patchListApiMockFn).toHaveBeenCalledWith('draft', {
+      title: 'title',
+    });
+  });
+
   test('Object type content can be updated', async () => {
     const data = await client.update<ContentType>({
       endpoint: 'object-type',
@@ -174,7 +197,24 @@ describe('update', () => {
     // Confirm PUT api was called
     expect(patchObjectApiMockFn).toHaveBeenCalledTimes(1);
     // Confirm that body is specified.
-    expect(patchObjectApiMockFn).toHaveBeenCalledWith({
+    expect(patchObjectApiMockFn).toHaveBeenCalledWith(null, {
+      title: 'title',
+    });
+  });
+
+  test('Draft object type content can be updated', async () => {
+    const data = await client.update<ContentType>({
+      endpoint: 'object-type',
+      content: {
+        title: 'title',
+      },
+      isDraft: true,
+    });
+    expect(data).toEqual({ id: 'foo' });
+    // Confirm PUT api was called
+    expect(patchObjectApiMockFn).toHaveBeenCalledTimes(1);
+    // Confirm that body is specified.
+    expect(patchObjectApiMockFn).toHaveBeenCalledWith('draft', {
       title: 'title',
     });
   });
