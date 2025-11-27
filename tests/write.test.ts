@@ -160,7 +160,7 @@ describe('update', () => {
       },
     });
     expect(data).toEqual({ id: 'foo' });
-    // Confirm PUT api was called
+    // Confirm PATCH api was called
     expect(patchListApiMockFn).toHaveBeenCalledTimes(1);
     // Confirm that body is specified.
     expect(patchListApiMockFn).toHaveBeenCalledWith(null, {
@@ -178,7 +178,7 @@ describe('update', () => {
       isDraft: true,
     });
     expect(data).toEqual({ id: 'foo' });
-    // Confirm PUT api was called
+    // Confirm PATCH api was called
     expect(patchListApiMockFn).toHaveBeenCalledTimes(1);
     // Confirm that body is specified.
     expect(patchListApiMockFn).toHaveBeenCalledWith('draft', {
@@ -194,7 +194,7 @@ describe('update', () => {
       },
     });
     expect(data).toEqual({ id: 'foo' });
-    // Confirm PUT api was called
+    // Confirm PATCH api was called
     expect(patchObjectApiMockFn).toHaveBeenCalledTimes(1);
     // Confirm that body is specified.
     expect(patchObjectApiMockFn).toHaveBeenCalledWith(null, {
@@ -211,7 +211,7 @@ describe('update', () => {
       isDraft: true,
     });
     expect(data).toEqual({ id: 'foo' });
-    // Confirm PUT api was called
+    // Confirm PATCH api was called
     expect(patchObjectApiMockFn).toHaveBeenCalledTimes(1);
     // Confirm that body is specified.
     expect(patchObjectApiMockFn).toHaveBeenCalledWith('draft', {
