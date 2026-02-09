@@ -319,8 +319,6 @@ client
       title: 'タイトル',
       body: '本文',
     },
-    // 有料プランから利用可能
-    // https://microcms.io/pricing
     isDraft: true,
   })
   .then((res) => console.log(res.id))
@@ -340,8 +338,6 @@ client
       title: 'タイトル',
       body: '本文',
     },
-    // 有料プランから利用可能
-    // https://microcms.io/pricing
     isDraft: true,
   })
   .then((res) => console.log(res.id))
@@ -360,6 +356,24 @@ client
     content: {
       title: 'タイトル',
     },
+  })
+  .then((res) => console.log(res.id))
+  .catch((err) => console.error(err));
+```
+
+#### コンテンツの下書き更新
+
+`isDraft` プロパティを指定することで、コンテンツを下書き状態で更新することができます。
+
+```javascript
+client
+  .update({
+    endpoint: 'endpoint',
+    contentId: 'contentId',
+    content: {
+      title: 'タイトル',
+    },
+    isDraft: true,
   })
   .then((res) => console.log(res.id))
   .catch((err) => console.error(err));

@@ -159,6 +159,7 @@ export interface UpdateRequest<T> {
   endpoint: string;
   contentId?: string;
   content: Partial<T>;
+  isDraft?: boolean;
   customRequestInit?: CustomRequestInit;
 }
 

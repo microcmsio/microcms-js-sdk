@@ -319,8 +319,6 @@ client
       title: 'title',
       body: 'body',
     },
-    // Available with microCMS paid plans
-    // https://microcms.io/pricing
     isDraft: true,
   })
   .then((res) => console.log(res.id))
@@ -340,8 +338,6 @@ client
       title: 'title',
       body: 'body',
     },
-    // Available with microCMS paid plans
-    // https://microcms.io/pricing
     isDraft: true,
   })
   .then((res) => console.log(res.id))
@@ -360,6 +356,24 @@ client
     content: {
       title: 'title',
     },
+  })
+  .then((res) => console.log(res.id))
+  .catch((err) => console.error(err));
+```
+
+#### Update content as draft
+
+By specifying the `isDraft` property, it is possible to update the content as a draft.
+
+```javascript
+client
+  .update({
+    endpoint: 'endpoint',
+    contentId: 'contentId',
+    content: {
+      title: 'title',
+    },
+    isDraft: true,
   })
   .then((res) => console.log(res.id))
   .catch((err) => console.error(err));
