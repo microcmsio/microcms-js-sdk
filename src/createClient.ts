@@ -327,13 +327,27 @@ export const createClient = ({
     contentId,
     content,
     isDraft = false,
+    isClosed = false,
     customRequestInit,
   }: CreateRequest<T>): Promise<WriteApiRequestResult> => {
     if (!endpoint) {
       return Promise.reject(new Error('endpoint is required'));
     }
 
-    const queries: MakeRequest['queries'] = isDraft ? { status: 'draft' } : {};
+    // if `isClosed` and `isDraft` are true, return an error
+    if (isClosed && isDraft) {
+      return Promise.reject(
+        new Error('isClosed and isDraft cannot be true at the same time'),
+      );
+    }
+
+    const queries: MakeRequest['queries'] = {};
+    if (isDraft) {
+      queries.status = 'draft';
+    } else if (isClosed) {
+      queries.status = 'closed';
+    }
+
     const requestInit: MakeRequest['requestInit'] = {
       ...customRequestInit,
       method: contentId ? 'PUT' : 'POST',
