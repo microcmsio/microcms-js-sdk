@@ -344,6 +344,43 @@ client
   .catch((err) => console.error(err));
 ```
 
+#### Create closed content
+
+By specifying the `isClosed` property, the content can be registered as archived.
+
+```javascript
+client
+  .create({
+    endpoint: 'endpoint',
+    content: {
+      title: 'title',
+      body: 'body',
+    },
+    isClosed: true,
+  })
+  .then((res) => console.log(res.id))
+  .catch((err) => console.error(err));
+```
+
+#### Create closed content with specified ID
+
+By specifying the `contentId` and `isClosed` properties, the content can be registered as archived with a specified ID.
+
+```javascript
+client
+  .create({
+    endpoint: 'endpoint',
+    contentId: 'contentId',
+    content: {
+      title: 'title',
+      body: 'body',
+    },
+    isClosed: true,
+  })
+  .then((res) => console.log(res.id))
+  .catch((err) => console.error(err));
+```
+
 ### Update content
 
 The `update` method is used to update a single content specified by its ID.
