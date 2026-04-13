@@ -239,4 +239,77 @@ describe('createClient', () => {
       expect(apiCallCount).toBe(1);
     }, 30000);
   });
+
+  describe('create', () => {
+    const client = createClient({
+      serviceDomain: 'serviceDomain',
+      apiKey: 'apiKey',
+    });
+
+    test('Rejects when `isDraft` and `isClosed` are both true', () => {
+      return expect(
+        client.create({
+          endpoint: 'list-type',
+          content: { title: 'test' },
+          isDraft: true,
+          isClosed: true,
+        }),
+      ).rejects.toThrow(
+        new Error('isClosed and isDraft cannot be true at the same time'),
+      );
+    });
+
+    test('Sends `status=draft` when only `isDraft` is true', async () => {
+      let requestUrl = '';
+      server.use(
+        http.post(`${testBaseUrl}/list-type`, ({ request }) => {
+          requestUrl = request.url;
+          return HttpResponse.json({ id: 'foo' });
+        }),
+      );
+
+      await client.create({
+        endpoint: 'list-type',
+        content: { title: 'test' },
+        isDraft: true,
+      });
+
+      expect(new URL(requestUrl).searchParams.get('status')).toBe('draft');
+    });
+
+    test('Sends `status=closed` when only `isClosed` is true', async () => {
+      let requestUrl = '';
+      server.use(
+        http.post(`${testBaseUrl}/list-type`, ({ request }) => {
+          requestUrl = request.url;
+          return HttpResponse.json({ id: 'foo' });
+        }),
+      );
+
+      await client.create({
+        endpoint: 'list-type',
+        content: { title: 'test' },
+        isClosed: true,
+      });
+
+      expect(new URL(requestUrl).searchParams.get('status')).toBe('closed');
+    });
+
+    test('Does not send `status` when both `isDraft` and `isClosed` are false', async () => {
+      let requestUrl = '';
+      server.use(
+        http.post(`${testBaseUrl}/list-type`, ({ request }) => {
+          requestUrl = request.url;
+          return HttpResponse.json({ id: 'foo' });
+        }),
+      );
+
+      await client.create({
+        endpoint: 'list-type',
+        content: { title: 'test' },
+      });
+
+      expect(new URL(requestUrl).searchParams.get('status')).toBeNull();
+    });
+  });
 });

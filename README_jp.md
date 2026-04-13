@@ -344,6 +344,45 @@ client
   .catch((err) => console.error(err));
 ```
 
+#### 公開終了のステータスでコンテンツを登録
+
+`isClosed`プロパティを使用することで、公開終了のステータスでコンテンツを登録できます。
+
+> **注:** `isDraft` と `isClosed` は同時に `true` にできません。両方を `true` で渡すと、SDK はランタイムでエラーとして拒否します。`isClosed: true` を使う場合は、`isDraft` を省略、または `false` を設定してください。
+
+```javascript
+client
+  .create({
+    endpoint: 'endpoint',
+    content: {
+      title: 'タイトル',
+      body: '本文',
+    },
+    isClosed: true,
+  })
+  .then((res) => console.log(res.id))
+  .catch((err) => console.error(err));
+```
+
+#### 指定されたIDかつ公開終了のステータスでコンテンツを登録
+
+`contentId`プロパティと`isClosed`プロパティを使用することで、指定されたIDかつ公開終了のステータスでコンテンツを登録できます。上記と同様、`isDraft` と `isClosed` を同時に `true` にすることはできません。
+
+```javascript
+client
+  .create({
+    endpoint: 'endpoint',
+    contentId: 'contentId',
+    content: {
+      title: 'タイトル',
+      body: '本文',
+    },
+    isClosed: true,
+  })
+  .then((res) => console.log(res.id))
+  .catch((err) => console.error(err));
+```
+
 ### コンテンツの編集
 
 `update`メソッドは特定のコンテンツを編集するために使用します。

@@ -152,6 +152,7 @@ export interface CreateRequest<T> {
   contentId?: string;
   content: T;
   isDraft?: boolean;
+  isClosed?: boolean;
   customRequestInit?: CustomRequestInit;
 }
 

@@ -344,6 +344,45 @@ client
   .catch((err) => console.error(err));
 ```
 
+#### Create closed content
+
+By specifying the `isClosed` property, the content can be registered as archived.
+
+> **Note:** `isDraft` and `isClosed` are mutually exclusive. Do not pass both as `true`; the SDK rejects that combination at runtime with an error. When using `isClosed: true`, omit `isDraft` or set it to `false` (the default).
+
+```javascript
+client
+  .create({
+    endpoint: 'endpoint',
+    content: {
+      title: 'title',
+      body: 'body',
+    },
+    isClosed: true,
+  })
+  .then((res) => console.log(res.id))
+  .catch((err) => console.error(err));
+```
+
+#### Create closed content with specified ID
+
+By specifying the `contentId` and `isClosed` properties, the content can be registered as archived with a specified ID. The same rule applies as above: `isDraft` and `isClosed` cannot both be `true`.
+
+```javascript
+client
+  .create({
+    endpoint: 'endpoint',
+    contentId: 'contentId',
+    content: {
+      title: 'title',
+      body: 'body',
+    },
+    isClosed: true,
+  })
+  .then((res) => console.log(res.id))
+  .catch((err) => console.error(err));
+```
+
 ### Update content
 
 The `update` method is used to update a single content specified by its ID.
