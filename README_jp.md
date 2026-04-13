@@ -348,6 +348,8 @@ client
 
 `isClosed`プロパティを使用することで、公開終了のステータスでコンテンツを登録できます。
 
+> **注:** `isDraft` と `isClosed` は同時に `true` にできません。両方を `true` で渡すと、SDK はランタイムでエラーとして拒否します。`isClosed: true` を使う場合は、`isDraft` を省略、または `false` を設定してください。
+
 ```javascript
 client
   .create({
@@ -364,7 +366,7 @@ client
 
 #### 指定されたIDかつ公開終了のステータスでコンテンツを登録
 
-`contentId`プロパティと`isClosed`プロパティを使用することで、指定されたIDかつ公開終了のステータスでコンテンツを登録できます。
+`contentId`プロパティと`isClosed`プロパティを使用することで、指定されたIDかつ公開終了のステータスでコンテンツを登録できます。上記と同様、`isDraft` と `isClosed` を同時に `true` にすることはできません。
 
 ```javascript
 client
