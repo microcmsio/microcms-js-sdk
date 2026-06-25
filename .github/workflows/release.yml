@@ -25,4 +25,4 @@ jobs:
           npm run typecheck
           npm run test
           npm run build
-      - run: npm publish
+      - run: npm publish --registry=https://registry.npmjs.org
