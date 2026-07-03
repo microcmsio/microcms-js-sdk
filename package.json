@@ -29,8 +29,9 @@
     "format": "prettier --check ./src ./tests",
     "format:fix": "prettier --write ./src ./tests",
     "typecheck": "tsc --noEmit",
-    "test": "jest --coverage=false",
-    "test:coverage": "jest --coverage=true"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "files": [
     "dist"
@@ -44,18 +45,16 @@
   "devDependencies": {
     "@swc/core": "^1.4.7",
     "@types/async-retry": "^1.4.8",
-    "@types/jest": "^29.5.12",
     "@types/node": "^18.19.14",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
+    "@vitest/coverage-v8": "^3.2.6",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-jest": "^27.9.0",
-    "jest": "^29.7.0",
     "msw": "^2.2.3",
     "prettier": "^3.2.5",
-    "ts-jest": "^29.1.2",
     "tsup": "^8.0.2",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.2",
+    "vitest": "^3.2.6"
   }
 }

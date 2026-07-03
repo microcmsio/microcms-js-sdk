@@ -10,7 +10,7 @@ const client = createClient({
 
 describe('getAllContents', () => {
   afterEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   test('should fetch all contents', async () => {

@@ -16,8 +16,8 @@ interface ContentType {
 }
 
 describe('create', () => {
-  const postApiMockFn = jest.fn();
-  const putApiMockFn = jest.fn();
+  const postApiMockFn = vi.fn();
+  const putApiMockFn = vi.fn();
 
   beforeEach(() => {
     server.use(
@@ -125,8 +125,8 @@ describe('create', () => {
 });
 
 describe('update', () => {
-  const patchListApiMockFn = jest.fn();
-  const patchObjectApiMockFn = jest.fn();
+  const patchListApiMockFn = vi.fn();
+  const patchObjectApiMockFn = vi.fn();
 
   beforeEach(() => {
     server.use(
@@ -229,7 +229,7 @@ describe('update', () => {
 });
 
 describe('delete', () => {
-  const deleteApiMockFn = jest.fn();
+  const deleteApiMockFn = vi.fn();
 
   beforeEach(() => {
     server.use(

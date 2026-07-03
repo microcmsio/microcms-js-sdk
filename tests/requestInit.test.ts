@@ -1,6 +1,6 @@
 import { createClient } from '../src/createClient';
 
-const fetchMock = jest.fn(() =>
+const fetchMock = vi.fn(() =>
   Promise.resolve({
     ok: true,
     json: () => Promise.resolve(),

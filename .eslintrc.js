@@ -23,12 +23,21 @@ module.exports = {
     browser: true,
     node: true,
     es6: true,
-    jest: true,
   },
   overrides: [
     {
-      files: ['tests/**'],
-      plugins: ['jest'],
+      files: ['tests/**', 'vitest.setup.ts'],
+      globals: {
+        describe: 'readonly',
+        it: 'readonly',
+        test: 'readonly',
+        expect: 'readonly',
+        beforeAll: 'readonly',
+        beforeEach: 'readonly',
+        afterAll: 'readonly',
+        afterEach: 'readonly',
+        vi: 'readonly',
+      },
     },
   ],
 };

@@ -12,7 +12,7 @@ const client = createManagementClient({
 // mswの不具合で、FormDataのテストが終わらないため、テストをスキップ
 // https://github.com/mswjs/msw/issues/2078
 describe.skip('uploadMedia', () => {
-  const uploadMediaApiMockFn = jest.fn();
+  const uploadMediaApiMockFn = vi.fn();
 
   beforeEach(() => {
     server.use(

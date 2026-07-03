@@ -1,6 +1,7 @@
+import { type Mock } from 'vitest';
 import { generateFetchClient } from '../../src/lib/fetch';
 
-const fetchMock = jest.fn(() =>
+const fetchMock = vi.fn(() =>
   Promise.resolve({
     ok: true,
     json: () => Promise.resolve(),
@@ -25,7 +26,7 @@ describe('generateFetchClient', () => {
       expect.objectContaining({ headers: expect.anything() }),
     );
     const calledWithHeaders = new Headers(
-      (fetch as jest.Mock).mock.calls[0][1].headers,
+      (fetch as Mock).mock.calls[0][1].headers,
     );
     expect(calledWithHeaders.get('X-MICROCMS-API-KEY')).toBe(apiKey);
   });
@@ -44,7 +45,7 @@ describe('generateFetchClient', () => {
       expect.objectContaining({ headers: expect.anything() }),
     );
     const calledWithHeaders = new Headers(
-      (fetch as jest.Mock).mock.calls[0][1].headers,
+      (fetch as Mock).mock.calls[0][1].headers,
     );
     expect(calledWithHeaders.get('X-MICROCMS-API-KEY')).toBe(existingApiKey);
   });
