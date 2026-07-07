@@ -14,6 +14,9 @@ This SDK is maintained as an official SDK provided by microCMS under the followi
 
 The current maintenance level of this SDK is `Active`.
 
+> [!NOTE]
+> Maintenance levels are not fixed and may change depending on usage, technical importance, maintenance capacity, and the status of the supported language or framework. SDKs classified as `Maintenance` or `Deprecated` may return to `Active` if there is sufficient user demand and maintenance capacity.
+
 ### Maintenance Levels
 
 microCMS SDKs are classified into the following three maintenance levels.
@@ -52,15 +55,6 @@ As a rule, we do not provide bug fixes, security updates, feature additions, usa
 For new development, consider using an alternative.
 
 </details>
-
-### Maintenance Level Review
-
-Maintenance levels are not fixed.
-
-They may change in the future depending on usage, technical importance, maintenance capacity, and the status of the supported language or framework.
-
-SDKs classified as `Maintenance` or `Deprecated` may return to `Active` if there is sufficient user demand and maintenance capacity.
-
 ## Tutorial
 
 See the [official tutorial](https://document.microcms.io/tutorial/javascript/javascript-top).
