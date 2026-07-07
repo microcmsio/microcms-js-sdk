@@ -55,6 +55,7 @@ As a rule, we do not provide bug fixes, security updates, feature additions, usa
 For new development, consider using an alternative.
 
 </details>
+
 ## Tutorial
 
 See the [official tutorial](https://document.microcms.io/tutorial/javascript/javascript-top).
