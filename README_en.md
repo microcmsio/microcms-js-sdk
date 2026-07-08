@@ -8,53 +8,11 @@ It helps you to use microCMS from JavaScript and Node.js applications.
 
 ## Maintenance Policy
 
-This SDK is maintained as an official SDK provided by microCMS under the following maintenance policy.
-
 ### Current Maintenance Level
 
 The current maintenance level of this SDK is `Active`.
 
-> [!NOTE]
-> Maintenance levels are not fixed and may change depending on usage, technical importance, maintenance capacity, and the status of the supported language or framework. SDKs classified as `Maintenance` or `Deprecated` may return to `Active` if there is sufficient user demand and maintenance capacity.
-
-### Maintenance Levels
-
-microCMS SDKs are classified into the following three maintenance levels.
-
-<details>
-<summary>Active</summary>
-
-`Active` SDKs are recommended for new projects.
-
-We provide bug fixes, security updates, and updates required to follow changes in the microCMS product. We also verify that the SDK works with the LTS versions of the supported language, runtime, or framework, and keep the README and related documentation up to date.
-
-When necessary, we also add features, improve usability, and update dependencies.
-
-</details>
-
-<details>
-<summary>Maintenance</summary>
-
-`Maintenance` SDKs are maintained to preserve basic functionality for existing users.
-
-We provide bug fixes, security updates, and updates required to follow changes in the microCMS product. We also verify that the SDK works with the LTS versions of the supported language, runtime, or framework, and keep the README and related documentation up to date.
-
-If there are breaking changes in the microCMS product, we will address them as needed. Dependencies are updated when there are security issues or bugs that affect SDK usage.
-
-On the other hand, we generally do not add new features or make usability improvements. Sample code and development-only dependencies are updated on a best-effort basis.
-
-</details>
-
-<details>
-<summary>Deprecated</summary>
-
-`Deprecated` SDKs are not recommended for new projects.
-
-As a rule, we do not provide bug fixes, security updates, feature additions, usability improvements, or updates required to follow changes in the microCMS product. We also generally do not follow the latest versions of the supported language, runtime, or framework.
-
-For new development, consider using an alternative.
-
-</details>
+For details, see the [microCMS SDK maintenance policy](https://document.microcms.io/en/manual/limitations#h8e929adf81).
 
 ## Tutorial
 
