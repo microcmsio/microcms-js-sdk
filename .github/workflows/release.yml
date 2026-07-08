@@ -20,6 +20,7 @@ jobs:
         with:
           node-version-file: ".node-version"
           registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
       - name: release on npm
         run: |
           npm ci
