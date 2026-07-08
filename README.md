@@ -8,11 +8,7 @@ JavaScriptやNode.jsのアプリケーションからmicroCMSのAPIと簡単に�
 
 ## 保守方針
 
-### 現在の保守レベル
-
-このSDKの現在の保守レベルは`Active`です。
-
-詳細は[microCMS SDKの保守方針](https://document.microcms.io/manual/limitations#h8e929adf81)をご覧ください。
+このSDKの現在の保守レベルは`Active`です。詳細は[microCMS SDKの保守方針](https://document.microcms.io/manual/limitations#h8e929adf81)をご覧ください。
 
 ## チュートリアル
 
