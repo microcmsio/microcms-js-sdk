@@ -10,7 +10,7 @@ It helps you to use microCMS from JavaScript and Node.js applications.
 
 The current maintenance level of this SDK is `Active`.
 
-For details, see the [microCMS SDK maintenance policy](https://document.microcms.io/en/manual/limitations#h8e929adf81).
+For details, see the [SDK maintenance policy](https://document.microcms.io/en/manual/limitations#h8e929adf81).
 
 ## Tutorial
 
