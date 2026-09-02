@@ -3,6 +3,7 @@
  * https://github.com/microcmsio/microcms-js-sdk
  */
 import retry from 'async-retry';
+import { createMicroCMSRequestError } from './lib/error';
 import { generateFetchClient } from './lib/fetch';
 import {
   CreateRequest,
@@ -96,10 +97,13 @@ export const createClient = ({
             const message = await getMessageFromResponse(response);
 
             return bail(
-              new Error(
-                `fetch API response status: ${response.status}${
-                  message ? `\n  message is \`${message}\`` : ''
-                }`,
+              createMicroCMSRequestError(
+                new Error(
+                  `fetch API response status: ${response.status}${
+                    message ? `\n  message is \`${message}\`` : ''
+                  }`,
+                ),
+                { status: response.status, url },
               ),
             );
           }
@@ -109,10 +113,13 @@ export const createClient = ({
             const message = await getMessageFromResponse(response);
 
             return Promise.reject(
-              new Error(
-                `fetch API response status: ${response.status}${
-                  message ? `\n  message is \`${message}\`` : ''
-                }`,
+              createMicroCMSRequestError(
+                new Error(
+                  `fetch API response status: ${response.status}${
+                    message ? `\n  message is \`${message}\`` : ''
+                  }`,
+                ),
+                { status: response.status, url },
               ),
             );
           }
@@ -130,7 +137,10 @@ export const createClient = ({
           }
 
           return Promise.reject(
-            new Error(`Network Error.\n  Details: ${error.message ?? ''}`),
+            createMicroCMSRequestError(
+              new Error(`Network Error.\n  Details: ${error.message ?? ''}`),
+              { url, originalError: error },
+            ),
           );
         }
       },

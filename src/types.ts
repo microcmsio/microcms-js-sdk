@@ -1,6 +1,15 @@
 export type Fetch = typeof fetch;
 
 /**
+ * Error returned when a microCMS API request fails.
+ */
+export type MicroCMSRequestError = Error & {
+  status: number | undefined;
+  url: string;
+  originalError: unknown | undefined;
+};
+
+/**
  * microCMS createClient params
  */
 export interface MicroCMSClient {

@@ -1,3 +1,4 @@
+import { createMicroCMSRequestError } from './lib/error';
 import { generateFetchClient } from './lib/fetch';
 import { MicroCMSManagementClient, UploadMediaRequest } from './types';
 import {
@@ -72,7 +73,10 @@ export const createManagementClient = ({
       }
 
       return Promise.reject(
-        new Error(`Network Error.\n  Details: ${error.message ?? ''}`),
+        createMicroCMSRequestError(
+          new Error(`Network Error.\n  Details: ${error.message ?? ''}`),
+          { url, originalError: error },
+        ),
       );
     }
 
@@ -81,10 +85,13 @@ export const createManagementClient = ({
       const message = await getMessageFromResponse(response);
 
       return Promise.reject(
-        new Error(
-          `fetch API response status: ${response.status}${
-            message ? `\n  message is \`${message}\`` : ''
-          }`,
+        createMicroCMSRequestError(
+          new Error(
+            `fetch API response status: ${response.status}${
+              message ? `\n  message is \`${message}\`` : ''
+            }`,
+          ),
+          { status: response.status, url },
         ),
       );
     }

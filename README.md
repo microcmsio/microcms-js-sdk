@@ -711,6 +711,41 @@ type UploadMediaRequest =
 function uploadMedia(params: UploadMediaRequest): Promise<{ url: string }>;
 ```
 
+## エラーハンドリング
+
+microCMS APIへのリクエストに失敗した場合は、`isMicroCMSRequestError`を使用して、HTTPステータスコード、リクエスト先URL、元のネットワークエラーを参照できます。
+
+```typescript
+import { createClient, isMicroCMSRequestError } from 'microcms-js-sdk';
+
+const client = createClient({
+  serviceDomain: 'serviceDomain',
+  apiKey: 'apiKey',
+});
+
+try {
+  await client.getList({ endpoint: 'blog' });
+} catch (error) {
+  if (isMicroCMSRequestError(error)) {
+    console.log(error.status);
+    console.log(error.url);
+    console.log(error.originalError);
+  }
+}
+```
+
+| プロパティ      | HTTPエラー                    | ネットワークエラー          |
+| --------------- | ----------------------------- | --------------------------- |
+| `status`        | HTTPステータスコード          | `undefined`                 |
+| `url`           | リクエスト先URL               | リクエスト先URL             |
+| `originalError` | `undefined`                   | `fetch`が投げた元の値       |
+
+`url`に`draftKey`が含まれる場合、その値は`***`にマスクされます。リクエストヘッダー、リクエストボディ、`Response`オブジェクトはエラーへ追加されません。
+
+`originalError`の内容はNode.js、ブラウザ、Edge Runtimeなどの実行環境によって異なり、SDKとして形式を保証しません。
+
+追加されるプロパティは非列挙です。そのため、既存の`message`、`toString()`、`Object.keys()`、`JSON.stringify()`の結果には影響しません。
+
 ## ヒント
 
 ### 読み取り用と書き込み用で別々のAPIキーを使用する

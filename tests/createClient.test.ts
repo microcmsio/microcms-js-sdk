@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import { createClient } from '../src/createClient';
+import { createClient, isMicroCMSRequestError } from '../src';
 import { testBaseUrl } from './mocks/handlers';
 import { server } from './mocks/server';
 
@@ -81,6 +81,30 @@ describe('createClient', () => {
         new Error('fetch API response status: 404'),
       );
     });
+
+    test('Returns structured error details and masks draftKey', async () => {
+      server.use(
+        http.get(`${testBaseUrl}/list-type`, async () => {
+          return new HttpResponse(null, { status: 404 });
+        }),
+      );
+      const client = createClient({
+        serviceDomain: 'serviceDomain',
+        apiKey: 'apiKey',
+      });
+
+      const error = await client
+        .get({
+          endpoint: 'list-type',
+          queries: { draftKey: 'secret', fields: 'id' },
+        })
+        .catch((error) => error);
+
+      expect(isMicroCMSRequestError(error)).toBe(true);
+      expect(error.status).toBe(404);
+      expect(error.url).toBe(`${testBaseUrl}/list-type?draftKey=***&fields=id`);
+      expect(error.originalError).toBeUndefined();
+    });
   });
 
   test('Throws an error in the event of a network error.', () => {
@@ -97,6 +121,53 @@ describe('createClient', () => {
     expect(client.get({ endpoint: 'list-type' })).rejects.toThrow(
       new Error('Network Error.\n  Details: Failed to fetch'),
     );
+  });
+
+  test('Keeps the original error in the event of a network error', async () => {
+    const originalError = new TypeError('fetch failed') as TypeError & {
+      cause: unknown;
+    };
+    originalError.cause = { code: 'ENOTFOUND' };
+    const fetchMock = jest
+      .spyOn(global, 'fetch')
+      .mockRejectedValueOnce(originalError);
+    const client = createClient({
+      serviceDomain: 'serviceDomain',
+      apiKey: 'apiKey',
+    });
+
+    const error = await client
+      .get({ endpoint: 'list-type' })
+      .catch((error) => error);
+
+    fetchMock.mockRestore();
+
+    expect(isMicroCMSRequestError(error)).toBe(true);
+    expect(error.status).toBeUndefined();
+    expect(error.url).toBe(`${testBaseUrl}/list-type`);
+    expect(error.originalError).toBe(originalError);
+  });
+
+  test('Does not convert a response body parsing error', async () => {
+    server.use(
+      http.get(`${testBaseUrl}/list-type`, async () => {
+        return new HttpResponse('invalid json', {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }),
+    );
+    const client = createClient({
+      serviceDomain: 'serviceDomain',
+      apiKey: 'apiKey',
+    });
+
+    const error = await client
+      .get({ endpoint: 'list-type' })
+      .catch((error) => error);
+
+    expect(error.name).toBe('SyntaxError');
+    expect(isMicroCMSRequestError(error)).toBe(false);
   });
 
   describe('Retry option is true', () => {
@@ -118,9 +189,16 @@ describe('createClient', () => {
         }),
       );
 
-      await expect(retryableClient.get({ endpoint: '500' })).rejects.toThrow(
-        new Error('fetch API response status: 500'),
-      );
+      const error = await retryableClient
+        .get({ endpoint: '500' })
+        .catch((error) => error);
+
+      expect(error).toBeInstanceOf(Error);
+      expect(error.message).toBe('fetch API response status: 500');
+      expect(isMicroCMSRequestError(error)).toBe(true);
+      expect(error.status).toBe(500);
+      expect(error.url).toBe(`${testBaseUrl}/500`);
+      expect(error.originalError).toBeUndefined();
       expect(apiCallCount).toBe(3);
     }, 30000);
 
