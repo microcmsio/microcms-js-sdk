@@ -1,0 +1,16 @@
+version: 2
+
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    open-pull-requests-limit: 1
+    # 毎月の15日の9時に実行
+    schedule:
+      interval: cron
+      cronjob: "0 9 15 * *"
+      timezone: "Asia/Tokyo"
+    groups:
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
