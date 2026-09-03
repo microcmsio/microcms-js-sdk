@@ -711,6 +711,41 @@ type UploadMediaRequest =
 function uploadMedia(params: UploadMediaRequest): Promise<{ url: string }>;
 ```
 
+## Error handling
+
+When a request to the microCMS API fails, use `isMicroCMSRequestError` to access the HTTP status code, request URL, and original network error.
+
+```typescript
+import { createClient, isMicroCMSRequestError } from 'microcms-js-sdk';
+
+const client = createClient({
+  serviceDomain: 'serviceDomain',
+  apiKey: 'apiKey',
+});
+
+try {
+  await client.getList({ endpoint: 'blog' });
+} catch (error) {
+  if (isMicroCMSRequestError(error)) {
+    console.log(error.status);
+    console.log(error.url);
+    console.log(error.originalError);
+  }
+}
+```
+
+| Property        | HTTP error       | Network error                  |
+| --------------- | ---------------- | ------------------------------ |
+| `status`        | HTTP status code | `undefined`                    |
+| `url`           | Request URL      | Request URL                    |
+| `originalError` | `undefined`      | Original value thrown by `fetch` |
+
+If `url` contains a `draftKey`, its value is masked as `***`. Request headers, request bodies, and the `Response` object are not added to the error.
+
+The contents of `originalError` depend on the runtime environment, such as Node.js, browsers, or Edge Runtime, and are not guaranteed by this SDK.
+
+The additional properties are non-enumerable, so they do not affect the existing `message`, `toString()`, `Object.keys()`, or `JSON.stringify()` results.
+
 ## Tips
 
 ### Separate API keys for read and write
