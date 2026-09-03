@@ -713,7 +713,9 @@ function uploadMedia(params: UploadMediaRequest): Promise<{ url: string }>;
 
 ## エラーハンドリング
 
-microCMS APIへのリクエストに失敗した場合は、`isMicroCMSRequestError`を使用して、HTTPステータスコード、リクエスト先URL、元のネットワークエラーを参照できます。
+microCMS APIへのリクエストに失敗した場合、エラーは通常の`Error`として扱えます。`console.error(error)`でエラーメッセージとスタックトレースを出力でき、HTTPエラーの場合はHTTPステータスとAPIから返されたエラーメッセージも含まれます。
+
+さらに、`isMicroCMSRequestError`でエラーを判定すると、リクエストに関する追加情報として`status`、`url`、`originalError`を個別に参照できます。
 
 ```typescript
 import { createClient, isMicroCMSRequestError } from 'microcms-js-sdk';
@@ -737,8 +739,6 @@ try {
   }
 }
 ```
-
-`console.error(error)`でエラーメッセージとスタックトレースを出力できます。HTTPエラーの場合、メッセージにはHTTPステータスとAPIから返されたエラーメッセージが含まれます。`status`、`url`、`originalError`は、必要に応じて個別に参照できる追加情報です。
 
 | プロパティ      | HTTPエラー                    | ネットワークエラー          |
 | --------------- | ----------------------------- | --------------------------- |
