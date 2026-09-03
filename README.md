@@ -726,13 +726,19 @@ const client = createClient({
 try {
   await client.getList({ endpoint: 'blog' });
 } catch (error) {
+  // エラーメッセージとスタックトレースを出力します
+  console.error(error);
+
   if (isMicroCMSRequestError(error)) {
+    // 必要に応じてリクエストに関する追加情報を参照できます
     console.log(error.status);
     console.log(error.url);
     console.log(error.originalError);
   }
 }
 ```
+
+`console.error(error)`でエラーメッセージとスタックトレースを出力できます。HTTPエラーの場合、メッセージにはHTTPステータスとAPIから返されたエラーメッセージが含まれます。`status`、`url`、`originalError`は、必要に応じて個別に参照できる追加情報です。
 
 | プロパティ      | HTTPエラー                    | ネットワークエラー          |
 | --------------- | ----------------------------- | --------------------------- |
