@@ -713,7 +713,9 @@ function uploadMedia(params: UploadMediaRequest): Promise<{ url: string }>;
 
 ## Error handling
 
-When a request to the microCMS API fails, use `isMicroCMSRequestError` to access the HTTP status code, request URL, and original network error.
+When a request to the microCMS API fails, the error can be handled as a standard `Error`. `console.error(error)` logs the error message and stack trace. For HTTP errors, the output also includes the HTTP status and the error message returned by the API.
+
+Additionally, after narrowing the error with `isMicroCMSRequestError`, you can access `status`, `url`, and `originalError` as structured request details.
 
 ```typescript
 import { createClient, isMicroCMSRequestError } from 'microcms-js-sdk';
@@ -737,8 +739,6 @@ try {
   }
 }
 ```
-
-`console.error(error)` logs the error message and stack trace. For HTTP errors, the message includes the HTTP status and the error message returned by the API. `status`, `url`, and `originalError` are additional details that can be accessed individually when needed.
 
 | Property        | HTTP error       | Network error                  |
 | --------------- | ---------------- | ------------------------------ |
