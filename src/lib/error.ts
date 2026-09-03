@@ -14,6 +14,9 @@ export const createMicroCMSRequestError = (
   error: Error,
   { status, url, originalError }: CreateMicroCMSRequestErrorOptions,
 ): MicroCMSRequestError => {
+  // Errorとしての実行時の同一性と既存のログ出力を維持するため、独自クラスは生成せず、
+  // 既存のErrorに追加情報を付与する。独自のErrorクラスは将来のメジャーリリースで再検討できる。
+  // 設計背景: https://github.com/microcmsio/microcms-js-sdk/pull/109
   const microCMSRequestError = error as MicroCMSRequestError;
 
   Object.defineProperties(microCMSRequestError, {
