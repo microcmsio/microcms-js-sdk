@@ -726,13 +726,19 @@ const client = createClient({
 try {
   await client.getList({ endpoint: 'blog' });
 } catch (error) {
+  // Log the error message and stack trace.
+  console.error(error);
+
   if (isMicroCMSRequestError(error)) {
+    // Access additional request details when needed.
     console.log(error.status);
     console.log(error.url);
     console.log(error.originalError);
   }
 }
 ```
+
+`console.error(error)` logs the error message and stack trace. For HTTP errors, the message includes the HTTP status and the error message returned by the API. `status`, `url`, and `originalError` are additional details that can be accessed individually when needed.
 
 | Property        | HTTP error       | Network error                  |
 | --------------- | ---------------- | ------------------------------ |
