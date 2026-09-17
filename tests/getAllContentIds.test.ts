@@ -119,6 +119,47 @@ describe('getAllContentIds', () => {
     expect(result).toContain('id249');
   });
 
+  test('should stop fetching when contents decrease during pagination', async () => {
+    const requestedOffsets: number[] = [];
+
+    server.use(
+      http.get(`${testBaseUrl}/getAllContentIds-list-type`, ({ request }) => {
+        const url = new URL(request.url);
+        const limit = Number(url.searchParams.get('limit'));
+
+        if (limit === 0) {
+          return HttpResponse.json(
+            { contents: [], totalCount: 101 },
+            { status: 200 },
+          );
+        }
+
+        const offset = Number(url.searchParams.get('offset'));
+        requestedOffsets.push(offset);
+
+        return HttpResponse.json(
+          {
+            contents:
+              offset === 0
+                ? Array(100)
+                    .fill(null)
+                    .map((_, index) => ({ id: `id${index}` }))
+                : [],
+            totalCount: offset === 0 ? 101 : 100,
+          },
+          { status: 200 },
+        );
+      }),
+    );
+
+    const result = await client.getAllContentIds({
+      endpoint: 'getAllContentIds-list-type',
+    });
+
+    expect(result).toHaveLength(100);
+    expect(requestedOffsets).toEqual([0, 100]);
+  });
+
   test('should fetch all content ids with alternateField field', async () => {
     server.use(
       http.get(
