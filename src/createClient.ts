@@ -263,7 +263,7 @@ export const createClient = ({
     const isStringArray = (arr: unknown[]): arr is string[] =>
       arr.every((item) => typeof item === 'string');
 
-    while (contentIds.length < totalCount) {
+    while (offset < totalCount) {
       const { contents } = (await makeRequest({
         endpoint,
         queries: { ...defaultQueries, offset },
@@ -281,7 +281,7 @@ export const createClient = ({
       contentIds = [...contentIds, ...ids];
 
       offset += limit;
-      if (contentIds.length < totalCount) {
+      if (offset < totalCount) {
         await sleep(1000); // sleep for 1 second before the next request
       }
     }
@@ -311,7 +311,7 @@ export const createClient = ({
     const sleep = (ms: number) =>
       new Promise((resolve) => setTimeout(resolve, ms));
 
-    while (contents.length < totalCount) {
+    while (offset < totalCount) {
       const { contents: _contents } = (await makeRequest({
         endpoint,
         queries: { ...queries, limit, offset },
@@ -321,7 +321,7 @@ export const createClient = ({
       contents = contents.concat(_contents);
 
       offset += limit;
-      if (contents.length < totalCount) {
+      if (offset < totalCount) {
         await sleep(1000); // sleep for 1 second before the next request
       }
     }
