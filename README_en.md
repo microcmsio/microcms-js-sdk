@@ -19,7 +19,7 @@ For details, see the [SDK maintenance policy](https://document.microcms.io/en/ma
 
 ## Tutorial
 
-To try a basic integration first, follow the official [JavaScript tutorial](https://document.microcms.io/tutorial/javascript/javascript-top). It covers getting started in a browser and with Node.js.
+To try a basic integration first, follow the official [JavaScript tutorial](https://document.microcms.io/en/tutorial/javascript/javascript-top). It covers getting started in a browser and with Node.js.
 
 ## Setup
 
