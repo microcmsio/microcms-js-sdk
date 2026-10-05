@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: ["main"]
+    branches: ['main']
   pull_request:
-    branches: ["main"]
+    branches: ['main']
 
 jobs:
   static-check:
@@ -19,8 +19,8 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version-file: ".node-version"
-          cache: "npm"
+          node-version-file: '.node-version'
+          cache: 'npm'
       - run: npm ci
       - name: Format Check
         run: npm run format
@@ -28,6 +28,8 @@ jobs:
         run: npm run lint
       - name: Type Check
         run: npm run typecheck
+      - name: Schema Type Check
+        run: npm run typecheck:schema
 
   build-and-test:
     runs-on: ubuntu-slim
@@ -45,9 +47,30 @@ jobs:
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          cache: 'npm'
       - run: npm ci
       - name: Build
         run: npm run build
+      - name: Published Declaration Type Check
+        run: npm run typecheck:dist
+      - name: TypeScript Consumer Regression Matrix
+        run: npm run test:types
       - name: Unit Tests
         run: npm run test
+
+  typescript-compatibility:
+    runs-on: ubuntu-slim
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: '.node-version'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+      - name: Install minimum supported TypeScript separately
+        run: npm install --prefix "$RUNNER_TEMP/microcms-ts6" --no-save --package-lock=false typescript@6.0.2
+      - name: TypeScript 6 consumer compatibility
+        run: MICROCMS_TYPESCRIPT_BINARY="$RUNNER_TEMP/microcms-ts6/node_modules/typescript/bin/tsc" npm run test:types

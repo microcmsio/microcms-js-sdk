@@ -12,11 +12,16 @@ JavaScriptやNode.jsのアプリケーションからmicroCMSのAPIと簡単に�
 
 詳細は[SDKの保守方針](https://document.microcms.io/manual/limitations#h8e929adf81)をご覧ください。
 
+## 動作環境
+
+- Node.js 18+（22+を推奨、ブラウザから利用する場合は不要）
+- TypeScript6.0+（型を利用する場合）
+
 ## チュートリアル
 
-公式ドキュメントの [チュートリアル](https://document.microcms.io/tutorial/javascript/javascript-top)をご覧ください。
+まず簡単な組み込みを試したい場合は、公式の[JavaScriptチュートリアル](https://document.microcms.io/tutorial/javascript/javascript-top)を参照してください。ブラウザとNode.jsでの基本的な利用手順を確認できます。
 
-## はじめに
+## セットアップ
 
 ### インストール
 
@@ -29,9 +34,6 @@ $ npm install microcms-js-sdk
 
 $ yarn add microcms-js-sdk
 ```
-
-> [!IMPORTANT]
-> v3.0.0以上を使用する場合は、Node.jsのv18以上が必要です。
 
 #### ブラウザ（セルフホスティング）
 
@@ -93,24 +95,25 @@ const client = createClient({
 });
 ```
 
+TypeScriptでの型指定と推論は[TypeScript](#typescript)を参照してください。
+
 ### APIメソッド
 
 以下の表は、microCMS JavaScript SDKの各メソッドがリスト形式のAPIまたはオブジェクト形式のAPI、どちらで使用できるかを示しています。
 
-| メソッド            | リスト形式 | オブジェクト形式 |
-|-------------------|-------------|---------------|
-| getList           | ✔️          |               |
-| getListDetail     | ✔️          |               |
-| getObject         |            | ✔️             |
-| getAllContentIds  | ✔️          |               |
-| getAllContents    | ✔️          |               |
-| create            | ✔️          |               |
-| update            | ✔️          | ✔️             |
-| delete            | ✔️          |               |
+| メソッド         | リスト形式 | オブジェクト形式 |
+| ---------------- | ---------- | ---------------- |
+| getList          | ✅         |                  |
+| getListDetail    | ✅         |                  |
+| getObject        |            | ✅               |
+| getAllContentIds | ✅         |                  |
+| getAllContents   | ✅         |                  |
+| create           | ✅         |                  |
+| update           | ✅         | ✅               |
+| delete           | ✅         |                  |
 
 > [!NOTE]
-> - 「リスト形式」の✔️は、APIの型がリスト形式に設定されている場合に使用できるメソッドを示します。
-> - 「オブジェクト形式」の✔️は、APIの型がオブジェクト形式に設定されている場合に使用できるメソッドを示します。
+> 汎用の取得メソッド`get`は非推奨です。`getList`・`getListDetail`・`getObject`を使用してください。スキーマを指定したクライアントでも、`get`の戻り値型は自動推論されません。
 
 ### コンテンツ一覧の取得
 
@@ -143,7 +146,7 @@ client
       ids: 'foo',
       filters: 'publishedAt[greater_than]2021-01-01T03:00:00.000Z',
       depth: 1,
-    }
+    },
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
@@ -176,11 +179,10 @@ client
       draftKey: 'abcd',
       fields: 'id,title',
       depth: 1,
-    }
+    },
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
-
 ```
 
 ### オブジェクト形式のコンテンツの取得
@@ -239,7 +241,7 @@ client
 
 #### コンテンツID以外のフィールドの値を全件取得
 
-`alternateField`プロパティにフィールドIDを指定することで、コンテンツID以外のフィールドの値を全件取得できます。
+`alternateField`プロパティにフィールドIDを指定することで、コンテンツID以外のフィールドの値を全件取得できます。取得した値が文字列でない場合は、実行時にエラーになります。
 
 ```javascript
 client
@@ -272,7 +274,10 @@ client
 client
   .getAllContents({
     endpoint: 'endpoint',
-    queries: { filters: 'createdAt[greater_than]2021-01-01T03:00:00.000Z', orders: '-createdAt' },
+    queries: {
+      filters: 'createdAt[greater_than]2021-01-01T03:00:00.000Z',
+      orders: '-createdAt',
+    },
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
@@ -453,110 +458,6 @@ client
   .catch((err) => console.error(err));
 ```
 
-### TypeScript
-
-`getList`メソッド、`getListDetail`メソッド、`getObject`メソッドはデフォルトのレスポンスの型を定義しています。
-
-#### getListメソッドのレスポンスの型
-
-```typescript
-type Content = {
-  text: string,
-};
-/**
- * {
- *  contents: Content[]; // 設定したスキーマの型を格納する配列
- *  totalCount: number;
- *  limit: number;
- *  offset: number;
- * }
- */
-client.getList<Content>({ /* その他のプロパティ */ })
-```
-
-#### getListDetailメソッドのレスポンスの型
-
-```typescript
-type Content = {
-  text: string,
-};
-/**
- * {
- *  id: string;
- *  createdAt: string;
- *  updatedAt: string;
- *  publishedAt?: string;
- *  revisedAt?: string;
- *  text: string; // 設定したスキーマの型
- * }
- */
-client.getListDetail<Content>({ /* その他のプロパティ */ })
-```
-
-#### getObjectメソッドのレスポンスの型
-
-```typescript
-type Content = {
-  text: string,
-};
-/**
- * {
- *  createdAt: string;
- *  updatedAt: string;
- *  publishedAt?: string;
- *  revisedAt?: string;
- *  text: string; // 設定したスキーマの型
- * }
- */
-client.getObject<Content>({ /* その他のプロパティ */ })
-```
-
-#### getAllContentIdsメソッドのレスポンスの型
-
-```typescript
-/**
- * string[]
- */
-client.getAllContentIds({ /* その他のプロパティ */ })
-```
-
-#### 型安全なコンテンツの登録
-
-`content`の型は`Content`であるため、型安全なコンテンツの登録が可能です。
-
-```typescript
-type Content = {
-  title: string;
-  body?: string;
-};
-
-client.create<Content>({
-  endpoint: 'endpoint',
-  content: {
-    title: 'タイトル',
-    body: '本文',
-  },
-});
-```
-
-#### 型安全なコンテンツの編集
-
-`content`は`Partial<Content>`型であるため、編集したいプロパティだけを渡せます。
-
-```typescript
-type Content = {
-  title: string;
-  body?: string;
-};
-
-client.update<Content>({
-  endpoint: 'endpoint',
-  content: {
-    body: '本文',
-  },
-});
-```
-
 ### CustomRequestInit
 
 #### Next.js App Router
@@ -584,16 +485,162 @@ fetchリクエストを中断できます。
 
 ```ts
 const controller = new AbortController();
-const response = await client.getObject({
-  customRequestInit: {
-    signal: controller.signal,
-  },
-  endpoint: 'config',
-});
-
-setTimeout(() => {
+const timeoutId = setTimeout(() => {
   controller.abort();
 }, 1000);
+
+try {
+  const response = await client.getObject({
+    customRequestInit: {
+      signal: controller.signal,
+    },
+    endpoint: 'config',
+  });
+} finally {
+  clearTimeout(timeoutId);
+}
+```
+
+### TypeScript
+
+補完や推論をエディタで試す場合は、[型付きクライアントの利用例](examples/README.md)を参照してください。
+
+コンテンツAPIの型は、サービス全体のスキーマをクライアント生成時に指定する方法と、メソッドごとに型を指定する方法があります。取得クエリに対応したコンテンツ型だけを取り出すこともできます。
+
+#### クライアント生成時にスキーマを指定する
+
+[microcms-typegen](https://github.com/microcmsio/microcms-ts-typegen#readme)で作成したサービスのスキーマ型を渡すと、TypeScriptのコンパイル時に次の型検査・推論が利用できます。
+
+- **入力の型検査**：登録済みのエンドポイントとAPI形式、静的に確定する`fields`のフィールドパスと`depth`の組み合わせを検査します。クエリの項目名、値の基本型、`depth`の範囲（0〜3）も検査します。
+- **戻り値型の推論**：エンドポイントと`depth`・`fields`に応じて、`getList`、`getListDetail`、`getObject`、`getAllContents`の戻り値型を推論します。
+
+以下は型生成器の設定が`services.main`の場合の例です。スキーマ型の名前はサービス名に応じて変わります。
+
+```ts
+import { createClient } from 'microcms-js-sdk';
+import type { MainServiceSchema } from './microcms-types';
+
+const client = createClient<MainServiceSchema>({
+  serviceDomain: 'YOUR_DOMAIN',
+  apiKey: 'YOUR_API_KEY',
+});
+
+const response = await client.getList({
+  endpoint: 'blogs',
+  queries: { depth: 2, fields: ['title', 'category.name'] },
+});
+```
+
+##### 型検査・推論の対象外
+
+以下の項目は型検査・推論には未対応です。今後対応を検討します。
+
+| 項目 | 検査・推論しない内容 |
+| --- | --- |
+| `filters` | フィールド名・演算子・値の正しさ |
+| `orders` | フィールド名・並び順指定の正しさ |
+| `alternateField` | 指定先フィールドの存在と値の型 |
+| `richEditorFormat: 'object'` | 戻り値型の自動推論。利用時はメソッドの型引数が必要（省略すると型エラー） |
+
+#### メソッドごとに型を指定する
+
+従来どおり、スキーマ型を渡さずにクライアントを作成し、読み取りメソッドの型引数を指定できます。型付きクライアントでも明示的なメソッド型引数を使用できます。この呼び出しではスキーマによる`depth`・`fields`の型推論より指定した型を優先します。指定した型と実際のレスポンスが一致するかは利用側で確認してください。
+
+```ts
+import { createClient } from 'microcms-js-sdk';
+
+type Content = { title: string };
+const client = createClient({
+  serviceDomain: 'YOUR_DOMAIN',
+  apiKey: 'YOUR_API_KEY',
+});
+
+const list = await client.getList<Content>({ endpoint: 'blogs' });
+const detail = await client.getListDetail<Content>({
+  endpoint: 'blogs',
+  contentId: 'blog-id',
+});
+const object = await client.getObject<Content>({ endpoint: 'settings' });
+```
+
+#### クエリに応じたコンテンツ型を取り出す
+
+コンポーネントのpropsなどで、取得時と同じクエリに対応したコンテンツ1件の型が必要な場合は`InferMicroCMSContent`を使います。
+
+```ts
+import { createClient, type InferMicroCMSContent } from 'microcms-js-sdk';
+import type { MainServiceSchema } from './microcms-types';
+
+const client = createClient<MainServiceSchema>({
+  serviceDomain: 'YOUR_DOMAIN',
+  apiKey: 'YOUR_API_KEY',
+});
+const queries = { depth: 2, fields: ['title', 'category.name'] } as const;
+const response = await client.getList({ endpoint: 'blogs', queries });
+
+type BlogCardProps = {
+  blog: InferMicroCMSContent<MainServiceSchema, 'blogs', typeof queries>;
+};
+```
+
+このようにクエリを変数に分ける場合は、`as const`で`depth`と`fields`の具体的な値を保持します。`const queries = { ... }`だけでは`depth`は`number`、`fields`は`string[]`に広がります。メソッドへクエリを直接書く場合は`as const`は不要です。
+
+`InferMicroCMSContent`だけで不正な`fields`の型を宣言しても、その場では型エラーにならず、結果は`unknown`です。同じクエリを型付きクライアントへ渡すと、静的に分かる誤記は呼び出し箇所で型エラーになります。
+
+#### スキーマから書き込みデータの型を推論する
+
+型生成器で作成した`MainServiceSchema`を指定すると、`create`・`update`の`endpoint`からフィールド名と値の型を推論します。参照はコンテンツID、画像とファイルはURL文字列を指定します。`create`・`delete`はリスト形式API、`update`はリスト形式・オブジェクト形式APIで利用できます。`delete`もエンドポイントを型検査します。
+
+```ts
+import { createClient } from 'microcms-js-sdk';
+import type { MainServiceSchema } from './microcms-types';
+
+const client = createClient<MainServiceSchema>({
+  serviceDomain: 'YOUR_DOMAIN',
+  apiKey: 'YOUR_API_KEY',
+});
+
+await client.create({
+  endpoint: 'blogs',
+  content: { title: 'タイトル', category: 'category-id' },
+});
+await client.update({
+  endpoint: 'blogs',
+  contentId: 'blog-id',
+  content: { title: '更新したタイトル' },
+});
+await client.delete({ endpoint: 'blogs', contentId: 'blog-id' });
+```
+
+生成された入力型は`MainServiceSchema['blogs']['create']`や`MainServiceSchema['blogs']['update']`として取り出せます。
+
+#### メソッドごとに書き込み型を指定する
+
+従来の`create<Content>`・`update<Content>`も利用できます。型付きクライアントで明示すると、その呼び出しでは生成スキーマの書き込み型より指定した型を優先します。`create<Content>`は`Content`、`update<Content>`は`Partial<Content>`として`content`を検査します。指定した型とAPIスキーマの一致は利用側で確認してください。
+
+```ts
+type TitleOnly = { title: string };
+
+await client.update<TitleOnly>({
+  endpoint: 'blogs',
+  contentId: 'blog-id',
+  content: { title: '更新したタイトル' },
+});
+```
+
+### ヒント
+
+#### 読み取り用と書き込み用で別々のAPIキーを使用する
+
+```javascript
+const readClient = createClient({
+  serviceDomain: 'serviceDomain',
+  apiKey: 'readApiKey',
+});
+const writeClient = createClient({
+  serviceDomain: 'serviceDomain',
+  apiKey: 'writeApiKey',
+});
 ```
 
 ## マネジメントAPI
@@ -696,9 +743,11 @@ client
 
 ### TypeScript
 
-#### uploadMediaメソッドのパラメータの型
+#### メディアアップロードの引数
 
-```typescript
+マネジメントAPIの`uploadMedia`は、次の形式のデータを受け取ります。
+
+```ts
 type UploadMediaRequest =
   | { data: File }
   | { data: Blob; name: string }
@@ -713,9 +762,9 @@ function uploadMedia(params: UploadMediaRequest): Promise<{ url: string }>;
 
 ## エラーハンドリング
 
-microCMS APIへのリクエストに失敗した場合、エラーは通常の`Error`として扱えます。`console.error(error)`でエラーメッセージとスタックトレースを出力でき、HTTPエラーの場合はHTTPステータスとAPIから返されたエラーメッセージも含まれます。
+コンテンツAPIとマネジメントAPIのどちらでも、SDKが生成したリクエストエラーは通常の`Error`として扱えます。`console.error(error)`でエラーメッセージとスタックトレースを出力でき、HTTPエラーの場合はHTTPステータスとAPIから返されたエラーメッセージも含まれます。
 
-さらに、`isMicroCMSRequestError`でエラーを判定すると、リクエストに関する追加情報として`status`、`url`、`originalError`を個別に参照できます。
+SDKが生成したリクエストエラーは、両クライアントで共通の`isMicroCMSRequestError`を使って判定できます。判定後は`status`、`url`、`originalError`を個別に参照できます。以下はコンテンツAPIの例です。マネジメントAPIの`uploadMedia`でも、microCMSへのリクエストでSDKが生成したエラーは同様に判定できます。
 
 ```typescript
 import { createClient, isMicroCMSRequestError } from 'microcms-js-sdk';
@@ -740,11 +789,13 @@ try {
 }
 ```
 
-| プロパティ      | HTTPエラー                    | ネットワークエラー          |
-| --------------- | ----------------------------- | --------------------------- |
-| `status`        | HTTPステータスコード          | `undefined`                 |
-| `url`           | リクエスト先URL               | リクエスト先URL             |
-| `originalError` | `undefined`                   | `fetch`が投げた元の値       |
+| プロパティ      | HTTPエラー           | ネットワークエラー    |
+| --------------- | -------------------- | --------------------- |
+| `status`        | HTTPステータスコード | `undefined`           |
+| `url`           | リクエスト先URL      | リクエスト先URL       |
+| `originalError` | `undefined`          | `fetch`が投げた元の値 |
+
+`uploadMedia`の引数検証やアップロード元URLの取得で起きたエラーは、microCMSへのリクエスト前に発生するため、`isMicroCMSRequestError`で判定できない場合があります。
 
 `url`に`draftKey`が含まれる場合、その値は`***`にマスクされます。リクエストヘッダー、リクエストボディ、`Response`オブジェクトはエラーへ追加されません。
 
@@ -752,20 +803,9 @@ try {
 
 追加されるプロパティは非列挙です。そのため、既存の`message`、`toString()`、`Object.keys()`、`JSON.stringify()`の結果には影響しません。
 
-## ヒント
+## 開発者向け情報
 
-### 読み取り用と書き込み用で別々のAPIキーを使用する
-
-```javascript
-const readClient = createClient({
-  serviceDomain: 'serviceDomain',
-  apiKey: 'readApiKey',
-});
-const writeClient = createClient({
-  serviceDomain: 'serviceDomain',
-  apiKey: 'writeApiKey',
-});
-```
+SDKの開発環境・テスト・fixture・CIについては、[開発ガイド](DEVELOPMENT.md)を参照してください。
 
 ## ライセンス
 

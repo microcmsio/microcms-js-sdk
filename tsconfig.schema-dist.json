@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.schema-types.json",
+  "compilerOptions": {
+    "paths": {
+      "microcms-js-sdk": [
+        "."
+      ]
+    }
+  },
+  "include": [
+    "tests/typedSchema.typecheck.ts"
+  ]
+}

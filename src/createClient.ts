@@ -31,11 +31,12 @@ import {
 } from './utils/constants';
 import { isString } from './utils/isCheckValue';
 import { parseQuery } from './utils/parseQuery';
+import type { MicroCMSSchemaEntry, TypedMicroCMSClient } from './typedSchema';
 
 /**
  * Initialize SDK Client
  */
-export const createClient = ({
+const createClientImpl = ({
   serviceDomain,
   apiKey,
   retry: retryOption,
@@ -408,7 +409,7 @@ export const createClient = ({
   };
 
   /**
-   * Delete content in their microCMS list and object API data
+   * Delete content in a microCMS list API
    */
   const _delete = async ({
     endpoint,
@@ -445,3 +446,19 @@ export const createClient = ({
     delete: _delete,
   };
 };
+
+type LegacyMicroCMSClient = ReturnType<typeof createClientImpl>;
+
+/**
+ * Pass a generated service schema to infer read responses and write inputs.
+ * Omitting it keeps the existing client and per-request generics unchanged.
+ */
+export function createClient(options: MicroCMSClient): LegacyMicroCMSClient;
+export function createClient<
+  Schema extends { [Endpoint in keyof Schema]: MicroCMSSchemaEntry },
+>(options: MicroCMSClient): TypedMicroCMSClient<Schema, LegacyMicroCMSClient>;
+// Keep utility types such as ReturnType<typeof createClient> on the legacy client.
+export function createClient(options: MicroCMSClient): LegacyMicroCMSClient;
+export function createClient(options: MicroCMSClient): unknown {
+  return createClientImpl(options);
+}

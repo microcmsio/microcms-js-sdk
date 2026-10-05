@@ -1,0 +1,500 @@
+{
+  "serviceDomain": "typegen",
+  "capturedAt": "2026-10-02T13:45:23.070Z",
+  "listing": {
+    "apis": [
+      {
+        "name": "バナー",
+        "endpoint": "banner",
+        "type": "object"
+      },
+      {
+        "name": "ブログ",
+        "endpoint": "blogs",
+        "type": "list"
+      },
+      {
+        "name": "カテゴリ",
+        "endpoint": "categories",
+        "type": "list"
+      },
+      {
+        "name": "全てのフィールド",
+        "endpoint": "all_fields",
+        "type": "list"
+      }
+    ]
+  },
+  "schemas": {
+    "banner": {
+      "apiFields": [
+        {
+          "fieldId": "image",
+          "name": "画像",
+          "kind": "media",
+          "description": null,
+          "required": true,
+          "imageSizeValidation": null,
+          "initialValue": null
+        },
+        {
+          "fieldId": "url",
+          "name": "遷移先URL",
+          "kind": "text",
+          "description": null,
+          "required": true,
+          "textSizeLimitValidation": null,
+          "patternMatchValidation": null,
+          "isUnique": false,
+          "initialValue": null
+        },
+        {
+          "fieldId": "description",
+          "name": "バナーの説明",
+          "kind": "textArea",
+          "description": null,
+          "required": false,
+          "textSizeLimitValidation": null,
+          "patternMatchValidation": null,
+          "initialValue": null
+        }
+      ],
+      "customFields": []
+    },
+    "blogs": {
+      "apiFields": [
+        {
+          "fieldId": "title",
+          "name": "タイトル",
+          "kind": "text",
+          "description": null,
+          "required": false,
+          "textSizeLimitValidation": null,
+          "patternMatchValidation": null,
+          "isUnique": false,
+          "initialValue": null
+        },
+        {
+          "fieldId": "content",
+          "name": "内容",
+          "kind": "richEditorV2",
+          "description": null,
+          "required": false,
+          "richEditorV2Options": [
+            "headerOne",
+            "headerTwo",
+            "headerThree",
+            "headerFour",
+            "headerFive",
+            "paragraph",
+            "bold",
+            "italic",
+            "underline",
+            "strike",
+            "code",
+            "blockquote",
+            "codeBlock",
+            "listBullet",
+            "listOrdered",
+            "link",
+            "image",
+            "file",
+            "table",
+            "horizontalRule",
+            "textAlign",
+            "customClass",
+            "oembedly",
+            "color",
+            "size"
+          ],
+          "richEditorV2ColorList": [],
+          "richEditorV2HideColorPicker": false,
+          "richEditorV2FontSizeList": [],
+          "customClassList": []
+        },
+        {
+          "fieldId": "eyecatch",
+          "name": "アイキャッチ",
+          "kind": "media",
+          "description": null,
+          "required": false,
+          "imageSizeValidation": null,
+          "initialValue": null
+        },
+        {
+          "fieldId": "category",
+          "name": "カテゴリ",
+          "kind": "relation",
+          "description": null,
+          "required": false,
+          "listViewFieldId": "DEFAULT",
+          "referencedApiEndpoint": "categories"
+        }
+      ],
+      "customFields": []
+    },
+    "categories": {
+      "apiFields": [
+        {
+          "fieldId": "name",
+          "name": "カテゴリ名",
+          "kind": "text",
+          "description": null,
+          "required": false,
+          "textSizeLimitValidation": null,
+          "patternMatchValidation": null,
+          "isUnique": false,
+          "initialValue": null
+        }
+      ],
+      "customFields": []
+    },
+    "all_fields": {
+      "apiFields": [
+        {
+          "fieldId": "text",
+          "name": "text",
+          "kind": "text",
+          "description": "aaaa",
+          "required": true,
+          "textSizeLimitValidation": null,
+          "patternMatchValidation": null,
+          "isUnique": false,
+          "initialValue": null
+        },
+        {
+          "fieldId": "textArea",
+          "name": "textArea",
+          "kind": "textArea",
+          "description": null,
+          "required": false,
+          "textSizeLimitValidation": null,
+          "patternMatchValidation": null,
+          "initialValue": null
+        },
+        {
+          "fieldId": "oldRich",
+          "name": "oldRich",
+          "kind": "richEditor",
+          "description": null,
+          "required": false,
+          "richEditorMultiParagraph": true,
+          "richEditorImageSize": false,
+          "richEditorOptions": [
+            "headerOne",
+            "headerTwo",
+            "headerThree",
+            "headerFour",
+            "headerFive",
+            "paragraph",
+            "sizeSmall",
+            "sizeNormal",
+            "sizeLarge",
+            "sizeHuge",
+            "bold",
+            "italic",
+            "underline",
+            "strike",
+            "code",
+            "background",
+            "color",
+            "align",
+            "blockquote",
+            "codeBlock",
+            "listOrdered",
+            "listBullet",
+            "indentRemove",
+            "indentAdd",
+            "scriptSub",
+            "scriptSuper",
+            "link",
+            "image",
+            "oembedly",
+            "clean"
+          ]
+        },
+        {
+          "fieldId": "Rich",
+          "name": "rich",
+          "kind": "richEditorV2",
+          "description": null,
+          "required": false,
+          "richEditorV2Options": [
+            "headerOne",
+            "headerTwo",
+            "headerThree",
+            "headerFour",
+            "headerFive",
+            "paragraph",
+            "bold",
+            "italic",
+            "underline",
+            "strike",
+            "code",
+            "blockquote",
+            "codeBlock",
+            "listBullet",
+            "listOrdered",
+            "link",
+            "image",
+            "file",
+            "table",
+            "horizontalRule",
+            "textAlign",
+            "customClass",
+            "oembedly",
+            "color",
+            "size"
+          ],
+          "richEditorV2ColorList": [],
+          "richEditorV2HideColorPicker": false,
+          "richEditorV2FontSizeList": [],
+          "customClassList": [
+            {
+              "id": "fssTxA22qG",
+              "name": "マーカー",
+              "value": "marker"
+            }
+          ]
+        },
+        {
+          "fieldId": "image",
+          "name": "image",
+          "kind": "media",
+          "description": null,
+          "required": false,
+          "imageSizeValidation": null,
+          "initialValue": null
+        },
+        {
+          "fieldId": "images",
+          "name": "images",
+          "kind": "mediaList",
+          "description": null,
+          "required": false,
+          "imageSizeValidation": null,
+          "mediaListLayout": "GRID_3",
+          "initialValue": []
+        },
+        {
+          "fieldId": "date",
+          "name": "date",
+          "kind": "date",
+          "description": null,
+          "required": false,
+          "dateFormat": true,
+          "initialValue": null
+        },
+        {
+          "fieldId": "boolean",
+          "name": "boolean",
+          "kind": "boolean",
+          "description": null,
+          "required": false,
+          "initialValue": true
+        },
+        {
+          "fieldId": "select",
+          "name": "select",
+          "kind": "select",
+          "description": null,
+          "required": false,
+          "selectItems": [
+            {
+              "id": "N4vyLE9K5j",
+              "value": "hoge"
+            },
+            {
+              "id": "0ErYZCUYzZ",
+              "value": "hoge2"
+            }
+          ],
+          "multipleSelect": true,
+          "initialValue": ["N4vyLE9K5j"]
+        },
+        {
+          "fieldId": "num",
+          "name": "num",
+          "kind": "number",
+          "description": null,
+          "required": false,
+          "numberSizeLimitValidation": null,
+          "initialValue": null
+        },
+        {
+          "fieldId": "file",
+          "name": "file",
+          "kind": "file",
+          "description": null,
+          "required": false,
+          "initialValue": null
+        },
+        {
+          "fieldId": "extend",
+          "name": "extend",
+          "kind": "iframe",
+          "description": null,
+          "required": false,
+          "iframeUrl": "https://example.com/links/link-5"
+        },
+        {
+          "fieldId": "ref",
+          "name": "ref",
+          "kind": "relation",
+          "description": null,
+          "required": false,
+          "listViewFieldId": "DEFAULT",
+          "referencedApiEndpoint": "categories"
+        },
+        {
+          "fieldId": "multi_ref",
+          "name": "multi_ref",
+          "kind": "relationList",
+          "description": null,
+          "required": false,
+          "relationListCountLimitValidation": null,
+          "listViewFieldId": "DEFAULT",
+          "referencedApiEndpoint": "categories"
+        },
+        {
+          "fieldId": "custom",
+          "name": "custom",
+          "kind": "custom",
+          "description": null,
+          "required": false,
+          "listViewFieldId": "hoge",
+          "customFieldId": "Alpha"
+        },
+        {
+          "fieldId": "repeat",
+          "name": "repeat",
+          "kind": "repeater",
+          "description": null,
+          "required": false,
+          "repeaterCountLimitValidation": null,
+          "customFieldIds": ["Beta", "Epsilon", "Gamma", "Alpha", "Delta"]
+        }
+      ],
+      "customFields": [
+        {
+          "fieldId": "Alpha",
+          "name": "Alpha",
+          "fieldOrderByColumn": [["hoge", "huga"]],
+          "fields": [
+            {
+              "fieldId": "hoge",
+              "name": "hoge",
+              "kind": "text",
+              "description": null,
+              "required": false,
+              "textSizeLimitValidation": null,
+              "patternMatchValidation": null,
+              "isUnique": false,
+              "initialValue": null
+            },
+            {
+              "fieldId": "huga",
+              "name": "huga",
+              "kind": "text",
+              "description": null,
+              "required": false,
+              "textSizeLimitValidation": null,
+              "patternMatchValidation": null,
+              "isUnique": false,
+              "initialValue": null
+            }
+          ]
+        },
+        {
+          "fieldId": "Beta",
+          "name": "Beta",
+          "fieldOrderByColumn": [["aa", "bb", "cc"]],
+          "fields": [
+            {
+              "fieldId": "aa",
+              "name": "aa",
+              "kind": "textArea",
+              "description": null,
+              "required": false,
+              "textSizeLimitValidation": null,
+              "patternMatchValidation": null,
+              "initialValue": null
+            },
+            {
+              "fieldId": "bb",
+              "name": "bb",
+              "kind": "media",
+              "description": null,
+              "required": false,
+              "imageSizeValidation": null,
+              "initialValue": null
+            },
+            {
+              "fieldId": "cc",
+              "name": "cc",
+              "kind": "date",
+              "description": null,
+              "required": false,
+              "dateFormat": false,
+              "initialValue": null
+            }
+          ]
+        },
+        {
+          "fieldId": "Gamma",
+          "name": "Gamma",
+          "fieldOrderByColumn": [["test"]],
+          "fields": [
+            {
+              "fieldId": "test",
+              "name": "test",
+              "kind": "text",
+              "description": null,
+              "required": false,
+              "textSizeLimitValidation": null,
+              "patternMatchValidation": null,
+              "isUnique": false,
+              "initialValue": null
+            }
+          ]
+        },
+        {
+          "fieldId": "Delta",
+          "name": "Delta",
+          "fieldOrderByColumn": [["test"]],
+          "fields": [
+            {
+              "fieldId": "test",
+              "name": "test",
+              "kind": "text",
+              "description": null,
+              "required": false,
+              "textSizeLimitValidation": null,
+              "patternMatchValidation": null,
+              "isUnique": false,
+              "initialValue": null
+            }
+          ]
+        },
+        {
+          "fieldId": "Epsilon",
+          "name": "Epsilon",
+          "fieldOrderByColumn": [["text"]],
+          "fields": [
+            {
+              "fieldId": "text",
+              "name": "text",
+              "kind": "text",
+              "description": null,
+              "required": false,
+              "textSizeLimitValidation": null,
+              "patternMatchValidation": null,
+              "isUnique": false,
+              "initialValue": null
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "microcms-js-sdk",
-  "version": "3.5.1",
+  "version": "3.6.0",
   "description": "JavaScript SDK Client for microCMS.",
   "engines": {
     "node": ">=18.0.0"
@@ -22,15 +22,20 @@
     "microCMS"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && tsc --project tsconfig.declarations.json && node scripts/finish-declarations.mjs",
     "postbuild": "mkdir -p ./dist/umd/ && cp -pR ./dist/iife/* ./dist/umd",
-    "lint": "eslint ./src ./tests",
-    "lint:fix": "eslint --fix ./src ./tests",
-    "format": "prettier --check ./src ./tests",
-    "format:fix": "prettier --write ./src ./tests",
-    "typecheck": "tsc --noEmit",
+    "lint": "oxlint ./src ./tests ./examples",
+    "lint:fix": "oxlint --fix ./src ./tests ./examples",
+    "format": "prettier --check ./src ./tests ./examples",
+    "format:fix": "prettier --write ./src ./tests ./examples",
+    "typecheck": "tsc --noEmit && tsc --project tsconfig.tests.json",
     "test": "jest --coverage=false",
-    "test:coverage": "jest --coverage=true"
+    "test:coverage": "jest --coverage=true",
+    "typecheck:schema": "tsc --noEmit --project tsconfig.schema-types.json",
+    "typecheck:dist": "tsc --noEmit --project tsconfig.schema-dist.json",
+    "test:types": "node scripts/check-typescript.mjs",
+    "typecheck:examples": "tsc --noEmit --project examples/tsconfig.json",
+    "test:performance": "node scripts/check-type-performance.mjs"
   },
   "files": [
     "dist"
@@ -43,19 +48,15 @@
   },
   "devDependencies": {
     "@swc/core": "^1.16.1",
+    "@swc/jest": "^0.2.39",
     "@types/async-retry": "^1.4.9",
     "@types/jest": "^29.5.14",
     "@types/node": "^18.19.130",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^9.1.2",
-    "eslint-plugin-jest": "^27.9.0",
     "jest": "^29.7.0",
     "msw": "^2.2.3",
+    "oxlint": "^1.85.0",
     "prettier": "^3.9.6",
-    "ts-jest": "^29.4.12",
     "tsup": "^8.5.1",
-    "typescript": "^5.9.3"
+    "typescript": "^7.0.2"
   }
 }
