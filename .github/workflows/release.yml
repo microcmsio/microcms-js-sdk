@@ -6,12 +6,45 @@ on:
       - 'v*'
 
 permissions:
-  id-token: write # Required for OIDC
   contents: read
 
 jobs:
-  build:
+  precheck:
     runs-on: ubuntu-slim
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: '.node-version'
+          cache: 'npm'
+      - run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Type Check
+        run: npm run typecheck
+      - name: Schema Type Check
+        run: npm run typecheck:schema
+      - name: Unit Tests and Coverage
+        run: npm run test:coverage
+      - name: Build
+        run: npm run build
+      - name: Published Declaration Type Check
+        run: npm run typecheck:dist
+      - name: TypeScript Consumer Regression Matrix
+        run: npm run test:types
+      - name: Install minimum supported TypeScript separately
+        run: npm install --prefix "$RUNNER_TEMP/microcms-ts6" --no-save --package-lock=false typescript@6.0.2
+      - name: TypeScript 6 consumer compatibility
+        run: MICROCMS_TYPESCRIPT_BINARY="$RUNNER_TEMP/microcms-ts6/node_modules/typescript/bin/tsc" npm run test:types
+
+  publish:
+    needs: precheck
+    runs-on: ubuntu-slim
+    permissions:
+      contents: read
+      id-token: write # Required for OIDC
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -21,18 +54,6 @@ jobs:
           node-version-file: '.node-version'
           registry-url: 'https://registry.npmjs.org'
           package-manager-cache: false
-      - name: release on npm
-        run: |
-          npm ci
-          npm run lint
-          npm run typecheck
-          npm run typecheck:schema
-          npm run test:coverage
-          npm run build
-          npm run typecheck:dist
-          npm run test:types
-      - name: Install minimum supported TypeScript separately
-        run: npm install --prefix "$RUNNER_TEMP/microcms-ts6" --no-save --package-lock=false typescript@6.0.2
-      - name: TypeScript 6 consumer compatibility
-        run: MICROCMS_TYPESCRIPT_BINARY="$RUNNER_TEMP/microcms-ts6/node_modules/typescript/bin/tsc" npm run test:types
+      - run: npm ci
+      - run: npm run build
       - run: npm publish

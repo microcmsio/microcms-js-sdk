@@ -130,6 +130,8 @@ npm run test:performance
 
 [テストCI](.github/workflows/ci.yml)は`main`へのpushとpull requestで実行します。依存関係のインストール・静的検査・ビルド・型検査には`.node-version`のNode.jsを使用します。開発ツールはSDKの対応下限より新しいNode.jsを必要とするためです。インストールとビルド後、Node.js18・20・22・24系へ切り替えて実行時の単体テストを行います。`test:types`を通して、開発用のTypeScript7で利用例と生成型との連携も検査します。別ジョブでTypeScript6.0.2による同じ互換性検査を実行します。
 
-[リリース処理](.github/workflows/release.yml)は`v`で始まるタグへのpushで実行します。lint・実装の型検査・単体テスト・ビルド・公開型定義と利用者側の型検査が成功した後に、npmへ公開します。リリースタグはレビューと公開の準備が完了してから作成してください。
+[リリース処理](.github/workflows/release.yml)は`v`で始まるタグへのpushで実行します。`precheck`ジョブでlint・実装と公開型の型検査・単体テストとカバレッジ下限・ビルド・TypeScript6の互換性を検査します。成功した場合だけ、`needs: precheck`で依存する`publish`ジョブがnpmへ公開します。
+
+`publish`は新しいチェックアウトで同じタグのコードを取得し、依存関係のインストールとビルドを再実行します。検証ジョブ内のファイル変更は持ち越しません。公開時に必要なOIDCの`id-token: write`は`publish`ジョブだけに付与します。リリースタグはレビューと公開の準備が完了してから作成してください。
 
 通常の開発用コマンドとテストCIはnpmへの公開を行いません。
