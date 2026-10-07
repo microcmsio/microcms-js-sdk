@@ -21,7 +21,7 @@ npm ci
 | `npm run lint`               | ソース・テスト・利用例のlint                                        |
 | `npm run typecheck`          | SDK内部の実装と単体テストを型検査                                   |
 | `npm test`                   | 実行時の単体テスト                                                  |
-| `npm run test:coverage`      | 単体テストとカバレッジ計測                                          |
+| `npm run test:coverage`      | 単体テスト・カバレッジ計測・ファイルごとの下限検査                  |
 | `npm run typecheck:schema`   | ソースの公開APIによる型検査                                         |
 | `npm run typecheck:dist`     | ビルド済みの公開型定義による型検査                                  |
 | `npm run typecheck:examples` | ビルド済みの公開型定義で利用例を型検査                              |
@@ -50,7 +50,7 @@ npm ci
 npm run format
 npm run lint
 npm run typecheck
-npm test
+npm run test:coverage
 npm run typecheck:schema
 npm run build
 npm run typecheck:dist
@@ -60,6 +60,34 @@ npm run test:types
 `typecheck:schema`はパッケージのインポート先を`src/index.ts`に、`typecheck:dist`はパッケージのルートに設定し、同じ型テストを実行します。配布型の検査では`package.json`の`types`からビルド済みの`dist/microcms-js-sdk.d.ts`を解決します。ソースの公開APIとビルド後の公開型定義を、それぞれSDK側で確認できます。
 
 `typecheck:dist`はビルド後に実行してください。CIとリリース処理でも、ビルド後の必須チェックにしています。
+
+### カバレッジ
+
+`npm run test:coverage`はJestで全単体テストを実行し、ファイルごとに以下の下限を検査します。設定は[`jest.config.js`](jest.config.js)にあります。
+
+| 指標              | 下限 |
+| ----------------- | ---- |
+| Statements（文）  | 98%  |
+| Branches（分岐）  | 90%  |
+| Functions（関数） | 100% |
+| Lines（行）       | 98%  |
+
+マネジメントAPIの内部リクエスト関数には、現在の公開メソッドから通らないGETの既定値やクエリ付きURLの分岐があります。計測値を100%にするためのテストは追加せず、実際の利用経路と失敗時の動作を確認します。
+
+実行時の処理を持たない`src/types.ts`・`src/typedSchema.ts`と再エクスポートだけの`src/index.ts`は対象外です。公開型の推論・不正な指定の検出は`typecheck:schema`・`test:types`で別に確認します。
+
+Jestの`babel`プロバイダー（Istanbulによる計測）を使用します。TypeScriptの変換は引き続き`@swc/jest`です。`v8`プロバイダーとSWCの組み合わせでは、同じ処理を複数のテストファイルから実行すると、実行済みの行が未実行と集計される現象を確認しました。[SWC側の報告](https://github.com/swc-project/pkgs/issues/61)も参照してください。
+
+レポートは`coverage/`へ出力します。
+
+- `coverage/index.html`：ブラウザで確認するHTMLレポート
+- `coverage/lcov.info`：外部ツール向けのLCOV
+- `coverage/coverage-summary.json`：ファイルごとの集計
+- `coverage/coverage-final.json`：実行箇所の詳細
+
+CIはNode.js18・20・22・24で下限を検査し、各レポートを`coverage-node-<Node.jsバージョン>`というartifactとして14日間保存します。テストや下限検査が失敗した場合も、生成済みのレポートを保存します。
+
+通信の検査にはMSWを使用します。マネジメントAPIのアップロードでは、MSWのmultipart処理に関する問題でテストをスキップしないよう、`fetch`をモックして送信直前のFormData・認証ヘッダー・ファイル名・MIMEタイプ・バイト列を検査します。URLからのダウンロード、ストリーム、ネットワークエラー、HTTPエラーも実通信なしで確認します。
 
 ### 回帰テストの追加方針
 

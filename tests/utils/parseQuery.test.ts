@@ -48,4 +48,33 @@ describe('parseQuery', () => {
       }),
     ).toBe('');
   });
+
+  test.each([null, undefined, 'invalid', 123])(
+    'rejects non-object query input: %p',
+    (value) => {
+      // @ts-expect-error Invalid JavaScript callers must receive the validation error.
+      expect(() => parseQuery(value)).toThrow('queries is not object');
+    },
+  );
+
+  test('preserves zero, empty arrays and encoded filter characters', () => {
+    const params = new URLSearchParams(
+      parseQuery({
+        limit: 0,
+        offset: 0,
+        depth: 0,
+        fields: [],
+        filters: 'title[equals]A&B + 日本語',
+        draftKey: undefined,
+      }),
+    );
+    expect(Object.fromEntries(params)).toEqual({
+      limit: '0',
+      offset: '0',
+      depth: '0',
+      fields: '',
+      filters: 'title[equals]A&B + 日本語',
+    });
+    expect(parseQuery({})).toBe('');
+  });
 });

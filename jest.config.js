@@ -10,6 +10,20 @@ module.exports = {
   },
   testEnvironment: 'node',
   setupFilesAfterEnv: ['./jest.setup.ts'],
-  collectCoverageFrom: ['src/**/*.ts', '!src/index.ts', '!src/types.ts'],
-  coverageProvider: 'v8',
+  collectCoverageFrom: [
+    'src/**/*.ts',
+    '!src/index.ts',
+    '!src/types.ts',
+    '!src/typedSchema.ts',
+  ],
+  coverageProvider: 'babel',
+  coverageReporters: ['text', 'html', 'lcovonly', 'json', 'json-summary'],
+  coverageThreshold: {
+    './src/**/*.ts': {
+      statements: 98,
+      branches: 90,
+      functions: 100,
+      lines: 98,
+    },
+  },
 };

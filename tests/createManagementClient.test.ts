@@ -1,107 +1,122 @@
-import { http, HttpResponse } from 'msw';
 import { createManagementClient } from '../src/createManagementClient';
+import { isMicroCMSRequestError } from '../src/lib/error';
 import { testBaseManagementUrlOfVersion1 } from './mocks/handlers';
-import { server } from './mocks/server';
 
-// mswの不具合で、FormDataのテストが終わらないため、テストをスキップ
-// https://github.com/mswjs/msw/issues/2078
-describe.skip('createManagementClient', () => {
-  test('Functions is generated to request the API', () => {
-    const client = createManagementClient({
-      serviceDomain: 'serviceDomain',
-      apiKey: 'apiKey',
-    });
+const client = () =>
+  createManagementClient({ serviceDomain: 'serviceDomain', apiKey: 'apiKey' });
+const upload = {
+  data: new Blob(['test'], { type: 'image/png' }),
+  name: 'image.png',
+};
 
-    expect(typeof client.uploadMedia === 'function').toBe(true);
+describe('createManagementClient', () => {
+  afterEach(() => jest.restoreAllMocks());
+
+  test('exposes the upload method', () => {
+    expect(typeof client().uploadMedia).toBe('function');
   });
 
-  test('Throws an error if `serviceDomain` or `apiKey` is missing', () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
+  test('requires serviceDomain and apiKey', () => {
+    // @ts-expect-error Missing API key must also fail at runtime.
     expect(() => createManagementClient({ serviceDomain: 'foo' })).toThrow(
-      new Error('parameter is required (check serviceDomain and apiKey)'),
+      'parameter is required',
     );
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
+    // @ts-expect-error Missing service domain must also fail at runtime.
     expect(() => createManagementClient({ apiKey: 'foo' })).toThrow(
-      new Error('parameter is required (check serviceDomain and apiKey)'),
+      'parameter is required',
     );
   });
-  test('Throws an error if `serviceDomain` or `apiKey` is missing', () => {
+
+  test('rejects non-string credentials', () => {
     expect(() =>
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
+      // @ts-expect-error Reject invalid JavaScript callers at runtime.
       createManagementClient({ serviceDomain: 10, apiKey: 'foo' }),
-    ).toThrow(new Error('parameter is not string'));
+    ).toThrow('parameter is not string');
     expect(() =>
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
+      // @ts-expect-error Reject invalid JavaScript callers at runtime.
       createManagementClient({ serviceDomain: 'foo', apiKey: 10 }),
-    ).toThrow(new Error('parameter is not string'));
+    ).toThrow('parameter is not string');
   });
 
-  describe('Throws an error when response.ok is false', () => {
-    test('If there is a message', () => {
-      server.use(
-        http.post(`${testBaseManagementUrlOfVersion1}/media`, async () => {
-          return HttpResponse.json(
-            { message: 'X-MICROCMS-KEY header is invalid.' },
-            { status: 401 },
-          );
-        }),
-      );
-      const client = createManagementClient({
-        serviceDomain: 'serviceDomain',
-        apiKey: 'apiKey',
-      });
+  test.each([
+    [
+      401,
+      JSON.stringify({ message: 'Invalid API key' }),
+      'fetch API response status: 401\n  message is `Invalid API key`',
+    ],
+    [403, JSON.stringify({ message: null }), 'fetch API response status: 403'],
+    [429, JSON.stringify({}), 'fetch API response status: 429'],
+    [500, 'not json', 'fetch API response status: 500'],
+  ])(
+    'returns structured HTTP %s errors without retrying',
+    async (status, body, message) => {
+      const fetchMock = jest
+        .spyOn(globalThis, 'fetch')
+        .mockResolvedValue(new Response(body, { status }));
+      const error = await client()
+        .uploadMedia(upload)
+        .catch((error: unknown) => error);
+      expect(isMicroCMSRequestError(error)).toBe(true);
+      if (!isMicroCMSRequestError(error)) throw error;
+      expect(error.message).toBe(message);
+      expect(error.status).toBe(status);
+      expect(error.url).toBe(`${testBaseManagementUrlOfVersion1}/media`);
+      expect(error.originalError).toBeUndefined();
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+    },
+  );
 
-      expect(
-        client.uploadMedia({
-          data: new Blob([], { type: 'image/png' }),
-          name: 'image.png',
-        }),
-      ).rejects.toThrow(
-        new Error(
-          'fetch API response status: 401\n  message is `X-MICROCMS-KEY header is invalid.`',
-        ),
-      );
-    });
-    test('If there is no message', () => {
-      server.use(
-        http.post(`${testBaseManagementUrlOfVersion1}/media`, async () => {
-          return new HttpResponse(null, { status: 500 });
-        }),
-      );
-      const client = createManagementClient({
-        serviceDomain: 'serviceDomain',
-        apiKey: 'apiKey',
-      });
-
-      expect(
-        client.uploadMedia({
-          data: new Blob([], { type: 'image/png' }),
-          name: 'image.png',
-        }),
-      ).rejects.toThrow(new Error('fetch API response status: 500'));
-    });
+  test('keeps the original network error', async () => {
+    const original = new TypeError('fetch failed');
+    const fetchMock = jest
+      .spyOn(globalThis, 'fetch')
+      .mockRejectedValue(original);
+    const error = await client()
+      .uploadMedia(upload)
+      .catch((error: unknown) => error);
+    expect(isMicroCMSRequestError(error)).toBe(true);
+    if (!isMicroCMSRequestError(error)) throw error;
+    expect(error.message).toBe('Network Error.\n  Details: fetch failed');
+    expect(error.status).toBeUndefined();
+    expect(error.originalError).toBe(original);
+    expect(error.url).toBe(`${testBaseManagementUrlOfVersion1}/media`);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
-  test('Throws an error in the event of a network error.', () => {
-    server.use(
-      http.post(`${testBaseManagementUrlOfVersion1}/media`, async () => {
-        return HttpResponse.error();
-      }),
-    );
-    const client = createManagementClient({
-      serviceDomain: 'serviceDomain',
-      apiKey: 'apiKey',
-    });
+  test.each([
+    [{ data: { message: 'transport data' } }, { message: 'transport data' }],
+    [
+      { response: { data: { message: 'response data' } } },
+      { message: 'response data' },
+    ],
+  ])(
+    'preserves existing transport error data: %j',
+    async (original, expected) => {
+      jest.spyOn(globalThis, 'fetch').mockRejectedValue(original);
+      await expect(client().uploadMedia(upload)).rejects.toEqual(expected);
+    },
+  );
 
-    expect(
-      client.uploadMedia({
-        data: new Blob([], { type: 'image/png' }),
-        name: 'image.png',
-      }),
-    ).rejects.toThrow(new Error('Network Error.\n  Details: Failed to fetch'));
+  test('handles network errors without a message', async () => {
+    const original = {};
+    jest.spyOn(globalThis, 'fetch').mockRejectedValue(original);
+    const error = await client()
+      .uploadMedia(upload)
+      .catch((error: unknown) => error);
+    expect(isMicroCMSRequestError(error)).toBe(true);
+    if (!isMicroCMSRequestError(error)) throw error;
+    expect(error.message).toBe('Network Error.\n  Details: ');
+    expect(error.originalError).toBe(original);
+  });
+
+  test('surfaces malformed successful JSON without converting it to a network error', async () => {
+    jest
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValue(new Response('invalid json'));
+    const error = await client()
+      .uploadMedia(upload)
+      .catch((error: unknown) => error);
+    expect(error).toMatchObject({ name: 'SyntaxError' });
+    expect(isMicroCMSRequestError(error)).toBe(false);
   });
 });

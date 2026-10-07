@@ -46,7 +46,7 @@ describe('createClient', () => {
   });
 
   describe('Throws an error when response.ok is false', () => {
-    test('If there is a message', () => {
+    test('If there is a message', async () => {
       server.use(
         http.get(`${testBaseUrl}/list-type`, async () => {
           return HttpResponse.json(
@@ -60,13 +60,13 @@ describe('createClient', () => {
         apiKey: 'apiKey',
       });
 
-      expect(client.get({ endpoint: 'list-type' })).rejects.toThrow(
+      await expect(client.get({ endpoint: 'list-type' })).rejects.toThrow(
         new Error(
           'fetch API response status: 401\n  message is `X-MICROCMS-KEY header is invalid.`',
         ),
       );
     });
-    test('If there is no message', () => {
+    test('If there is no message', async () => {
       server.use(
         http.get(`${testBaseUrl}/list-type`, async () => {
           return new HttpResponse(null, { status: 404 });
@@ -77,7 +77,7 @@ describe('createClient', () => {
         apiKey: 'apiKey',
       });
 
-      expect(client.get({ endpoint: 'list-type' })).rejects.toThrow(
+      await expect(client.get({ endpoint: 'list-type' })).rejects.toThrow(
         new Error('fetch API response status: 404'),
       );
     });
@@ -107,7 +107,7 @@ describe('createClient', () => {
     });
   });
 
-  test('Throws an error in the event of a network error.', () => {
+  test('Throws an error in the event of a network error.', async () => {
     server.use(
       http.get(`${testBaseUrl}/list-type`, async () => {
         return HttpResponse.error();
@@ -118,7 +118,7 @@ describe('createClient', () => {
       apiKey: 'apiKey',
     });
 
-    expect(client.get({ endpoint: 'list-type' })).rejects.toThrow(
+    await expect(client.get({ endpoint: 'list-type' })).rejects.toThrow(
       new Error('Network Error.\n  Details: Failed to fetch'),
     );
   });
@@ -168,6 +168,83 @@ describe('createClient', () => {
 
     expect(error.name).toBe('SyntaxError');
     expect(isMicroCMSRequestError(error)).toBe(false);
+  });
+
+  test.each([
+    [400, JSON.stringify({}), 'fetch API response status: 400'],
+    [429, JSON.stringify({ message: null }), 'fetch API response status: 429'],
+    [503, 'invalid json', 'fetch API response status: 503'],
+  ])(
+    'handles HTTP %s bodies without a usable message',
+    async (status, body, message) => {
+      const fetchMock = jest
+        .spyOn(globalThis, 'fetch')
+        .mockResolvedValue(new Response(body, { status }));
+      try {
+        const client = createClient({
+          serviceDomain: 'serviceDomain',
+          apiKey: 'apiKey',
+        });
+        const error = await client
+          .getList({ endpoint: 'list-type' })
+          .catch((error: unknown) => error);
+        expect(isMicroCMSRequestError(error)).toBe(true);
+        if (!isMicroCMSRequestError(error)) throw error;
+        expect(error.message).toBe(message);
+        expect(error.status).toBe(status);
+        expect(fetchMock).toHaveBeenCalledTimes(1);
+      } finally {
+        fetchMock.mockRestore();
+      }
+    },
+  );
+
+  test.each([
+    [{ data: { message: 'transport data' } }, { message: 'transport data' }],
+    [
+      { response: { data: { message: 'response data' } } },
+      { message: 'response data' },
+    ],
+  ])(
+    'preserves existing transport error data: %j',
+    async (original, expected) => {
+      const fetchMock = jest
+        .spyOn(globalThis, 'fetch')
+        .mockRejectedValue(original);
+      try {
+        const client = createClient({
+          serviceDomain: 'serviceDomain',
+          apiKey: 'apiKey',
+        });
+        await expect(client.getList({ endpoint: 'list-type' })).rejects.toEqual(
+          expected,
+        );
+      } finally {
+        fetchMock.mockRestore();
+      }
+    },
+  );
+
+  test('handles a network error without a message', async () => {
+    const original = {};
+    const fetchMock = jest
+      .spyOn(globalThis, 'fetch')
+      .mockRejectedValue(original);
+    try {
+      const client = createClient({
+        serviceDomain: 'serviceDomain',
+        apiKey: 'apiKey',
+      });
+      const error = await client
+        .getList({ endpoint: 'list-type' })
+        .catch((error: unknown) => error);
+      expect(isMicroCMSRequestError(error)).toBe(true);
+      if (!isMicroCMSRequestError(error)) throw error;
+      expect(error.message).toBe('Network Error.\n  Details: ');
+      expect(error.originalError).toBe(original);
+    } finally {
+      fetchMock.mockRestore();
+    }
   });
 
   describe('Retry option is true', () => {

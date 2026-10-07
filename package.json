@@ -30,7 +30,7 @@
     "format:fix": "prettier --write ./src ./tests ./examples",
     "typecheck": "tsc --noEmit && tsc --project tsconfig.tests.json",
     "test": "jest --coverage=false",
-    "test:coverage": "jest --coverage=true",
+    "test:coverage": "jest --coverage=true --runInBand",
     "typecheck:schema": "tsc --noEmit --project tsconfig.schema-types.json",
     "typecheck:dist": "tsc --noEmit --project tsconfig.schema-dist.json",
     "test:types": "node scripts/check-typescript.mjs",
