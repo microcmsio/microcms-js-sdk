@@ -113,7 +113,9 @@ JavaScriptはtsupで生成し、従来と同じES5ターゲット・CommonJS・E
 
 [`tests/fixtures/typegen/`](tests/fixtures/typegen/)は確認用の[typegenサービス](https://typegen.microcms.io/)から取得したスキーマ、33ケースの読み取りレスポンス、新規作成入力、作成・更新・削除の実行記録です。`tests/fixtures/typegen/generated/extensions.ts`は手書きの拡張データ型、同じ`generated/`内の他のファイルは拡張データと循環参照を検証する生成型と利用例です。通常のテストは実サービスへアクセスせず、取得・書き込みを実行しません。公開用に、保存済みデータのURLとメールアドレスは`example.com`のダミーへ置き換えています。
 
-`all_fields`の`typegen-fixture-filled`・`typegen-fixture-empty`で値ありと空値を確認しました。繰り返しは5種類すべてを含み、数値の0、真偽値のfalse、null、空配列も保存しています。更新・削除は別の専用IDで実行し、検証後に削除済みです。オブジェクト形式の更新は型検査のみです。これらは取得時の記録で、現在のAPI動作を保証するライブテストではありません。
+`all_fields`の`typegen-fixture-filled`・`typegen-fixture-empty`で値ありと空値を確認しました。繰り返しは5種類すべてを含み、数値の0、真偽値のfalse、null、空配列も保存しています。更新・削除は別の専用IDで実行し、検証後に削除済みです。この既存記録では、オブジェクト形式の更新は型検査のみです。これらは取得時の記録で、現在のAPI動作を保証するライブテストではありません。
+
+2026年10月8日に追加した[`tests/fixtures/typegen/generated/matrix.ts`](tests/fixtures/typegen/generated/matrix.ts)は、typegenサービスの検証用APIから取得したスキーマを基に生成した型です。[`matrix-usage.ts`](tests/fixtures/typegen/generated/matrix-usage.ts)では、3段ネストした繰り返し内の単一・複数参照と拡張データ、`depth: 0`〜`3`、`fields`による選択と型抽出、リスト・オブジェクト形式の読み取り、保存した実APIの書き込み入力・不正入力を検査します。`generatedRelations.integration.mjs`から型検査のみを実行し、APIへのリクエストは行いません。スキーマと実レスポンスの照合・空値・部分更新・リセットの実API記録はtypegen側の`test/live-schema-values.test.js`にまとめています。オブジェクト形式の更新も実APIで検証しています。
 
 型生成の正しさと、スキーマから生成結果への一致はtypegen側で検査します。typegenの出力形式を変更した場合は、このリポジトリの生成済み型を更新し、`npm run test:types`を実行してください。データを更新する場合も入力とレスポンスの対応・取得元・取得日時を維持し、URLとメールアドレスをダミー化してください。認証情報は保存しないでください。
 

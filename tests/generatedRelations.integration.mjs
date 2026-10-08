@@ -12,3 +12,17 @@ test('generated multi-level and cyclic references preserve SDK depth boundaries'
     ['--exactOptionalPropertyTypes'],
   );
 });
+
+test('captured three-level repeaters preserve SDK inference, selections and nested writes', () => {
+  checkTypes(
+    [
+      fileURLToPath(
+        new URL(
+          './fixtures/typegen/generated/matrix-usage.ts',
+          import.meta.url,
+        ),
+      ),
+    ],
+    ['--exactOptionalPropertyTypes'],
+  );
+});
