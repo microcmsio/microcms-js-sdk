@@ -1,139 +1,90 @@
 # 開発ガイド
 
-microcms-js-sdk自体の開発・検証手順です。利用者向けのAPI仕様は[README](README.md)、補完や推論をエディタで試す方法は[利用例](examples/README.md)を参照してください。
+利用者向けのAPI仕様は[README](README.md)、補完・推論をエディタで試す方法は[examples](examples/README.md)を参照してください。
 
-## 開発環境
+## 開発・検証コマンド
 
-`.node-version`で指定されたNode.jsを使用し、リポジトリのルートで依存関係をインストールします。
+`.node-version`のNode.jsを使用し、リポジトリのルートで実行します。
 
 ```sh
 npm ci
-```
-
-以下のコマンドもリポジトリのルートで実行します。
-
-## 開発用コマンド
-
-| コマンド                     | 内容                                                                |
-| ---------------------------- | ------------------------------------------------------------------- |
-| `npm run build`              | JavaScriptと公開型定義を`dist/`へ生成                               |
-| `npm run format`             | ソース・テスト・利用例の整形を確認                                  |
-| `npm run lint`               | ソース・テスト・利用例のlint                                        |
-| `npm run typecheck`          | SDK内部の実装と単体テストを型検査                                   |
-| `npm test`                   | 実行時の単体テスト                                                  |
-| `npm run test:coverage`      | 単体テスト・カバレッジ計測・ファイルごとの下限検査                  |
-| `npm run typecheck:schema`   | ソースの公開APIによる型検査                                         |
-| `npm run typecheck:dist`     | ビルド済みの公開型定義による型検査                                  |
-| `npm run typecheck:examples` | ビルド済みの公開型定義で利用例を型検査                              |
-| `npm run test:types`         | 開発用TypeScriptで公開API・利用例・回帰テスト・生成型との連携を検査 |
-| `npm run test:performance`   | 生成済みスキーマを使った型検査の性能測定                            |
-
-`format:fix`・`lint:fix`はファイルを変更して修正するコマンドです。`typecheck:dist`・`typecheck:examples`・`test:types`・`test:performance`はビルド後に実行してください。
-
-## テスト
-
-### 責務
-
-| 対象                                                                                | 確認すること                                                                                                                             |
-| ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `tests/*.test.ts`                                                                   | 通信、リトライ、クエリ変換、読み取り・書き込みなどの実行時の処理                                                                         |
-| `tests/typedSchema.typecheck.ts`                                                    | 手書きのスキーマを使い、読み取り・書き込みの推論、不正な指定、省略可能なクエリ、従来genericsとの互換性を網羅                             |
-| `tests/typedSchema.matrix.ts`                                                       | 呼び出し方とメソッドを組み合わせ、ソースから抽出した公開型・配布型と`exactOptionalPropertyTypes`の両設定で正常系の型と異常系の検出を検査 |
-| `tests/generatedSchema.integration.mjs`・`tests/generatedRelations.integration.mjs` | 生成済みスキーマをSDKに渡し、保存済みレスポンス・書き込み入力・多段と循環参照の推論を確認                                                |
-| `examples/`                                                                         | 利用者向けの読み書き・型抽出・型エラーの例を公開型定義で検査                                                                             |
-
-型テストはTypeScriptコンパイラによる検査のみです。記述されたクライアント呼び出しを実行したり、実サービスへリクエストを送ったりしません。
-
-### 実行方法
-
-```sh
-npm run format
-npm run lint
-npm run typecheck
-npm run test:coverage
-npm run typecheck:schema
 npm run build
-npm run typecheck:dist
-npm run test:types
 ```
 
-`typecheck:schema`はパッケージのインポート先を`src/index.ts`に、`typecheck:dist`はパッケージのルートに設定し、同じ型テストを実行します。配布型の検査では`package.json`の`types`からビルド済みの`dist/microcms-js-sdk.d.ts`を解決します。ソースの公開APIとビルド後の公開型定義を、それぞれSDK側で確認できます。
+| コマンド                             | 確認すること                                                      |
+| ------------------------------------ | ----------------------------------------------------------------- |
+| `npm run format` / `npm run lint`    | Prettier・Oxlintによる検査。自動修正はそれぞれ`:fix`              |
+| `npm run typecheck`                  | SDKの実装・単体テストの型検査                                     |
+| `npm test` / `npm run test:coverage` | Jestによる実行時テスト／カバレッジ下限の検査                      |
+| `npm run typecheck:schema`           | ソースの公開APIによる型検査                                       |
+| `npm run typecheck:dist`             | ビルド済みの公開型定義による型検査                                |
+| `npm run typecheck:examples`         | ビルド済みの公開型定義で利用例を検査                              |
+| `npm run test:types`                 | 公開API・配布型・利用例・回帰テスト・生成型との連携をまとめて検査 |
+| `npm run test:performance`           | 保存済み生成型による推論・型抽出の性能測定                        |
 
-`typecheck:dist`はビルド後に実行してください。CIとリリース処理でも、ビルド後の必須チェックにしています。
+`typecheck:dist`・`typecheck:examples`・`test:types`・`test:performance`はビルド後に実行します。JavaScriptはtsupでES5・CommonJS・ES modules・ブラウザ向け形式へ、公開型定義は`tsconfig.declarations.json`と`scripts/finish-declarations.mjs`で`dist/`へ生成します。
 
-### カバレッジ
+開発用TypeScriptは7系、利用者向けの対応範囲は6.0以降です。CIでは6.0.2でも`test:types`を実行します。検証用コンパイラの切り替えには`MICROCMS_TYPESCRIPT_BINARY`へ`tsc`の絶対パスを指定します（ビルド・`typecheck`・エディタのコンパイラは変わりません）。
 
-`npm run test:coverage`はJestで全単体テストを実行し、ファイルごとに以下の下限を検査します。設定は[`jest.config.js`](jest.config.js)にあります。
+## 検証パターンと対応するテスト
 
-| 指標              | 下限 |
-| ----------------- | ---- |
-| Statements（文）  | 98%  |
-| Branches（分岐）  | 90%  |
-| Functions（関数） | 100% |
-| Lines（行）       | 98%  |
+### 実行時の処理
 
-マネジメントAPIの内部リクエスト関数には、現在の公開メソッドから通らないGETの既定値やクエリ付きURLの分岐があります。計測値を100%にするためのテストは追加せず、実際の利用経路と失敗時の動作を確認します。
+通信は[MSWのハンドラー](tests/mocks/handlers.ts)またはテスト内の`fetch`モックを使用し、実サービスへリクエストしません。
 
-実行時の処理を持たない`src/types.ts`・`src/typedSchema.ts`と再エクスポートだけの`src/index.ts`は対象外です。公開型の推論・不正な指定の検出は`typecheck:schema`・`test:types`で別に確認します。
+| パターン                                                                                           | 対応するテスト                                                                                                                                                       |
+| -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| クライアントの設定検査、認証ヘッダー、HTTP／ネットワークエラー、JSON解析エラー、リトライ           | [createClient.test.ts](tests/createClient.test.ts)、[fetch.test.ts](tests/lib/fetch.test.ts)、[error.test.ts](tests/lib/error.test.ts)                               |
+| `get`・リスト・詳細・オブジェクト取得のURL・クエリ・戻り値、必須引数                               | [get.test.ts](tests/get.test.ts)、[readMethods.test.ts](tests/readMethods.test.ts)                                                                                   |
+| 全件・全ID取得、空結果、ページング途中の件数減少、`alternateField`の文字列検査                     | [getAllContents.test.ts](tests/getAllContents.test.ts)、[getAllContentIds.test.ts](tests/getAllContentIds.test.ts)、[readMethods.test.ts](tests/readMethods.test.ts) |
+| 作成・更新・削除、IDの有無、リスト／オブジェクト更新、公開状態                                     | [write.test.ts](tests/write.test.ts)、[createClient.test.ts](tests/createClient.test.ts)                                                                             |
+| `requestInit`の反映、クエリの配列・省略・0・特殊文字、値の判定                                     | [requestInit.test.ts](tests/requestInit.test.ts)、[parseQuery.test.ts](tests/utils/parseQuery.test.ts)、[isCheckValue.test.ts](tests/utils/isCheckValue.test.ts)     |
+| マネジメントAPIの設定・エラー、Blob／File／ストリーム／URLからのアップロード、名前・MIME・バイト列 | [createManagementClient.test.ts](tests/createManagementClient.test.ts)、[uploadMedia.test.ts](tests/uploadMedia.test.ts)                                             |
 
-Jestの`babel`プロバイダー（Istanbulによる計測）を使用します。TypeScriptの変換は引き続き`@swc/jest`です。`v8`プロバイダーとSWCの組み合わせでは、同じ処理を複数のテストファイルから実行すると、実行済みの行が未実行と集計される現象を確認しました。[SWC側の報告](https://github.com/swc-project/pkgs/issues/61)も参照してください。
+### 公開型・推論・入力制約
 
-レポートは`coverage/`へ出力します。
+以下はTypeScriptによる検査です。クライアント呼び出しは実行しません。正常系は戻り値型の一致、異常系は対象の呼び出しで型エラーになることを確認します。
 
-- `coverage/index.html`：ブラウザで確認するHTMLレポート
-- `coverage/lcov.info`：外部ツール向けのLCOV
-- `coverage/coverage-summary.json`：ファイルごとの集計
-- `coverage/coverage-final.json`：実行箇所の詳細
+| パターン                                                                                                       | 使用データ                               | 対応するテスト                                                                                                   |
+| -------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| エンドポイントとAPI形式、`contentId`の要否、従来genericsとの互換性                                             | テスト内の手書きスキーマ                 | [typedSchema.typecheck.ts](tests/typedSchema.typecheck.ts)、[typedSchema.matrix.ts](tests/typedSchema.matrix.ts) |
+| `fields`の文字列・配列・`as const`・動的値、`depth: 0`〜`3`・省略・union、変数経由の入力、全件取得の禁止クエリ | 同上                                     | 同上                                                                                                             |
+| `InferMicroCMSContent`、共通メタデータ、書き込みの未知キー・型・ネスト・unionの制約                            | 同上                                     | 同上                                                                                                             |
+| `fields`・`depth`による戻り値と実レスポンスの一致、選択キーの集合、抽出型との一致、不正なレスポンスの拒否      | 下表の実APIデータと生成型                | [generatedSchema.integration.mjs](tests/generatedSchema.integration.mjs)                                         |
+| 多段・循環参照の深さと選択、3層ネスト内の参照・拡張データ、選択・型抽出・書き込み                              | 下表の`tree`・`matrix`生成型と利用コード | [generatedRelations.integration.mjs](tests/generatedRelations.integration.mjs)                                   |
+| 利用者向けの読み取り・書き込み・型抽出・型エラーの例                                                           | [examples](examples/README.md)           | `typecheck:examples`（`test:types`にも含む）                                                                     |
 
-CIはNode.js18・20・22・24で下限を検査し、各レポートを`coverage-node-<Node.jsバージョン>`というartifactとして14日間保存します。テストや下限検査が失敗した場合も、生成済みのレポートを保存します。
+`typedSchema.matrix.ts`は同じケースをソースから抽出した公開型／ビルド済み配布型と、`exactOptionalPropertyTypes`の有効／無効で検査します。`test:types`は上記すべてを選択したコンパイラで実行します。
 
-通信の検査にはMSWを使用します。マネジメントAPIのアップロードでは、MSWのmultipart処理に関する問題でテストをスキップしないよう、`fetch`をモックして送信直前のFormData・認証ヘッダー・ファイル名・MIMEタイプ・バイト列を検査します。URLからのダウンロード、ストリーム、ネットワークエラー、HTTPエラーも実通信なしで確認します。
+### 生成型・保存データとの対応
 
-### 回帰テストの追加方針
+下表のfixtureは`tests/fixtures/typegen/`内です。生成型は保存済みで、SDKのテストにはtypegenや隣接リポジトリは不要です。
 
-不具合を直すときは、再現する異常系と近い正常系をセットで残します。複数メソッドに共通する制約は`tests/typedSchema.matrix.ts`のケースに追加し、呼び出し経路ごとの差をまとめて検査してください。正常系は戻り値の型の一致まで検証します。異常系は型エラーの位置が対象の呼び出し内にあることを確認し、テストの準備コードの誤りで成功しないようにしています。
+| データ                                                                                                                                                                                                              | 用途・対応する検証                                                                                                                                                           |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [schemas.json](tests/fixtures/typegen/schemas.json)、[examplesの生成型](examples/generated/microcms-types.ts)                                                                                                       | リスト／オブジェクトのAPI形式とフィールド定義。`generatedSchema.integration.mjs`で推論・選択キーを検査                                                                       |
+| [responses.json](tests/fixtures/typegen/responses.json)                                                                                                                                                             | 通常取得・`fields`・`depth`別の実レスポンス、各フィールドの値あり・空値、5種類の繰り返し要素。同テストで推論型へ代入し、メタデータ・値・選択肢・未選択フィールドの改変を拒否 |
+| [writes.json](tests/fixtures/typegen/writes.json)、[lifecycle.json](tests/fixtures/typegen/lifecycle.json)                                                                                                          | 作成・更新入力と、作成・更新・削除のリクエスト・結果。同テストで書き込み型と戻り値型を検査（操作は再実行しない）                                                             |
+| [generated/with-extensions.ts](tests/fixtures/typegen/generated/with-extensions.ts)、[extensions.ts](tests/fixtures/typegen/generated/extensions.ts)                                                                | ユーザー定義の拡張`data`型。同テストで実レスポンスとの一致・不正なread/writeの拒否                                                                                           |
+| [generated/tree.ts](tests/fixtures/typegen/generated/tree.ts)、[tree-usage.ts](tests/fixtures/typegen/generated/tree-usage.ts)                                                                                      | 多段・循環参照、`depth: 0`〜`3`の境界、参照の`fields`と型抽出。`generatedRelations.integration.mjs`で検査                                                                    |
+| [generated/matrix.ts](tests/fixtures/typegen/generated/matrix.ts)、[matrix-usage.ts](tests/fixtures/typegen/generated/matrix-usage.ts)、[matrix-extension.ts](tests/fixtures/typegen/generated/matrix-extension.ts) | 3層の繰り返し内の単一・複数参照・拡張データ、リスト／オブジェクト、`depth: 0`〜`3`、`fields`・型抽出、実APIの書き込み入力と不正入力。同テストで検査                          |
 
-マトリクスの例はコンパイラに渡す文字列です。SDKのコンパイル設定でソースから公開型を抽出し、一時ディレクトリに型定義と利用例を書き出して`tsc`へ渡します。一時ファイルは検査後に削除します。利用者側の`exactOptionalPropertyTypes`はSDK内部の実装のコンパイル設定と区別して検査します。`test:types`はビルド後に実行し、CIとリリース処理の必須チェックにしています。
+### 検証方針
 
-### TypeScriptの対応確認
+`filters`・`orders`・`alternateField`のスキーマ検査と、旧リッチエディタのobject形式の自動推論は[公開仕様の対象外](README.md)です。型生成と実レスポンスの空値の一致はtypegen側で検査し、拡張フィールドUI独自のクリア値はユーザー定義の`data`型に委ねます。
 
-開発用のTypeScriptは`^7.0.2`で7系に揃えています。`npm ci`ではlockfileに記録したバージョンを使用し、通常の`tsc`・型定義の生成・型検査・`npm run test:types`はいずれもこのコンパイラを使用します。`test:types`では静的な型テスト、利用例、223ケース×公開型2種類×`exactOptionalPropertyTypes`2設定、生成型との連携を検査します。
+## typegenとの分担・データ更新
 
-利用者向けの対応範囲はTypeScript6.0以降で、開発用コンパイラのバージョンとは別です。CIとリリース処理ではTypeScript6.0.2を別の一時ディレクトリへインストールし、同じ公開型のテストを実行します。ローカルの依存関係には6系を含めません。
+SDKはメソッドの推論・入力制約・型抽出と通信処理、typegenはスキーマ取得と生成型の正しさを検査します。型生成・実APIデータの検証範囲は、typegenリポジトリの`DEVELOPMENT.md`を参照してください。
 
-`test:types`・`test:performance`で使うコンパイラを切り替える場合は、`MICROCMS_TYPESCRIPT_BINARY`にCLIの絶対パスを指定します。この指定は`npx tsc`やエディタが使うTypeScriptのバージョンには影響しません。SDK内部の型定義の生成と`typecheck`は常に開発用の7系を使用します。
+typegenの出力形式を変更した場合は、上表と利用例の生成型も更新し、`npm run build`・`npm run test:types`を実行します。保存データは入力・クエリ・レスポンスの対応を保ち、URL・メールアドレスをダミー化します。認証情報は保存しません。各リポジトリのCIは単独で動きます。
 
-型テストはCompiler APIに依存せず、CLIで型定義の生成と利用例の検査を行います。lintにはTypeScriptコンパイラに依存しないOxlintを使用し、既存のESLint・TypeScriptの主要なルールに対応する検査を設定しています。TypeScriptの構文検査は`typecheck`・`test:types`で行い、整形にはPrettierを使用します。
+不具合修正では再現する異常系と近い正常系を残し、メソッド共通の制約は`typedSchema.matrix.ts`に追加します。共通処理は`tests/helpers/`にあります。
 
-JavaScriptはtsupで生成し、従来と同じES5ターゲット・CommonJS・ES modules・ブラウザ向け形式を維持します。型定義は`tsconfig.declarations.json`で`dist/types/`へ生成し、`scripts/finish-declarations.mjs`で既存の公開エントリーポイントから再エクスポートします。JestのTypeScript変換には`@swc/jest`を使用し、型検査は`typecheck`・`test:types`で行います。`tsconfig.tests.json`で単体テストも型検査し、テスト用依存の型定義のみ`skipLibCheck`の対象にします。SDK本体と配布型定義の生成では型定義の検査を省略しません。
+性能測定には[performance](tests/fixtures/typegen/performance/)の4API・50API／各100フィールド・循環参照10APIを使い、`depth`・`fields`・型抽出・書き込みを`tsc --extendedDiagnostics`で3回測定します。固定時間での合否判定には使いません。
 
-## 生成型との連携とfixture
+## カバレッジ・CI・リリース
 
-`test:types`は、選択したコンパイラで`examples/`と生成型の連携テストも実行します。連携テストは生成済みの型を読み、typegenや隣接リポジトリを必要としません。保存済みJSONを推論された戻り値型へ直接代入し、選択されたフィールドの集合と抽出型の一致も検査します。不正なメタデータ・値・選択肢・未選択フィールドを含むレスポンスが型エラーになることも検査します。ローカルでは7系、CIでは6系でも同じ検査を実行します。
-
-[`tests/fixtures/typegen/`](tests/fixtures/typegen/)は確認用の[typegenサービス](https://typegen.microcms.io/)から取得したスキーマ、33ケースの読み取りレスポンス、新規作成入力、作成・更新・削除の実行記録です。`tests/fixtures/typegen/generated/extensions.ts`は手書きの拡張データ型、同じ`generated/`内の他のファイルは拡張データと循環参照を検証する生成型と利用例です。通常のテストは実サービスへアクセスせず、取得・書き込みを実行しません。公開用に、保存済みデータのURLとメールアドレスは`example.com`のダミーへ置き換えています。
-
-`all_fields`の`typegen-fixture-filled`・`typegen-fixture-empty`で値ありと空値を確認しました。繰り返しは5種類すべてを含み、数値の0、真偽値のfalse、null、空配列も保存しています。更新・削除は別の専用IDで実行し、検証後に削除済みです。この既存記録では、オブジェクト形式の更新は型検査のみです。これらは取得時の記録で、現在のAPI動作を保証するライブテストではありません。
-
-2026年10月8日に追加した[`tests/fixtures/typegen/generated/matrix.ts`](tests/fixtures/typegen/generated/matrix.ts)は、typegenサービスの検証用APIから取得したスキーマを基に生成した型です。[`matrix-usage.ts`](tests/fixtures/typegen/generated/matrix-usage.ts)では、3段ネストした繰り返し内の単一・複数参照と拡張データ、`depth: 0`〜`3`、`fields`による選択と型抽出、リスト・オブジェクト形式の読み取り、保存した実APIの書き込み入力・不正入力を検査します。`generatedRelations.integration.mjs`から型検査のみを実行し、APIへのリクエストは行いません。スキーマと実レスポンスの照合・空値・部分更新・リセットの実API記録はtypegen側の`test/live-schema-values.test.js`にまとめています。オブジェクト形式の更新も実APIで検証しています。
-
-型生成の正しさと、スキーマから生成結果への一致はtypegen側で検査します。typegenの出力形式を変更した場合は、このリポジトリの生成済み型を更新し、`npm run test:types`を実行してください。データを更新する場合も入力とレスポンスの対応・取得元・取得日時を維持し、URLとメールアドレスをダミー化してください。認証情報は保存しないでください。
-
-## 型チェックの性能確認
-
-```sh
-npm run build
-npm run test:performance
-```
-
-保存済みの4API、50API・各100フィールド、多段・循環参照の10APIの生成済み型で、`depth: 0`〜`3`、`fields`、型抽出、書き込みを測定します。選択したTypeScriptコンパイラで3回実行し、`tsc --extendedDiagnostics`の結果をJSONで出力します。生成済み型は`tests/fixtures/typegen/performance/`に保存し、typegenの実行やAPI通信は不要です。メモリはコンパイラの報告値で、プロセス全体の最大使用量ではありません。CIの固定時間による合否判定には使いません。
-
-## CIとリリース処理
-
-[テストCI](.github/workflows/ci.yml)は`main`へのpushとpull requestで実行します。依存関係のインストール・静的検査・ビルド・型検査には`.node-version`のNode.jsを使用します。開発ツールはSDKの対応下限より新しいNode.jsを必要とするためです。インストールとビルド後、Node.js18・20・22・24系へ切り替えて実行時の単体テストを行います。`test:types`を通して、開発用のTypeScript7で利用例と生成型との連携も検査します。別ジョブでTypeScript6.0.2による同じ互換性検査を実行します。
-
-[リリース処理](.github/workflows/release.yml)は`v`で始まるタグへのpushで実行します。`precheck`ジョブでlint・実装と公開型の型検査・単体テストとカバレッジ下限・ビルド・TypeScript6の互換性を検査します。成功した場合だけ、`needs: precheck`で依存する`publish`ジョブがnpmへ公開します。
-
-`publish`は新しいチェックアウトで同じタグのコードを取得し、依存関係のインストールとビルドを再実行します。検証ジョブ内のファイル変更は持ち越しません。公開時に必要なOIDCの`id-token: write`は`publish`ジョブだけに付与します。リリースタグはレビューと公開の準備が完了してから作成してください。
-
-通常の開発用コマンドとテストCIはnpmへの公開を行いません。
+- [カバレッジ設定](jest.config.js)：Jestの`babel`プロバイダーでファイルごとに文・行98%、分岐90%、関数100%。型のみのファイル・再エクスポートは対象外で、公開型はコンパイルで検査します。レポートは`coverage/`のHTML・LCOV・JSONです。
+- [CI](.github/workflows/ci.yml)：インストール・ビルド・静的検査は`.node-version`、実行時テストとカバレッジはNode.js18・20・22・24系。TypeScript7系と6.0.2で公開型・利用例・生成型との連携を検査し、カバレッジレポートを14日間保存します。
+- [リリース](.github/workflows/release.yml)：`v*`タグで起動し、`precheck`のLint・型・実行時テスト・カバレッジ・TypeScript6互換性の検査成功後にnpmへ公開します。公開ジョブだけにOIDC権限を付与します。タグはレビューと公開準備の完了後に作成してください。通常の開発コマンド・テストCIでは公開しません。
