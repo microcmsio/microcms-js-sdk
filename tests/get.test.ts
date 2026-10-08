@@ -50,12 +50,14 @@ describe('get', () => {
     });
   });
 
-  test('Returns an error message if `endpoint` is not specified', () => {
+  test('Returns an error message if `endpoint` is not specified', async () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    expect(client.get({})).rejects.toThrow(new Error('endpoint is required'));
+    await expect(client.get({})).rejects.toThrow(
+      new Error('endpoint is required'),
+    );
   });
-  test('Return error message in case of server error', () => {
+  test('Return error message in case of server error', async () => {
     // Create temporary server error
     server.use(
       http.get(
@@ -70,7 +72,7 @@ describe('get', () => {
       ),
     );
 
-    expect(client.get({ endpoint: 'list-type' })).rejects.toThrow(
+    await expect(client.get({ endpoint: 'list-type' })).rejects.toThrow(
       new Error(
         'fetch API response status: 500\n  message is `Internal Server Error`',
       ),

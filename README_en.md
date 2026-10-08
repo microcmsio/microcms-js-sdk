@@ -12,11 +12,16 @@ The current maintenance level of this SDK is `Active`.
 
 For details, see the [SDK maintenance policy](https://document.microcms.io/en/manual/limitations#h36932e94f2).
 
+## Requirements
+
+- Node.js 18+ (22+ recommended; not required when using the SDK in a browser)
+- TypeScript 6.0+ (when using types)
+
 ## Tutorial
 
-See the [official tutorial](https://document.microcms.io/tutorial/javascript/javascript-top).
+To try a basic integration first, follow the official [JavaScript tutorial](https://document.microcms.io/en/tutorial/javascript/javascript-top). It covers getting started in a browser and with Node.js.
 
-## Getting started
+## Setup
 
 ### Installation
 
@@ -30,10 +35,7 @@ or
 $ yarn add microcms-js-sdk
 ```
 
-> [!IMPORTANT]
-> v3.0.0 or later requires Node.js **v18 or higher**.
-
-#### Browser（Self-hosting）
+#### Browser (self-hosting)
 
 Download and unzip `microcms-js-sdk-x.y.z.tgz` from the [releases page](https://github.com/microcmsio/microcms-js-sdk/releases). Then, host it on any server of your choice and use it. The target file is `./dist/umd/microcms-js-sdk.js`.
 
@@ -41,7 +43,7 @@ Download and unzip `microcms-js-sdk-x.y.z.tgz` from the [releases page](https://
 <script src="./microcms-js-sdk.js"></script>
 ```
 
-#### Browser（CDN）
+#### Browser (CDN)
 
 Please load and use the URL provided by an external provider.
 
@@ -74,7 +76,7 @@ or
 import { createClient } from 'microcms-js-sdk'; //ES6
 ```
 
-#### Usage with a browser
+#### Browser
 
 ```html
 <script>
@@ -85,32 +87,33 @@ import { createClient } from 'microcms-js-sdk'; //ES6
 ### Create client object
 
 ```javascript
-// Initialize Client SDK.
+// Create a client object.
 const client = createClient({
-  serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
+  serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io.
   apiKey: 'YOUR_API_KEY',
-  // retry: true // Retry attempts up to a maximum of two times.
+  // retry: true // Retry up to a maximum of two times.
 });
 ```
 
+For type annotations and inference, see [TypeScript](#typescript).
+
 ### API methods
 
-The table below shows each API method of microCMS JavaScript SDK and indicates which API format (List Format or Object Format) they can be used with using ✔️.
+The table below shows whether each microCMS JavaScript SDK method can be used with a list format API or an object format API.
 
-| Method            | List Format | Object Format |
-|-------------------|-------------|---------------|
-| getList           | ✔️          |               |
-| getListDetail     | ✔️          |               |
-| getObject         |            | ✔️             |
-| getAllContentIds  | ✔️          |               |
-| getAllContents    | ✔️          |               |
-| create            | ✔️          |               |
-| update            | ✔️          | ✔️             |
-| delete            | ✔️          |               |
+| Method           | List format | Object format |
+| ---------------- | ----------- | ------------- |
+| getList          | ✅          |               |
+| getListDetail    | ✅          |               |
+| getObject        |             | ✅            |
+| getAllContentIds | ✅          |               |
+| getAllContents   | ✅          |               |
+| create           | ✅          |               |
+| update           | ✅          | ✅            |
+| delete           | ✅          |               |
 
 > [!NOTE]
-> - ✔️ in "List Format" indicates the method can be used when the API type is set to List Format.
-> - ✔️ in "Object Format" indicates the method can be used when the API type is set to Object Format.
+> The generic `get` method is deprecated. Use `getList`, `getListDetail`, or `getObject` instead. Even with a schema registered on the client, `get` does not infer its return type.
 
 ### Get content list
 
@@ -143,7 +146,7 @@ client
       ids: 'foo',
       filters: 'publishedAt[greater_than]2021-01-01T03:00:00.000Z',
       depth: 1,
-    }
+    },
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
@@ -176,16 +179,15 @@ client
       draftKey: 'abcd',
       fields: 'id,title',
       depth: 1,
-    }
+    },
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
-
 ```
 
 ### Get object format content
 
-The `getObject` method is used to retrieve a single object format content
+The `getObject` method retrieves object format content from the specified endpoint.
 
 ```javascript
 client
@@ -198,7 +200,7 @@ client
 
 ### Get all contentIds
 
-The `getAllContentIds` method is used to retrieve all content IDs only.  
+The `getAllContentIds` method retrieves all content IDs from the specified endpoint.
 
 ```javascript
 client
@@ -211,7 +213,7 @@ client
 
 #### Get all contentIds with filters
 
-It is possible to retrieve only the content IDs for a specific category by specifying the `filters`.
+Use the `filters` property to retrieve all content IDs that match the specified conditions.
 
 ```javascript
 client
@@ -225,7 +227,7 @@ client
 
 #### Get all contentIds with draftKey
 
-It is possible to include content from a specific draft by specifying the `draftKey`.
+Use the `draftKey` property to retrieve the IDs of draft content.
 
 ```javascript
 client
@@ -237,9 +239,9 @@ client
   .catch((err) => console.error(err));
 ```
 
-#### Get all contentIds with alternateField
+#### Get all values of a field other than the content ID
 
-The `alternateField` property can be used to address cases where the value of a field other than content ID is used in a URL, etc.
+Specify a field ID in the `alternateField` property to retrieve all values of a field other than the content ID. If a retrieved value is not a string, the SDK throws an error at runtime.
 
 ```javascript
 client
@@ -272,7 +274,10 @@ The `queries` property can be used to specify parameters for retrieving all cont
 client
   .getAllContents({
     endpoint: 'endpoint',
-    queries: { filters: 'createdAt[greater_than]2021-01-01T03:00:00.000Z', orders: '-createdAt' },
+    queries: {
+      filters: 'createdAt[greater_than]2021-01-01T03:00:00.000Z',
+      orders: '-createdAt',
+    },
   })
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
@@ -287,8 +292,8 @@ client
   .create({
     endpoint: 'endpoint',
     content: {
-      title: 'title',
-      body: 'body',
+      title: 'Title',
+      body: 'Body',
     },
   })
   .then((res) => console.log(res.id))
@@ -305,8 +310,8 @@ client
     endpoint: 'endpoint',
     contentId: 'contentId',
     content: {
-      title: 'title',
-      body: 'body',
+      title: 'Title',
+      body: 'Body',
     },
   })
   .then((res) => console.log(res.id))
@@ -322,8 +327,8 @@ client
   .create({
     endpoint: 'endpoint',
     content: {
-      title: 'title',
-      body: 'body',
+      title: 'Title',
+      body: 'Body',
     },
     isDraft: true,
   })
@@ -341,8 +346,8 @@ client
     endpoint: 'endpoint',
     contentId: 'contentId',
     content: {
-      title: 'title',
-      body: 'body',
+      title: 'Title',
+      body: 'Body',
     },
     isDraft: true,
   })
@@ -361,8 +366,8 @@ client
   .create({
     endpoint: 'endpoint',
     content: {
-      title: 'title',
-      body: 'body',
+      title: 'Title',
+      body: 'Body',
     },
     isClosed: true,
   })
@@ -380,8 +385,8 @@ client
     endpoint: 'endpoint',
     contentId: 'contentId',
     content: {
-      title: 'title',
-      body: 'body',
+      title: 'Title',
+      body: 'Body',
     },
     isClosed: true,
   })
@@ -391,7 +396,7 @@ client
 
 ### Update content
 
-The `update` method is used to update a single content specified by its ID.
+The `update` method updates the specified content.
 
 ```javascript
 client
@@ -399,7 +404,7 @@ client
     endpoint: 'endpoint',
     contentId: 'contentId',
     content: {
-      title: 'title',
+      title: 'Title',
     },
   })
   .then((res) => console.log(res.id))
@@ -416,7 +421,7 @@ client
     endpoint: 'endpoint',
     contentId: 'contentId',
     content: {
-      title: 'title',
+      title: 'Title',
     },
     isDraft: true,
   })
@@ -426,14 +431,14 @@ client
 
 #### Update object format content
 
-When updating object content, use the `update` method without specifying a `contentId` property.
+To update object format content, specify only the endpoint and omit the `contentId` property.
 
 ```javascript
 client
   .update({
     endpoint: 'endpoint',
     content: {
-      title: 'title',
+      title: 'Title',
     },
   })
   .then((res) => console.log(res.id))
@@ -453,117 +458,13 @@ client
   .catch((err) => console.error(err));
 ```
 
-### TypeScript
-
-If you are using TypeScript, use `getList`, `getListDetail`, `getObject`. This internally contains a common type of content.
-
-#### Response type for getList method
-
-```typescript
-type Content = {
-  text: string,
-};
-/**
- * {
- *  contents: Content[]; // This is array type of Content
- *  totalCount: number;
- *  limit: number;
- *  offset: number;
- * }
- */
-client.getList<Content>({ /* other */ })
-```
-
-#### Response type for getListDetail method
-
-```typescript
-type Content = {
-  text: string,
-};
-/**
- * {
- *  id: string;
- *  createdAt: string;
- *  updatedAt: string;
- *  publishedAt?: string;
- *  revisedAt?: string;
- *  text: string; // This is Content type.
- * }
- */
-client.getListDetail<Content>({ /* other */ })
-```
-
-#### Response type for getObject method
-
-```typescript
-type Content = {
-  text: string,
-};
-/**
- * {
- *  createdAt: string;
- *  updatedAt: string;
- *  publishedAt?: string;
- *  revisedAt?: string;
- *  text: string; // This is Content type.
- * }
- */
-
-client.getObject<Content>({ /* other */ })
-```
-
-#### Response type for getAllContentIds method
-
-```typescript
-/**
- * string[] // This is array type of string
- */
-client.getAllContentIds({ /* other */ })
-```
-
-#### Create method with type safety
-
-Since `content` will be of type `Content`, no required fields will be missed.
-
-```typescript
-type Content = {
-  title: string;
-  body?: string;
-};
-
-client.create<Content>({
-  endpoint: 'endpoint',
-  content: {
-    title: 'title',
-    body: 'body',
-  },
-});
-```
-
-#### Update method with type safety
-
- The `content` will be of type `Partial<Content>`, so you can enter only the items needed for the update.
-
-```typescript
-type Content = {
-  title: string;
-  body?: string;
-};
-
-client.update<Content>({
-  endpoint: 'endpoint',
-  content: {
-    body: 'body',
-  },
-});
-```
-
 ### CustomRequestInit
 
 #### Next.js App Router
 
-You can now use the fetch option of the Next.js App Router as CustomRequestInit.
-Please refer to the official Next.js documentation as the available options depend on the Next.js Type file.
+You can specify fetch cache options used by the Next.js App Router.
+
+See the official Next.js documentation for the available options.
 
 [Functions: fetch \| Next\.js](https://nextjs.org/docs/app/api-reference/functions/fetch)
 
@@ -584,16 +485,162 @@ You can abort fetch requests.
 
 ```ts
 const controller = new AbortController();
-const response = await client.getObject({
-  customRequestInit: {
-    signal: controller.signal,
-  },
-  endpoint: 'config',
-});
-
-setTimeout(() => {
+const timeoutId = setTimeout(() => {
   controller.abort();
 }, 1000);
+
+try {
+  const response = await client.getObject({
+    customRequestInit: {
+      signal: controller.signal,
+    },
+    endpoint: 'config',
+  });
+} finally {
+  clearTimeout(timeoutId);
+}
+```
+
+### TypeScript
+
+To try completion and inference in your editor, see the [typed client examples](examples/README.md).
+
+For the Contents API, you can register a service schema when creating the client or specify a type for each method call. You can also extract a content type for a particular read query.
+
+#### Register a schema when creating the client
+
+Pass a service schema type generated by [microcms-typegen](https://github.com/microcmsio/microcms-ts-typegen#readme) to enable the following checks and inference at TypeScript compile time.
+
+- **Input type checking**: Checks registered endpoints and API formats, as well as statically known combinations of `fields` paths and `depth`. Query property names, basic value types, and the `depth` range (0–3) are also checked.
+- **Return type inference**: Infers the return types of `getList`, `getListDetail`, `getObject`, and `getAllContents` based on the endpoint, `depth`, and `fields`.
+
+The following example uses `services.main` in the type generator configuration. The schema type name depends on the service name.
+
+```ts
+import { createClient } from 'microcms-js-sdk';
+import type { MainServiceSchema } from './microcms-types';
+
+const client = createClient<MainServiceSchema>({
+  serviceDomain: 'YOUR_DOMAIN',
+  apiKey: 'YOUR_API_KEY',
+});
+
+const response = await client.getList({
+  endpoint: 'blogs',
+  queries: { depth: 2, fields: ['title', 'category.name'] },
+});
+```
+
+##### Not covered by type checking or inference
+
+The following checks and inference are not currently supported. We will consider supporting them in the future.
+
+| Item | Checks or inference not supported |
+| --- | --- |
+| `filters` | Validity of field names, operators, and values |
+| `orders` | Validity of field names and sort order expressions |
+| `alternateField` | Whether the specified field exists and the type of its values |
+| `richEditorFormat: 'object'` | Automatic return type inference. An explicit method type argument is required; omitting it causes a type error |
+
+#### Specify a type for each method call
+
+You can continue to create a client without a schema type and pass type arguments to read methods. Explicit method type arguments also work with a typed client. For that call, the specified type takes precedence over schema inference for `depth` and `fields`. You are responsible for ensuring that the specified type matches the actual response.
+
+```ts
+import { createClient } from 'microcms-js-sdk';
+
+type Content = { title: string };
+const client = createClient({
+  serviceDomain: 'YOUR_DOMAIN',
+  apiKey: 'YOUR_API_KEY',
+});
+
+const list = await client.getList<Content>({ endpoint: 'blogs' });
+const detail = await client.getListDetail<Content>({
+  endpoint: 'blogs',
+  contentId: 'blog-id',
+});
+const object = await client.getObject<Content>({ endpoint: 'settings' });
+```
+
+#### Extract a content type for a query
+
+Use `InferMicroCMSContent` when you need the type of a single content item for the same query used to fetch it, such as for component props.
+
+```ts
+import { createClient, type InferMicroCMSContent } from 'microcms-js-sdk';
+import type { MainServiceSchema } from './microcms-types';
+
+const client = createClient<MainServiceSchema>({
+  serviceDomain: 'YOUR_DOMAIN',
+  apiKey: 'YOUR_API_KEY',
+});
+const queries = { depth: 2, fields: ['title', 'category.name'] } as const;
+const response = await client.getList({ endpoint: 'blogs', queries });
+
+type BlogCardProps = {
+  blog: InferMicroCMSContent<MainServiceSchema, 'blogs', typeof queries>;
+};
+```
+
+When storing the query in a variable as shown above, use `as const` to preserve the literal values of `depth` and `fields`. With only `const queries = { ... }`, `depth` widens to `number` and `fields` to `string[]`. You do not need `as const` when writing the query directly in the method call.
+
+Declaring a type with invalid `fields` using only `InferMicroCMSContent` does not immediately produce a type error; the result is `unknown`. Passing the same query to a typed client produces a type error at the call site for statically detectable mistakes.
+
+#### Infer write input types from a schema
+
+With a generated `MainServiceSchema`, field names and value types for `create` and `update` are inferred from `endpoint`. Use content IDs for references and URL strings for images and files. `create` and `delete` support list format APIs; `update` supports both list format and object format APIs. The endpoint passed to `delete` is also type-checked.
+
+```ts
+import { createClient } from 'microcms-js-sdk';
+import type { MainServiceSchema } from './microcms-types';
+
+const client = createClient<MainServiceSchema>({
+  serviceDomain: 'YOUR_DOMAIN',
+  apiKey: 'YOUR_API_KEY',
+});
+
+await client.create({
+  endpoint: 'blogs',
+  content: { title: 'Title', category: 'category-id' },
+});
+await client.update({
+  endpoint: 'blogs',
+  contentId: 'blog-id',
+  content: { title: 'Updated title' },
+});
+await client.delete({ endpoint: 'blogs', contentId: 'blog-id' });
+```
+
+You can extract the generated input types as `MainServiceSchema['blogs']['create']` or `MainServiceSchema['blogs']['update']`.
+
+#### Specify a write type for each method call
+
+The existing `create<Content>` and `update<Content>` forms remain available. When explicitly specified on a typed client, the supplied type takes precedence over the generated write type for that call. `create<Content>` checks `content` against `Content`, while `update<Content>` checks it against `Partial<Content>`. You are responsible for ensuring that the specified type matches the API schema.
+
+```ts
+type TitleOnly = { title: string };
+
+await client.update<TitleOnly>({
+  endpoint: 'blogs',
+  contentId: 'blog-id',
+  content: { title: 'Updated title' },
+});
+```
+
+### Tips
+
+#### Use separate API keys for reading and writing
+
+```javascript
+const readClient = createClient({
+  serviceDomain: 'serviceDomain',
+  apiKey: 'readApiKey',
+});
+const writeClient = createClient({
+  serviceDomain: 'serviceDomain',
+  apiKey: 'writeApiKey',
+});
 ```
 
 ## Management API
@@ -612,7 +659,7 @@ or
 import { createManagementClient } from 'microcms-js-sdk'; //ES6
 ```
 
-#### Usage with a browser
+#### Browser
 
 ```html
 <script>
@@ -624,14 +671,14 @@ import { createManagementClient } from 'microcms-js-sdk'; //ES6
 
 ```javascript
 const client = createManagementClient({
-  serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io
+  serviceDomain: 'YOUR_DOMAIN', // YOUR_DOMAIN is the XXXX part of XXXX.microcms.io.
   apiKey: 'YOUR_API_KEY',
 });
 ```
 
 ### Upload media
 
-Media files can be uploaded using the 'POST /api/v1/media' endpoint of the Management API.
+You can upload images and files to the media library.
 
 #### Node.js
 
@@ -696,9 +743,11 @@ client
 
 ### TypeScript
 
-#### Parameter type for uploadMedia method
+#### Media upload arguments
 
-```typescript
+The Management API's `uploadMedia` method accepts data in the following formats.
+
+```ts
 type UploadMediaRequest =
   | { data: File }
   | { data: Blob; name: string }
@@ -713,9 +762,9 @@ function uploadMedia(params: UploadMediaRequest): Promise<{ url: string }>;
 
 ## Error handling
 
-When a request to the microCMS API fails, the error can be handled as a standard `Error`. `console.error(error)` logs the error message and stack trace. For HTTP errors, the output also includes the HTTP status and the error message returned by the API.
+For both the Contents API and the Management API, request errors created by the SDK can be handled as standard `Error` objects. `console.error(error)` logs the error message and stack trace. For HTTP errors, the output also includes the HTTP status and the error message returned by the API.
 
-Additionally, after narrowing the error with `isMicroCMSRequestError`, you can access `status`, `url`, and `originalError` as structured request details.
+Both clients use the same `isMicroCMSRequestError` guard to identify request errors created by the SDK. After narrowing the error, you can access `status`, `url`, and `originalError`. The following example uses the Contents API. The same guard also identifies errors created by the SDK when `uploadMedia` sends a request to microCMS.
 
 ```typescript
 import { createClient, isMicroCMSRequestError } from 'microcms-js-sdk';
@@ -746,27 +795,18 @@ try {
 | `url`           | Request URL      | Request URL                    |
 | `originalError` | `undefined`      | Original value thrown by `fetch` |
 
+Errors during `uploadMedia` argument validation or fetching an upload source URL occur before the request to microCMS, so they may not be identified by `isMicroCMSRequestError`.
+
 If `url` contains a `draftKey`, its value is masked as `***`. Request headers, request bodies, and the `Response` object are not added to the error.
 
 The contents of `originalError` depend on the runtime environment, such as Node.js, browsers, or Edge Runtime, and are not guaranteed by this SDK.
 
 The additional properties are non-enumerable, so they do not affect the existing `message`, `toString()`, `Object.keys()`, or `JSON.stringify()` results.
 
-## Tips
+## Development
 
-### Separate API keys for read and write
+See the [development guide](DEVELOPMENT.md) for the SDK development environment, tests, fixtures, and CI.
 
-```javascript
-const readClient = createClient({
-  serviceDomain: 'serviceDomain',
-  apiKey: 'readApiKey',
-});
-const writeClient = createClient({
-  serviceDomain: 'serviceDomain',
-  apiKey: 'writeApiKey',
-});
-```
-
-## LICENSE
+## License
 
 Apache-2.0

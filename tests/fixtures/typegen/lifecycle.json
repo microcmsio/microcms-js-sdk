@@ -1,0 +1,653 @@
+{
+  "serviceDomain": "typegen",
+  "capturedAt": "2026-10-03T00:55:04.133Z",
+  "runtime": "Sibling microcms-js-sdk/dist/microcms-js-sdk.js",
+  "contentId": "typegen-lifecycle-1790988898296",
+  "events": [
+    {
+      "id": "create-filled",
+      "method": "create",
+      "request": {
+        "endpoint": "all_fields",
+        "contentId": "typegen-lifecycle-1790988898296",
+        "content": {
+          "text": "[typegen lifecycle] initial",
+          "textArea": "Line 1\nLine 2",
+          "oldRich": "<p>Legacy rich text</p>",
+          "Rich": "<p>Rich text</p>",
+          "image": "https://example.com/assets/asset-4.png",
+          "images": [
+            "https://example.com/assets/asset-4.png",
+            "https://example.com/assets/asset-6.png"
+          ],
+          "date": "2026-10-02T00:00:00.000Z",
+          "boolean": true,
+          "select": ["hoge", "hoge2"],
+          "num": 0,
+          "file": "https://example.com/assets/asset-4.png",
+          "extend": {
+            "id": "typegen-extension",
+            "title": "Fixture extension",
+            "description": "Test data",
+            "imageUrl": "https://example.com/assets/asset-4.png",
+            "updatedAt": "2026-10-02T00:00:00.000Z",
+            "data": {
+              "place": {
+                "name": "Fixture place",
+                "address": "Test address"
+              },
+              "labels": ["one", "two"]
+            }
+          },
+          "ref": "nsa0-c_ur3",
+          "multi_ref": ["nsa0-c_ur3", "8x517l_29dzv"],
+          "custom": {
+            "fieldId": "Alpha",
+            "hoge": "Alpha text",
+            "huga": "Alpha extra"
+          },
+          "repeat": [
+            {
+              "fieldId": "Beta",
+              "aa": "Beta text",
+              "bb": "https://example.com/assets/asset-4.png",
+              "cc": "2026-10-02T00:00:00.000Z"
+            },
+            {
+              "fieldId": "Epsilon",
+              "text": "Epsilon text"
+            },
+            {
+              "fieldId": "Gamma",
+              "test": "Gamma text"
+            },
+            {
+              "fieldId": "Alpha",
+              "hoge": "Repeated Alpha",
+              "huga": "Extra"
+            },
+            {
+              "fieldId": "Delta",
+              "test": "Delta text"
+            }
+          ]
+        }
+      },
+      "status": 201,
+      "body": {
+        "id": "typegen-lifecycle-1790988898296"
+      },
+      "sdkResult": {
+        "id": "typegen-lifecycle-1790988898296"
+      }
+    },
+    {
+      "id": "read-before-update",
+      "method": "getListDetail",
+      "request": {
+        "endpoint": "all_fields",
+        "contentId": "typegen-lifecycle-1790988898296"
+      },
+      "status": 200,
+      "body": {
+        "id": "typegen-lifecycle-1790988898296",
+        "createdAt": "2026-10-03T00:54:59.594Z",
+        "updatedAt": "2026-10-03T00:54:59.594Z",
+        "publishedAt": "2026-10-03T00:54:59.594Z",
+        "revisedAt": "2026-10-03T00:54:59.594Z",
+        "text": "[typegen lifecycle] initial",
+        "textArea": "Line 1\nLine 2",
+        "oldRich": "<p>&lt;p&gt;Legacy rich text&lt;/p&gt;</p>",
+        "Rich": "<p>Rich text</p>",
+        "image": {
+          "url": "https://example.com/assets/asset-4.png",
+          "height": 540,
+          "width": 600
+        },
+        "images": [
+          {
+            "url": "https://example.com/assets/asset-4.png",
+            "height": 540,
+            "width": 600
+          },
+          {
+            "url": "https://example.com/assets/asset-6.png",
+            "height": 630,
+            "width": 1200
+          }
+        ],
+        "date": "2026-10-02T00:00:00.000Z",
+        "boolean": true,
+        "select": ["hoge", "hoge2"],
+        "num": 0,
+        "file": {
+          "url": "https://example.com/assets/asset-1.png",
+          "fileSize": 20247
+        },
+        "extend": {
+          "place": {
+            "name": "Fixture place",
+            "address": "Test address"
+          },
+          "labels": ["one", "two"]
+        },
+        "ref": {
+          "id": "nsa0-c_ur3",
+          "createdAt": "2026-09-29T07:05:41.522Z",
+          "updatedAt": "2026-09-29T07:05:41.522Z",
+          "publishedAt": "2026-09-29T07:05:41.522Z",
+          "revisedAt": "2026-09-29T07:05:41.522Z",
+          "name": "更新情報"
+        },
+        "multi_ref": [
+          {
+            "id": "nsa0-c_ur3",
+            "createdAt": "2026-09-29T07:05:41.522Z",
+            "updatedAt": "2026-09-29T07:05:41.522Z",
+            "publishedAt": "2026-09-29T07:05:41.522Z",
+            "revisedAt": "2026-09-29T07:05:41.522Z",
+            "name": "更新情報"
+          },
+          {
+            "id": "8x517l_29dzv",
+            "createdAt": "2026-09-29T07:05:41.502Z",
+            "updatedAt": "2026-09-29T07:05:41.502Z",
+            "publishedAt": "2026-09-29T07:05:41.502Z",
+            "revisedAt": "2026-09-29T07:05:41.502Z",
+            "name": "テクノロジー"
+          }
+        ],
+        "custom": {
+          "fieldId": "Alpha",
+          "hoge": "Alpha text",
+          "huga": "Alpha extra"
+        },
+        "repeat": [
+          {
+            "fieldId": "Beta",
+            "aa": "Beta text",
+            "bb": {
+              "url": "https://example.com/assets/asset-4.png",
+              "height": 540,
+              "width": 600
+            },
+            "cc": "2026-10-02T00:00:00.000Z"
+          },
+          {
+            "fieldId": "Epsilon",
+            "text": "Epsilon text"
+          },
+          {
+            "fieldId": "Gamma",
+            "test": "Gamma text"
+          },
+          {
+            "fieldId": "Alpha",
+            "hoge": "Repeated Alpha",
+            "huga": "Extra"
+          },
+          {
+            "fieldId": "Delta",
+            "test": "Delta text"
+          }
+        ]
+      },
+      "sdkResult": {
+        "id": "typegen-lifecycle-1790988898296",
+        "createdAt": "2026-10-03T00:54:59.594Z",
+        "updatedAt": "2026-10-03T00:54:59.594Z",
+        "publishedAt": "2026-10-03T00:54:59.594Z",
+        "revisedAt": "2026-10-03T00:54:59.594Z",
+        "text": "[typegen lifecycle] initial",
+        "textArea": "Line 1\nLine 2",
+        "oldRich": "<p>&lt;p&gt;Legacy rich text&lt;/p&gt;</p>",
+        "Rich": "<p>Rich text</p>",
+        "image": {
+          "url": "https://example.com/assets/asset-4.png",
+          "height": 540,
+          "width": 600
+        },
+        "images": [
+          {
+            "url": "https://example.com/assets/asset-4.png",
+            "height": 540,
+            "width": 600
+          },
+          {
+            "url": "https://example.com/assets/asset-6.png",
+            "height": 630,
+            "width": 1200
+          }
+        ],
+        "date": "2026-10-02T00:00:00.000Z",
+        "boolean": true,
+        "select": ["hoge", "hoge2"],
+        "num": 0,
+        "file": {
+          "url": "https://example.com/assets/asset-1.png",
+          "fileSize": 20247
+        },
+        "extend": {
+          "place": {
+            "name": "Fixture place",
+            "address": "Test address"
+          },
+          "labels": ["one", "two"]
+        },
+        "ref": {
+          "id": "nsa0-c_ur3",
+          "createdAt": "2026-09-29T07:05:41.522Z",
+          "updatedAt": "2026-09-29T07:05:41.522Z",
+          "publishedAt": "2026-09-29T07:05:41.522Z",
+          "revisedAt": "2026-09-29T07:05:41.522Z",
+          "name": "更新情報"
+        },
+        "multi_ref": [
+          {
+            "id": "nsa0-c_ur3",
+            "createdAt": "2026-09-29T07:05:41.522Z",
+            "updatedAt": "2026-09-29T07:05:41.522Z",
+            "publishedAt": "2026-09-29T07:05:41.522Z",
+            "revisedAt": "2026-09-29T07:05:41.522Z",
+            "name": "更新情報"
+          },
+          {
+            "id": "8x517l_29dzv",
+            "createdAt": "2026-09-29T07:05:41.502Z",
+            "updatedAt": "2026-09-29T07:05:41.502Z",
+            "publishedAt": "2026-09-29T07:05:41.502Z",
+            "revisedAt": "2026-09-29T07:05:41.502Z",
+            "name": "テクノロジー"
+          }
+        ],
+        "custom": {
+          "fieldId": "Alpha",
+          "hoge": "Alpha text",
+          "huga": "Alpha extra"
+        },
+        "repeat": [
+          {
+            "fieldId": "Beta",
+            "aa": "Beta text",
+            "bb": {
+              "url": "https://example.com/assets/asset-4.png",
+              "height": 540,
+              "width": 600
+            },
+            "cc": "2026-10-02T00:00:00.000Z"
+          },
+          {
+            "fieldId": "Epsilon",
+            "text": "Epsilon text"
+          },
+          {
+            "fieldId": "Gamma",
+            "test": "Gamma text"
+          },
+          {
+            "fieldId": "Alpha",
+            "hoge": "Repeated Alpha",
+            "huga": "Extra"
+          },
+          {
+            "fieldId": "Delta",
+            "test": "Delta text"
+          }
+        ]
+      }
+    },
+    {
+      "id": "update-partial",
+      "method": "update",
+      "request": {
+        "endpoint": "all_fields",
+        "contentId": "typegen-lifecycle-1790988898296",
+        "content": {
+          "text": "[typegen lifecycle] partial update",
+          "num": 42,
+          "boolean": false,
+          "custom": {
+            "fieldId": "Alpha",
+            "hoge": "Changed Alpha"
+          },
+          "extend": {
+            "data": {
+              "place": {
+                "name": "Updated place",
+                "address": "Updated address"
+              },
+              "labels": ["updated"]
+            }
+          }
+        }
+      },
+      "status": 200,
+      "body": {
+        "id": "typegen-lifecycle-1790988898296"
+      },
+      "sdkResult": {
+        "id": "typegen-lifecycle-1790988898296"
+      }
+    },
+    {
+      "id": "read-after-partial",
+      "method": "getListDetail",
+      "request": {
+        "endpoint": "all_fields",
+        "contentId": "typegen-lifecycle-1790988898296"
+      },
+      "status": 200,
+      "body": {
+        "id": "typegen-lifecycle-1790988898296",
+        "createdAt": "2026-10-03T00:54:59.594Z",
+        "updatedAt": "2026-10-03T00:55:01.068Z",
+        "publishedAt": "2026-10-03T00:54:59.594Z",
+        "revisedAt": "2026-10-03T00:55:01.068Z",
+        "text": "[typegen lifecycle] partial update",
+        "textArea": "Line 1\nLine 2",
+        "oldRich": "<p>&lt;p&gt;Legacy rich text&lt;/p&gt;</p>",
+        "Rich": "<p>Rich text</p>",
+        "image": {
+          "url": "https://example.com/assets/asset-4.png",
+          "height": 540,
+          "width": 600
+        },
+        "images": [
+          {
+            "url": "https://example.com/assets/asset-4.png",
+            "height": 540,
+            "width": 600
+          },
+          {
+            "url": "https://example.com/assets/asset-6.png",
+            "height": 630,
+            "width": 1200
+          }
+        ],
+        "date": "2026-10-02T00:00:00.000Z",
+        "boolean": false,
+        "select": ["hoge", "hoge2"],
+        "num": 42,
+        "file": {
+          "url": "https://example.com/assets/asset-1.png",
+          "fileSize": 20247
+        },
+        "extend": {
+          "place": {
+            "name": "Updated place",
+            "address": "Updated address"
+          },
+          "labels": ["updated"]
+        },
+        "ref": {
+          "id": "nsa0-c_ur3",
+          "createdAt": "2026-09-29T07:05:41.522Z",
+          "updatedAt": "2026-09-29T07:05:41.522Z",
+          "publishedAt": "2026-09-29T07:05:41.522Z",
+          "revisedAt": "2026-09-29T07:05:41.522Z",
+          "name": "更新情報"
+        },
+        "multi_ref": [
+          {
+            "id": "nsa0-c_ur3",
+            "createdAt": "2026-09-29T07:05:41.522Z",
+            "updatedAt": "2026-09-29T07:05:41.522Z",
+            "publishedAt": "2026-09-29T07:05:41.522Z",
+            "revisedAt": "2026-09-29T07:05:41.522Z",
+            "name": "更新情報"
+          },
+          {
+            "id": "8x517l_29dzv",
+            "createdAt": "2026-09-29T07:05:41.502Z",
+            "updatedAt": "2026-09-29T07:05:41.502Z",
+            "publishedAt": "2026-09-29T07:05:41.502Z",
+            "revisedAt": "2026-09-29T07:05:41.502Z",
+            "name": "テクノロジー"
+          }
+        ],
+        "custom": {
+          "fieldId": "Alpha",
+          "hoge": "Changed Alpha",
+          "huga": "Alpha extra"
+        },
+        "repeat": [
+          {
+            "fieldId": "Beta",
+            "aa": "Beta text",
+            "bb": {
+              "url": "https://example.com/assets/asset-4.png",
+              "height": 540,
+              "width": 600
+            },
+            "cc": "2026-10-02T00:00:00.000Z"
+          },
+          {
+            "fieldId": "Epsilon",
+            "text": "Epsilon text"
+          },
+          {
+            "fieldId": "Gamma",
+            "test": "Gamma text"
+          },
+          {
+            "fieldId": "Alpha",
+            "hoge": "Repeated Alpha",
+            "huga": "Extra"
+          },
+          {
+            "fieldId": "Delta",
+            "test": "Delta text"
+          }
+        ]
+      },
+      "sdkResult": {
+        "id": "typegen-lifecycle-1790988898296",
+        "createdAt": "2026-10-03T00:54:59.594Z",
+        "updatedAt": "2026-10-03T00:55:01.068Z",
+        "publishedAt": "2026-10-03T00:54:59.594Z",
+        "revisedAt": "2026-10-03T00:55:01.068Z",
+        "text": "[typegen lifecycle] partial update",
+        "textArea": "Line 1\nLine 2",
+        "oldRich": "<p>&lt;p&gt;Legacy rich text&lt;/p&gt;</p>",
+        "Rich": "<p>Rich text</p>",
+        "image": {
+          "url": "https://example.com/assets/asset-4.png",
+          "height": 540,
+          "width": 600
+        },
+        "images": [
+          {
+            "url": "https://example.com/assets/asset-4.png",
+            "height": 540,
+            "width": 600
+          },
+          {
+            "url": "https://example.com/assets/asset-6.png",
+            "height": 630,
+            "width": 1200
+          }
+        ],
+        "date": "2026-10-02T00:00:00.000Z",
+        "boolean": false,
+        "select": ["hoge", "hoge2"],
+        "num": 42,
+        "file": {
+          "url": "https://example.com/assets/asset-1.png",
+          "fileSize": 20247
+        },
+        "extend": {
+          "place": {
+            "name": "Updated place",
+            "address": "Updated address"
+          },
+          "labels": ["updated"]
+        },
+        "ref": {
+          "id": "nsa0-c_ur3",
+          "createdAt": "2026-09-29T07:05:41.522Z",
+          "updatedAt": "2026-09-29T07:05:41.522Z",
+          "publishedAt": "2026-09-29T07:05:41.522Z",
+          "revisedAt": "2026-09-29T07:05:41.522Z",
+          "name": "更新情報"
+        },
+        "multi_ref": [
+          {
+            "id": "nsa0-c_ur3",
+            "createdAt": "2026-09-29T07:05:41.522Z",
+            "updatedAt": "2026-09-29T07:05:41.522Z",
+            "publishedAt": "2026-09-29T07:05:41.522Z",
+            "revisedAt": "2026-09-29T07:05:41.522Z",
+            "name": "更新情報"
+          },
+          {
+            "id": "8x517l_29dzv",
+            "createdAt": "2026-09-29T07:05:41.502Z",
+            "updatedAt": "2026-09-29T07:05:41.502Z",
+            "publishedAt": "2026-09-29T07:05:41.502Z",
+            "revisedAt": "2026-09-29T07:05:41.502Z",
+            "name": "テクノロジー"
+          }
+        ],
+        "custom": {
+          "fieldId": "Alpha",
+          "hoge": "Changed Alpha",
+          "huga": "Alpha extra"
+        },
+        "repeat": [
+          {
+            "fieldId": "Beta",
+            "aa": "Beta text",
+            "bb": {
+              "url": "https://example.com/assets/asset-4.png",
+              "height": 540,
+              "width": 600
+            },
+            "cc": "2026-10-02T00:00:00.000Z"
+          },
+          {
+            "fieldId": "Epsilon",
+            "text": "Epsilon text"
+          },
+          {
+            "fieldId": "Gamma",
+            "test": "Gamma text"
+          },
+          {
+            "fieldId": "Alpha",
+            "hoge": "Repeated Alpha",
+            "huga": "Extra"
+          },
+          {
+            "fieldId": "Delta",
+            "test": "Delta text"
+          }
+        ]
+      }
+    },
+    {
+      "id": "update-empty",
+      "method": "update",
+      "request": {
+        "endpoint": "all_fields",
+        "contentId": "typegen-lifecycle-1790988898296",
+        "content": {
+          "textArea": "",
+          "oldRich": "",
+          "Rich": "",
+          "image": "",
+          "images": [],
+          "date": "",
+          "boolean": null,
+          "select": [],
+          "ref": {},
+          "multi_ref": [],
+          "num": null,
+          "custom": {},
+          "repeat": [],
+          "file": "",
+          "extend": {}
+        }
+      },
+      "status": 200,
+      "body": {
+        "id": "typegen-lifecycle-1790988898296"
+      },
+      "sdkResult": {
+        "id": "typegen-lifecycle-1790988898296"
+      }
+    },
+    {
+      "id": "read-after-empty",
+      "method": "getListDetail",
+      "request": {
+        "endpoint": "all_fields",
+        "contentId": "typegen-lifecycle-1790988898296"
+      },
+      "status": 200,
+      "body": {
+        "id": "typegen-lifecycle-1790988898296",
+        "createdAt": "2026-10-03T00:54:59.594Z",
+        "updatedAt": "2026-10-03T00:55:02.213Z",
+        "publishedAt": "2026-10-03T00:54:59.594Z",
+        "revisedAt": "2026-10-03T00:55:02.213Z",
+        "text": "[typegen lifecycle] partial update",
+        "textArea": null,
+        "oldRich": "",
+        "Rich": null,
+        "images": [],
+        "boolean": false,
+        "select": [],
+        "num": null,
+        "ref": null,
+        "multi_ref": [],
+        "custom": {
+          "fieldId": "Alpha"
+        },
+        "repeat": []
+      },
+      "sdkResult": {
+        "id": "typegen-lifecycle-1790988898296",
+        "createdAt": "2026-10-03T00:54:59.594Z",
+        "updatedAt": "2026-10-03T00:55:02.213Z",
+        "publishedAt": "2026-10-03T00:54:59.594Z",
+        "revisedAt": "2026-10-03T00:55:02.213Z",
+        "text": "[typegen lifecycle] partial update",
+        "textArea": null,
+        "oldRich": "",
+        "Rich": null,
+        "images": [],
+        "boolean": false,
+        "select": [],
+        "num": null,
+        "ref": null,
+        "multi_ref": [],
+        "custom": {
+          "fieldId": "Alpha"
+        },
+        "repeat": []
+      }
+    },
+    {
+      "id": "delete",
+      "method": "delete",
+      "request": {
+        "endpoint": "all_fields",
+        "contentId": "typegen-lifecycle-1790988898296"
+      },
+      "status": 202,
+      "body": "Accepted",
+      "sdkResult": null
+    },
+    {
+      "id": "read-after-delete",
+      "method": "getListDetail",
+      "request": {
+        "endpoint": "all_fields",
+        "contentId": "typegen-lifecycle-1790988898296"
+      },
+      "status": 404,
+      "body": "",
+      "sdkRejected": true
+    }
+  ]
+}
