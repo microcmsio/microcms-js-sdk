@@ -207,8 +207,8 @@ type AllPathsExist<Content, Paths extends string> = false extends (
 
 type ProjectNested<Value, Path extends string> = Value extends null | undefined
   ? Value
-  : Value extends readonly (infer Item)[]
-    ? ProjectPaths<Item, Path>[]
+  : Value extends readonly unknown[]
+    ? { [Key in keyof Value]: ProjectPaths<Value[Key], Path> }
     : Value extends object
       ? ProjectPaths<Value, Path>
       : unknown;

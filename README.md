@@ -614,6 +614,8 @@ await client.delete({ endpoint: 'blogs', contentId: 'blog-id' });
 
 生成された入力型は`MainServiceSchema['blogs']['create']`や`MainServiceSchema['blogs']['update']`として取り出せます。
 
+型生成器の必須設定も入力型に反映されます。作成時は必須項目を指定し、更新時はトップレベルの項目を省略できます。カスタムフィールドを指定する場合と繰り返しの各要素では、子の必須項目も必要です。任意のカスタムフィールドは更新時に`{}`でクリアできます。必須配列や最小件数1以上の配列は、作成時にキーと1件以上の要素を要求します。詳細は[typegenの生成ルール](https://github.com/microcmsio/microcms-ts-typegen#型生成ルールtyperules)を参照してください。
+
 #### メソッドごとに書き込み型を指定する
 
 従来の`create<Content>`・`update<Content>`も利用できます。型付きクライアントで明示すると、その呼び出しでは生成スキーマの書き込み型より指定した型を優先します。`create<Content>`は`Content`、`update<Content>`は`Partial<Content>`として`content`を検査します。指定した型とAPIスキーマの一致は利用側で確認してください。

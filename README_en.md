@@ -614,6 +614,8 @@ await client.delete({ endpoint: 'blogs', contentId: 'blog-id' });
 
 You can extract the generated input types as `MainServiceSchema['blogs']['create']` or `MainServiceSchema['blogs']['update']`.
 
+The generator also reflects required field settings in write types. Creation requires mandatory fields; updates may omit top-level fields. Supplied custom fields and each repeater element still require their mandatory children. Optional custom fields may be cleared with `{}` during updates. Required arrays and arrays with a positive minimum count require the field key and at least one element during creation. See [typegen's generation rules](https://github.com/microcmsio/microcms-ts-typegen#型生成ルールtyperules) for details.
+
 #### Specify a write type for each method call
 
 The existing `create<Content>` and `update<Content>` forms remain available. When explicitly specified on a typed client, the supplied type takes precedence over the generated write type for that call. `create<Content>` checks `content` against `Content`, while `update<Content>` checks it against `Partial<Content>`. You are responsible for ensuring that the specified type matches the API schema.

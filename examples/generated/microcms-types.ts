@@ -206,7 +206,7 @@ export type AllFields = __MicroCMSTypegenAllFieldsRead<{}>;
 
 type __MicroCMSTypegenAllFieldsCreate = {
   publishedAt?: string;
-  text?: string;
+  text: string;
   textArea?: string;
   oldRich?: string;
   Rich?: string;

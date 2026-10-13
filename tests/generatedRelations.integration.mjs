@@ -26,3 +26,40 @@ test('captured three-level repeaters preserve SDK inference, selections and nest
     ['--exactOptionalPropertyTypes'],
   );
 });
+
+// Required rules originate in typegen; this test checks SDK consumption only.
+test('generated required rules preserve SDK write constraints and read inference', () => {
+  checkTypes(
+    [
+      fileURLToPath(
+        new URL(
+          './fixtures/typegen/generated/required-usage.ts',
+          import.meta.url,
+        ),
+      ),
+    ],
+    ['--exactOptionalPropertyTypes'],
+  );
+});
+
+test('required union repeaters preserve SDK constraints for list and object APIs', () => {
+  const file = fileURLToPath(
+    new URL(
+      './fixtures/typegen/generated/required-combinations-usage.ts',
+      import.meta.url,
+    ),
+  );
+  for (const options of [[], ['--exactOptionalPropertyTypes']])
+    checkTypes([file], options);
+});
+
+test('trusted read references preserve nonempty arrays through fields and extraction', () => {
+  const file = fileURLToPath(
+    new URL(
+      './fixtures/typegen/generated/read-references-usage.ts',
+      import.meta.url,
+    ),
+  );
+  for (const options of [[], ['--exactOptionalPropertyTypes']])
+    checkTypes([file], options);
+});

@@ -93,7 +93,7 @@ response_${index}.then(response => response.contents[0].multi_ref.map(item => {
     if (extensionTypes)
       source += `
 // @ts-expect-error configured extension data is checked in writes
-client.create({ endpoint: 'all_fields', content: { extend: { data: { place: { name: 123, address: 'address' }, labels: [] } } } });
+client.create({ endpoint: 'all_fields', content: { text: 'valid required text', extend: { data: { place: { name: 123, address: 'address' }, labels: [] } } } });
 // @ts-expect-error configured extension data also rejects unknown nested keys
 client.update({ endpoint: 'all_fields', contentId: 'id', content: { extend: { data: { place: { name: 'place', address: 'address', typo: 'bad' }, labels: [] } } } });
 `;
@@ -111,22 +111,22 @@ client.getList({ endpoint: 'blogs', queries: { depth: 0, fields: ['category.name
 // @ts-expect-error generated object metadata has no id
 client.getObject({ endpoint: 'banner', queries: { fields: ['id'] } });
 // @ts-expect-error reads return image objects, writes require URL strings
-client.create({ endpoint: 'all_fields', content: { image: { url: 'invalid' } } });
+client.create({ endpoint: 'all_fields', content: { text: 'valid required text', image: { url: 'invalid' } } });
 // @ts-expect-error reference writes require IDs
-client.create({ endpoint: 'all_fields', content: { ref: { id: 'invalid' } } });
+client.create({ endpoint: 'all_fields', content: { text: 'valid required text', ref: { id: 'invalid' } } });
 // @ts-expect-error select only allows schema values
-client.create({ endpoint: 'all_fields', content: { select: ['invalid'] } });
+client.create({ endpoint: 'all_fields', content: { text: 'valid required text', select: ['invalid'] } });
 // @ts-expect-error unknown custom field discriminator
-client.create({ endpoint: 'all_fields', content: { custom: { fieldId: 'missing' } } });
+client.create({ endpoint: 'all_fields', content: { text: 'valid required text', custom: { fieldId: 'missing' } } });
 // @ts-expect-error nested generated custom fields reject unknown keys
-client.create({ endpoint: 'all_fields', content: { custom: { fieldId: 'Alpha', hoge: 'ok', typo: 'bad' } } });
+client.create({ endpoint: 'all_fields', content: { text: 'valid required text', custom: { fieldId: 'Alpha', hoge: 'ok', typo: 'bad' } } });
 // @ts-expect-error repeat items cannot borrow fields from another custom field
 client.update({ endpoint: 'all_fields', contentId: 'id', content: { repeat: [{ fieldId: 'Alpha', hoge: 'ok', aa: 'wrong' }] } });
 declare const overlappingQueries: { depth: 1 } | { depth: 1; limti: number };
 // @ts-expect-error every query candidate must use known parameter names
 client.getList({ endpoint: 'blogs', queries: overlappingQueries });
 // @ts-expect-error create does not accept null for booleans
-client.create({ endpoint: 'all_fields', content: { boolean: null } });
+client.create({ endpoint: 'all_fields', content: { text: 'valid required text', boolean: null } });
 `;
     await writeFile(join(directory, 'usage.ts'), source);
     checkTypes([join(directory, 'usage.ts')], ['--exactOptionalPropertyTypes']);

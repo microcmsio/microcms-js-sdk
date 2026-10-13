@@ -140,7 +140,7 @@ export type TypegenMatrixNested = __MicroCMSTypegenTypegenMatrixNestedRead<{}>;
 
 type __MicroCMSTypegenTypegenMatrixNestedCreate = {
   publishedAt?: string;
-  title?: string;
+  title: string;
   related?: string;
   relatedMany?: string[];
   details?: __MicroCMSTypegenTypegenMatrixNestedCustomFieldSectionCreate;
@@ -184,7 +184,7 @@ export type TypegenMatrixValues = __MicroCMSTypegenTypegenMatrixValuesRead<{}>;
 
 type __MicroCMSTypegenTypegenMatrixValuesCreate = {
   publishedAt?: string;
-  title?: string;
+  title: string;
   text?: string;
   textArea?: string;
   legacyHtml?: string;

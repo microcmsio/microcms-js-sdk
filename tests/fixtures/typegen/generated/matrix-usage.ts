@@ -83,8 +83,8 @@ client.update({endpoint:"typegen_matrix_nested",contentId:"typegen-matrix-filled
 // @ts-expect-error wrong-nested-reference was rejected by the real API
 client.update({endpoint:"typegen_matrix_nested",contentId:"typegen-matrix-filled",content:{"blocks":[{"fieldId":"section","children":[{"fieldId":"group","items":[{"fieldId":"linkBlock","target":{"id":"typegen-matrix-filled"}}]}]}]}});
 // @ts-expect-error three nested repeater levels still require fieldId
-client.create({endpoint:'typegen_matrix_nested',content:{blocks:[{fieldId:'section',children:[{fieldId:'group',items:[{text:'missing discriminator'}]}]}]}});
+client.create({endpoint:'typegen_matrix_nested',content:{title:'valid required title',blocks:[{fieldId:'section',children:[{fieldId:'group',items:[{text:'missing discriminator'}]}]}]}});
 // @ts-expect-error do not mix another union variant's properties
-client.create({endpoint:'typegen_matrix_nested',content:{blocks:[{fieldId:'section',children:[{fieldId:'group',items:[{fieldId:'textBlock',target:'fixture'}]}]}]}});
+client.create({endpoint:'typegen_matrix_nested',content:{title:'valid required title',blocks:[{fieldId:'section',children:[{fieldId:'group',items:[{fieldId:'textBlock',target:'fixture'}]}]}]}});
 // @ts-expect-error extension data types apply inside nested repeaters
 client.update({endpoint:'typegen_matrix_nested',contentId:'fixture',content:{blocks:[{fieldId:'section',children:[{fieldId:'group',items:[{fieldId:'linkBlock',extension:{data:{count:'zero'}}}]}]}]}});
