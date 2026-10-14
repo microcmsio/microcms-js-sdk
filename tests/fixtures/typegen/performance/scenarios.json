@@ -1,0 +1,20 @@
+[
+  {
+    "name": "captured-service",
+    "apis": 4,
+    "fields": 32,
+    "statements": 32
+  },
+  {
+    "name": "wide-service",
+    "apis": 50,
+    "fields": 5050,
+    "statements": 550
+  },
+  {
+    "name": "cyclic-service",
+    "apis": 10,
+    "fields": 260,
+    "statements": 110
+  }
+]

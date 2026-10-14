@@ -1,0 +1,1467 @@
+{
+  "serviceDomain": "typegen",
+  "capturedAt": "2026-10-02T13:45:23.070Z",
+  "cases": [
+    {
+      "id": "blogs-default",
+      "endpoint": "blogs",
+      "method": "getList",
+      "queries": {},
+      "response": {
+        "contents": [
+          {
+            "id": "blma4lr1eg",
+            "createdAt": "2026-09-29T07:05:42.024Z",
+            "updatedAt": "2026-09-29T07:05:42.024Z",
+            "publishedAt": "2026-09-29T07:05:42.024Z",
+            "revisedAt": "2026-09-29T07:05:42.024Z",
+            "title": "（サンプル）まずはこの記事を開きましょう",
+            "content": "<h2 id=\"hdb41525ba7\">ブログテンプレートから作成されました🎉</h2><p>ブログテンプレートからAPIを作成しました。<br>おつかれさまでした🎉</p><h2 id=\"hf45076424a\">APIプレビューを試そう🚀</h2><p>最初に「APIプレビュー」をしてみましょう。</p><p>入稿したコンテンツはAPI経由で取得し、Viewに繋ぎ込みます。<br>APIプレビューでは実際のAPIレスポンスを確認でき、あなたの開発を加速させます。</p><p>👇まずはここをクリックします。</p><figure><img src=\"https://example.com/assets/asset-2.png\" alt=\"\" width=\"2492\" height=\"1648\"></figure><p>APIプレビュー画面が開いたら、<strong>「取得」</strong>ボタンでリクエストを試してみましょう。</p><figure><img src=\"https://example.com/assets/asset-3.png\" alt=\"\" width=\"2490\" height=\"1652\"></figure><p>この記事の内容がAPIで取得できていることがわかります。</p><figure><img src=\"https://example.com/assets/asset-5.png\" alt=\"\" width=\"1592\" height=\"1246\"></figure><h2 id=\"h88398f2fb7\">次にやること🏃</h2><p>APIプレビューで確認したレスポンスを参考に、あなた自身のWebサイトを構築しましょう。<br>microCMSはAPIでコンテンツを取得するため、お好きな言語・フレームワークで画面を構築できます。</p><ul><li><a href=\"https://example.com/links/link-3\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>JavaScript SDK</u></a></li><li><a href=\"https://example.com/links/link-4\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>Nuxt SDK</u></a></li><li><a href=\"https://example.com/links/link-2\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>Gatsby SDK</u></a></li></ul><p>その他に<a href=\"https://example.com/links/link-8\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>サーバーサイドSDK（PHP / Go / Ruby）</u></a>もございます。</p><p>お困りなことや疑問点などございましたらお気軽にご連絡ください。<br>サポート窓口：<a href=\"mailto:support@example.com\">support@example.com</a><br>よくある質問：<a href=\"https://example.com/links/link-6\"><u>https://example.com/links/link-6</u></a></p>",
+            "eyecatch": {
+              "url": "https://example.com/assets/asset-6.png",
+              "height": 630,
+              "width": 1200
+            },
+            "category": {
+              "id": "nsa0-c_ur3",
+              "createdAt": "2026-09-29T07:05:41.522Z",
+              "updatedAt": "2026-09-29T07:05:41.522Z",
+              "publishedAt": "2026-09-29T07:05:41.522Z",
+              "revisedAt": "2026-09-29T07:05:41.522Z",
+              "name": "更新情報"
+            }
+          }
+        ],
+        "totalCount": 1,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "blogs-depth-0",
+      "endpoint": "blogs",
+      "method": "getList",
+      "queries": {
+        "depth": 0
+      },
+      "response": {
+        "contents": [
+          {
+            "id": "blma4lr1eg",
+            "createdAt": "2026-09-29T07:05:42.024Z",
+            "updatedAt": "2026-09-29T07:05:42.024Z",
+            "publishedAt": "2026-09-29T07:05:42.024Z",
+            "revisedAt": "2026-09-29T07:05:42.024Z",
+            "title": "（サンプル）まずはこの記事を開きましょう",
+            "content": "<h2 id=\"hdb41525ba7\">ブログテンプレートから作成されました🎉</h2><p>ブログテンプレートからAPIを作成しました。<br>おつかれさまでした🎉</p><h2 id=\"hf45076424a\">APIプレビューを試そう🚀</h2><p>最初に「APIプレビュー」をしてみましょう。</p><p>入稿したコンテンツはAPI経由で取得し、Viewに繋ぎ込みます。<br>APIプレビューでは実際のAPIレスポンスを確認でき、あなたの開発を加速させます。</p><p>👇まずはここをクリックします。</p><figure><img src=\"https://example.com/assets/asset-2.png\" alt=\"\" width=\"2492\" height=\"1648\"></figure><p>APIプレビュー画面が開いたら、<strong>「取得」</strong>ボタンでリクエストを試してみましょう。</p><figure><img src=\"https://example.com/assets/asset-3.png\" alt=\"\" width=\"2490\" height=\"1652\"></figure><p>この記事の内容がAPIで取得できていることがわかります。</p><figure><img src=\"https://example.com/assets/asset-5.png\" alt=\"\" width=\"1592\" height=\"1246\"></figure><h2 id=\"h88398f2fb7\">次にやること🏃</h2><p>APIプレビューで確認したレスポンスを参考に、あなた自身のWebサイトを構築しましょう。<br>microCMSはAPIでコンテンツを取得するため、お好きな言語・フレームワークで画面を構築できます。</p><ul><li><a href=\"https://example.com/links/link-3\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>JavaScript SDK</u></a></li><li><a href=\"https://example.com/links/link-4\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>Nuxt SDK</u></a></li><li><a href=\"https://example.com/links/link-2\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>Gatsby SDK</u></a></li></ul><p>その他に<a href=\"https://example.com/links/link-8\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>サーバーサイドSDK（PHP / Go / Ruby）</u></a>もございます。</p><p>お困りなことや疑問点などございましたらお気軽にご連絡ください。<br>サポート窓口：<a href=\"mailto:support@example.com\">support@example.com</a><br>よくある質問：<a href=\"https://example.com/links/link-6\"><u>https://example.com/links/link-6</u></a></p>",
+            "eyecatch": {
+              "url": "https://example.com/assets/asset-6.png",
+              "height": 630,
+              "width": 1200
+            },
+            "category": {
+              "id": "nsa0-c_ur3"
+            }
+          }
+        ],
+        "totalCount": 1,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "blogs-depth-1",
+      "endpoint": "blogs",
+      "method": "getList",
+      "queries": {
+        "depth": 1
+      },
+      "response": {
+        "contents": [
+          {
+            "id": "blma4lr1eg",
+            "createdAt": "2026-09-29T07:05:42.024Z",
+            "updatedAt": "2026-09-29T07:05:42.024Z",
+            "publishedAt": "2026-09-29T07:05:42.024Z",
+            "revisedAt": "2026-09-29T07:05:42.024Z",
+            "title": "（サンプル）まずはこの記事を開きましょう",
+            "content": "<h2 id=\"hdb41525ba7\">ブログテンプレートから作成されました🎉</h2><p>ブログテンプレートからAPIを作成しました。<br>おつかれさまでした🎉</p><h2 id=\"hf45076424a\">APIプレビューを試そう🚀</h2><p>最初に「APIプレビュー」をしてみましょう。</p><p>入稿したコンテンツはAPI経由で取得し、Viewに繋ぎ込みます。<br>APIプレビューでは実際のAPIレスポンスを確認でき、あなたの開発を加速させます。</p><p>👇まずはここをクリックします。</p><figure><img src=\"https://example.com/assets/asset-2.png\" alt=\"\" width=\"2492\" height=\"1648\"></figure><p>APIプレビュー画面が開いたら、<strong>「取得」</strong>ボタンでリクエストを試してみましょう。</p><figure><img src=\"https://example.com/assets/asset-3.png\" alt=\"\" width=\"2490\" height=\"1652\"></figure><p>この記事の内容がAPIで取得できていることがわかります。</p><figure><img src=\"https://example.com/assets/asset-5.png\" alt=\"\" width=\"1592\" height=\"1246\"></figure><h2 id=\"h88398f2fb7\">次にやること🏃</h2><p>APIプレビューで確認したレスポンスを参考に、あなた自身のWebサイトを構築しましょう。<br>microCMSはAPIでコンテンツを取得するため、お好きな言語・フレームワークで画面を構築できます。</p><ul><li><a href=\"https://example.com/links/link-3\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>JavaScript SDK</u></a></li><li><a href=\"https://example.com/links/link-4\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>Nuxt SDK</u></a></li><li><a href=\"https://example.com/links/link-2\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>Gatsby SDK</u></a></li></ul><p>その他に<a href=\"https://example.com/links/link-8\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>サーバーサイドSDK（PHP / Go / Ruby）</u></a>もございます。</p><p>お困りなことや疑問点などございましたらお気軽にご連絡ください。<br>サポート窓口：<a href=\"mailto:support@example.com\">support@example.com</a><br>よくある質問：<a href=\"https://example.com/links/link-6\"><u>https://example.com/links/link-6</u></a></p>",
+            "eyecatch": {
+              "url": "https://example.com/assets/asset-6.png",
+              "height": 630,
+              "width": 1200
+            },
+            "category": {
+              "id": "nsa0-c_ur3",
+              "createdAt": "2026-09-29T07:05:41.522Z",
+              "updatedAt": "2026-09-29T07:05:41.522Z",
+              "publishedAt": "2026-09-29T07:05:41.522Z",
+              "revisedAt": "2026-09-29T07:05:41.522Z",
+              "name": "更新情報"
+            }
+          }
+        ],
+        "totalCount": 1,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "blogs-depth-2",
+      "endpoint": "blogs",
+      "method": "getList",
+      "queries": {
+        "depth": 2
+      },
+      "response": {
+        "contents": [
+          {
+            "id": "blma4lr1eg",
+            "createdAt": "2026-09-29T07:05:42.024Z",
+            "updatedAt": "2026-09-29T07:05:42.024Z",
+            "publishedAt": "2026-09-29T07:05:42.024Z",
+            "revisedAt": "2026-09-29T07:05:42.024Z",
+            "title": "（サンプル）まずはこの記事を開きましょう",
+            "content": "<h2 id=\"hdb41525ba7\">ブログテンプレートから作成されました🎉</h2><p>ブログテンプレートからAPIを作成しました。<br>おつかれさまでした🎉</p><h2 id=\"hf45076424a\">APIプレビューを試そう🚀</h2><p>最初に「APIプレビュー」をしてみましょう。</p><p>入稿したコンテンツはAPI経由で取得し、Viewに繋ぎ込みます。<br>APIプレビューでは実際のAPIレスポンスを確認でき、あなたの開発を加速させます。</p><p>👇まずはここをクリックします。</p><figure><img src=\"https://example.com/assets/asset-2.png\" alt=\"\" width=\"2492\" height=\"1648\"></figure><p>APIプレビュー画面が開いたら、<strong>「取得」</strong>ボタンでリクエストを試してみましょう。</p><figure><img src=\"https://example.com/assets/asset-3.png\" alt=\"\" width=\"2490\" height=\"1652\"></figure><p>この記事の内容がAPIで取得できていることがわかります。</p><figure><img src=\"https://example.com/assets/asset-5.png\" alt=\"\" width=\"1592\" height=\"1246\"></figure><h2 id=\"h88398f2fb7\">次にやること🏃</h2><p>APIプレビューで確認したレスポンスを参考に、あなた自身のWebサイトを構築しましょう。<br>microCMSはAPIでコンテンツを取得するため、お好きな言語・フレームワークで画面を構築できます。</p><ul><li><a href=\"https://example.com/links/link-3\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>JavaScript SDK</u></a></li><li><a href=\"https://example.com/links/link-4\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>Nuxt SDK</u></a></li><li><a href=\"https://example.com/links/link-2\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>Gatsby SDK</u></a></li></ul><p>その他に<a href=\"https://example.com/links/link-8\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>サーバーサイドSDK（PHP / Go / Ruby）</u></a>もございます。</p><p>お困りなことや疑問点などございましたらお気軽にご連絡ください。<br>サポート窓口：<a href=\"mailto:support@example.com\">support@example.com</a><br>よくある質問：<a href=\"https://example.com/links/link-6\"><u>https://example.com/links/link-6</u></a></p>",
+            "eyecatch": {
+              "url": "https://example.com/assets/asset-6.png",
+              "height": 630,
+              "width": 1200
+            },
+            "category": {
+              "id": "nsa0-c_ur3",
+              "createdAt": "2026-09-29T07:05:41.522Z",
+              "updatedAt": "2026-09-29T07:05:41.522Z",
+              "publishedAt": "2026-09-29T07:05:41.522Z",
+              "revisedAt": "2026-09-29T07:05:41.522Z",
+              "name": "更新情報"
+            }
+          }
+        ],
+        "totalCount": 1,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "blogs-depth-3",
+      "endpoint": "blogs",
+      "method": "getList",
+      "queries": {
+        "depth": 3
+      },
+      "response": {
+        "contents": [
+          {
+            "id": "blma4lr1eg",
+            "createdAt": "2026-09-29T07:05:42.024Z",
+            "updatedAt": "2026-09-29T07:05:42.024Z",
+            "publishedAt": "2026-09-29T07:05:42.024Z",
+            "revisedAt": "2026-09-29T07:05:42.024Z",
+            "title": "（サンプル）まずはこの記事を開きましょう",
+            "content": "<h2 id=\"hdb41525ba7\">ブログテンプレートから作成されました🎉</h2><p>ブログテンプレートからAPIを作成しました。<br>おつかれさまでした🎉</p><h2 id=\"hf45076424a\">APIプレビューを試そう🚀</h2><p>最初に「APIプレビュー」をしてみましょう。</p><p>入稿したコンテンツはAPI経由で取得し、Viewに繋ぎ込みます。<br>APIプレビューでは実際のAPIレスポンスを確認でき、あなたの開発を加速させます。</p><p>👇まずはここをクリックします。</p><figure><img src=\"https://example.com/assets/asset-2.png\" alt=\"\" width=\"2492\" height=\"1648\"></figure><p>APIプレビュー画面が開いたら、<strong>「取得」</strong>ボタンでリクエストを試してみましょう。</p><figure><img src=\"https://example.com/assets/asset-3.png\" alt=\"\" width=\"2490\" height=\"1652\"></figure><p>この記事の内容がAPIで取得できていることがわかります。</p><figure><img src=\"https://example.com/assets/asset-5.png\" alt=\"\" width=\"1592\" height=\"1246\"></figure><h2 id=\"h88398f2fb7\">次にやること🏃</h2><p>APIプレビューで確認したレスポンスを参考に、あなた自身のWebサイトを構築しましょう。<br>microCMSはAPIでコンテンツを取得するため、お好きな言語・フレームワークで画面を構築できます。</p><ul><li><a href=\"https://example.com/links/link-3\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>JavaScript SDK</u></a></li><li><a href=\"https://example.com/links/link-4\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>Nuxt SDK</u></a></li><li><a href=\"https://example.com/links/link-2\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>Gatsby SDK</u></a></li></ul><p>その他に<a href=\"https://example.com/links/link-8\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>サーバーサイドSDK（PHP / Go / Ruby）</u></a>もございます。</p><p>お困りなことや疑問点などございましたらお気軽にご連絡ください。<br>サポート窓口：<a href=\"mailto:support@example.com\">support@example.com</a><br>よくある質問：<a href=\"https://example.com/links/link-6\"><u>https://example.com/links/link-6</u></a></p>",
+            "eyecatch": {
+              "url": "https://example.com/assets/asset-6.png",
+              "height": 630,
+              "width": 1200
+            },
+            "category": {
+              "id": "nsa0-c_ur3",
+              "createdAt": "2026-09-29T07:05:41.522Z",
+              "updatedAt": "2026-09-29T07:05:41.522Z",
+              "publishedAt": "2026-09-29T07:05:41.522Z",
+              "revisedAt": "2026-09-29T07:05:41.522Z",
+              "name": "更新情報"
+            }
+          }
+        ],
+        "totalCount": 1,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "blogs-title",
+      "endpoint": "blogs",
+      "method": "getList",
+      "queries": {
+        "fields": ["title"]
+      },
+      "response": {
+        "contents": [
+          {
+            "title": "（サンプル）まずはこの記事を開きましょう"
+          }
+        ],
+        "totalCount": 1,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "blogs-metadata",
+      "endpoint": "blogs",
+      "method": "getList",
+      "queries": {
+        "fields": ["id", "createdAt"]
+      },
+      "response": {
+        "contents": [
+          {
+            "id": "blma4lr1eg",
+            "createdAt": "2026-09-29T07:05:42.024Z"
+          }
+        ],
+        "totalCount": 1,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "blogs-reference-id",
+      "endpoint": "blogs",
+      "method": "getList",
+      "queries": {
+        "depth": 0,
+        "fields": ["category.id"]
+      },
+      "response": {
+        "contents": [
+          {
+            "category": {
+              "id": "nsa0-c_ur3"
+            }
+          }
+        ],
+        "totalCount": 1,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "blogs-reference-name",
+      "endpoint": "blogs",
+      "method": "getList",
+      "queries": {
+        "depth": 1,
+        "fields": ["title", "category.name"]
+      },
+      "response": {
+        "contents": [
+          {
+            "title": "（サンプル）まずはこの記事を開きましょう",
+            "category": {
+              "name": "更新情報"
+            }
+          }
+        ],
+        "totalCount": 1,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "blogs-fields-string",
+      "endpoint": "blogs",
+      "method": "getList",
+      "queries": {
+        "depth": 2,
+        "fields": "id,title,category.name"
+      },
+      "response": {
+        "contents": [
+          {
+            "id": "blma4lr1eg",
+            "title": "（サンプル）まずはこの記事を開きましょう",
+            "category": {
+              "name": "更新情報"
+            }
+          }
+        ],
+        "totalCount": 1,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "blogs-pagination",
+      "endpoint": "blogs",
+      "method": "getList",
+      "queries": {
+        "limit": 1,
+        "offset": 0
+      },
+      "response": {
+        "contents": [
+          {
+            "id": "blma4lr1eg",
+            "createdAt": "2026-09-29T07:05:42.024Z",
+            "updatedAt": "2026-09-29T07:05:42.024Z",
+            "publishedAt": "2026-09-29T07:05:42.024Z",
+            "revisedAt": "2026-09-29T07:05:42.024Z",
+            "title": "（サンプル）まずはこの記事を開きましょう",
+            "content": "<h2 id=\"hdb41525ba7\">ブログテンプレートから作成されました🎉</h2><p>ブログテンプレートからAPIを作成しました。<br>おつかれさまでした🎉</p><h2 id=\"hf45076424a\">APIプレビューを試そう🚀</h2><p>最初に「APIプレビュー」をしてみましょう。</p><p>入稿したコンテンツはAPI経由で取得し、Viewに繋ぎ込みます。<br>APIプレビューでは実際のAPIレスポンスを確認でき、あなたの開発を加速させます。</p><p>👇まずはここをクリックします。</p><figure><img src=\"https://example.com/assets/asset-2.png\" alt=\"\" width=\"2492\" height=\"1648\"></figure><p>APIプレビュー画面が開いたら、<strong>「取得」</strong>ボタンでリクエストを試してみましょう。</p><figure><img src=\"https://example.com/assets/asset-3.png\" alt=\"\" width=\"2490\" height=\"1652\"></figure><p>この記事の内容がAPIで取得できていることがわかります。</p><figure><img src=\"https://example.com/assets/asset-5.png\" alt=\"\" width=\"1592\" height=\"1246\"></figure><h2 id=\"h88398f2fb7\">次にやること🏃</h2><p>APIプレビューで確認したレスポンスを参考に、あなた自身のWebサイトを構築しましょう。<br>microCMSはAPIでコンテンツを取得するため、お好きな言語・フレームワークで画面を構築できます。</p><ul><li><a href=\"https://example.com/links/link-3\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>JavaScript SDK</u></a></li><li><a href=\"https://example.com/links/link-4\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>Nuxt SDK</u></a></li><li><a href=\"https://example.com/links/link-2\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>Gatsby SDK</u></a></li></ul><p>その他に<a href=\"https://example.com/links/link-8\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>サーバーサイドSDK（PHP / Go / Ruby）</u></a>もございます。</p><p>お困りなことや疑問点などございましたらお気軽にご連絡ください。<br>サポート窓口：<a href=\"mailto:support@example.com\">support@example.com</a><br>よくある質問：<a href=\"https://example.com/links/link-6\"><u>https://example.com/links/link-6</u></a></p>",
+            "eyecatch": {
+              "url": "https://example.com/assets/asset-6.png",
+              "height": 630,
+              "width": 1200
+            },
+            "category": {
+              "id": "nsa0-c_ur3",
+              "createdAt": "2026-09-29T07:05:41.522Z",
+              "updatedAt": "2026-09-29T07:05:41.522Z",
+              "publishedAt": "2026-09-29T07:05:41.522Z",
+              "revisedAt": "2026-09-29T07:05:41.522Z",
+              "name": "更新情報"
+            }
+          }
+        ],
+        "totalCount": 1,
+        "offset": 0,
+        "limit": 1
+      }
+    },
+    {
+      "id": "blogs-empty-page",
+      "endpoint": "blogs",
+      "method": "getList",
+      "queries": {
+        "limit": 1,
+        "offset": 9999
+      },
+      "response": {
+        "contents": [],
+        "totalCount": 1,
+        "offset": 9999,
+        "limit": 1
+      }
+    },
+    {
+      "id": "blog-detail",
+      "endpoint": "blogs",
+      "method": "getListDetail",
+      "content": "first",
+      "queries": {},
+      "contentId": "blma4lr1eg",
+      "response": {
+        "id": "blma4lr1eg",
+        "createdAt": "2026-09-29T07:05:42.024Z",
+        "updatedAt": "2026-09-29T07:05:42.024Z",
+        "publishedAt": "2026-09-29T07:05:42.024Z",
+        "revisedAt": "2026-09-29T07:05:42.024Z",
+        "title": "（サンプル）まずはこの記事を開きましょう",
+        "content": "<h2 id=\"hdb41525ba7\">ブログテンプレートから作成されました🎉</h2><p>ブログテンプレートからAPIを作成しました。<br>おつかれさまでした🎉</p><h2 id=\"hf45076424a\">APIプレビューを試そう🚀</h2><p>最初に「APIプレビュー」をしてみましょう。</p><p>入稿したコンテンツはAPI経由で取得し、Viewに繋ぎ込みます。<br>APIプレビューでは実際のAPIレスポンスを確認でき、あなたの開発を加速させます。</p><p>👇まずはここをクリックします。</p><figure><img src=\"https://example.com/assets/asset-2.png\" alt=\"\" width=\"2492\" height=\"1648\"></figure><p>APIプレビュー画面が開いたら、<strong>「取得」</strong>ボタンでリクエストを試してみましょう。</p><figure><img src=\"https://example.com/assets/asset-3.png\" alt=\"\" width=\"2490\" height=\"1652\"></figure><p>この記事の内容がAPIで取得できていることがわかります。</p><figure><img src=\"https://example.com/assets/asset-5.png\" alt=\"\" width=\"1592\" height=\"1246\"></figure><h2 id=\"h88398f2fb7\">次にやること🏃</h2><p>APIプレビューで確認したレスポンスを参考に、あなた自身のWebサイトを構築しましょう。<br>microCMSはAPIでコンテンツを取得するため、お好きな言語・フレームワークで画面を構築できます。</p><ul><li><a href=\"https://example.com/links/link-3\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>JavaScript SDK</u></a></li><li><a href=\"https://example.com/links/link-4\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>Nuxt SDK</u></a></li><li><a href=\"https://example.com/links/link-2\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>Gatsby SDK</u></a></li></ul><p>その他に<a href=\"https://example.com/links/link-8\" target=\"_blank\" rel=\"noopener noreferrer nofollow\"><u>サーバーサイドSDK（PHP / Go / Ruby）</u></a>もございます。</p><p>お困りなことや疑問点などございましたらお気軽にご連絡ください。<br>サポート窓口：<a href=\"mailto:support@example.com\">support@example.com</a><br>よくある質問：<a href=\"https://example.com/links/link-6\"><u>https://example.com/links/link-6</u></a></p>",
+        "eyecatch": {
+          "url": "https://example.com/assets/asset-6.png",
+          "height": 630,
+          "width": 1200
+        },
+        "category": {
+          "id": "nsa0-c_ur3",
+          "createdAt": "2026-09-29T07:05:41.522Z",
+          "updatedAt": "2026-09-29T07:05:41.522Z",
+          "publishedAt": "2026-09-29T07:05:41.522Z",
+          "revisedAt": "2026-09-29T07:05:41.522Z",
+          "name": "更新情報"
+        }
+      }
+    },
+    {
+      "id": "blog-detail-fields",
+      "endpoint": "blogs",
+      "method": "getListDetail",
+      "content": "first",
+      "queries": {
+        "fields": ["id", "title", "category.name"],
+        "depth": 2
+      },
+      "contentId": "blma4lr1eg",
+      "response": {
+        "id": "blma4lr1eg",
+        "title": "（サンプル）まずはこの記事を開きましょう",
+        "category": {
+          "name": "更新情報"
+        }
+      }
+    },
+    {
+      "id": "categories-default",
+      "endpoint": "categories",
+      "method": "getList",
+      "queries": {},
+      "response": {
+        "contents": [
+          {
+            "id": "nsa0-c_ur3",
+            "createdAt": "2026-09-29T07:05:41.522Z",
+            "updatedAt": "2026-09-29T07:05:41.522Z",
+            "publishedAt": "2026-09-29T07:05:41.522Z",
+            "revisedAt": "2026-09-29T07:05:41.522Z",
+            "name": "更新情報"
+          },
+          {
+            "id": "8x517l_29dzv",
+            "createdAt": "2026-09-29T07:05:41.502Z",
+            "updatedAt": "2026-09-29T07:05:41.502Z",
+            "publishedAt": "2026-09-29T07:05:41.502Z",
+            "revisedAt": "2026-09-29T07:05:41.502Z",
+            "name": "テクノロジー"
+          },
+          {
+            "id": "y4f2qcmm3sq",
+            "createdAt": "2026-09-29T07:05:41.482Z",
+            "updatedAt": "2026-09-29T07:05:41.482Z",
+            "publishedAt": "2026-09-29T07:05:41.482Z",
+            "revisedAt": "2026-09-29T07:05:41.482Z",
+            "name": "チュートリアル"
+          }
+        ],
+        "totalCount": 3,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "categories-fields",
+      "endpoint": "categories",
+      "method": "getList",
+      "queries": {
+        "fields": ["name"]
+      },
+      "response": {
+        "contents": [
+          {
+            "name": "更新情報"
+          },
+          {
+            "name": "テクノロジー"
+          },
+          {
+            "name": "チュートリアル"
+          }
+        ],
+        "totalCount": 3,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "banner-default",
+      "endpoint": "banner",
+      "method": "getObject",
+      "queries": {},
+      "response": {
+        "createdAt": "2026-09-29T07:35:59.519Z",
+        "updatedAt": "2026-09-29T07:35:59.519Z",
+        "publishedAt": "2026-09-29T07:35:59.519Z",
+        "revisedAt": "2026-09-29T07:35:59.519Z",
+        "image": {
+          "url": "https://example.com/assets/asset-4.png",
+          "height": 540,
+          "width": 600
+        },
+        "url": "https://example.com/links/link-7",
+        "description": "バナーテンプレートからAPIを作成しました🎉\nWebサイトやアプリのバナーをmicroCMSで管理することで運用を効率化できます。\n\n✔︎ APIプレビュー\nmicroCMSでは入稿したコンテンツはAPIベースで取得します。\n画面右上の「APIプレビュー」からAPI利用時の実際のレスポンスをお試しいただけます。\n\n✔︎ 画像API\nmicroCMSの画像APIを使うとデバイスごとに最適なサイズ・形式で画像を扱えます。\n表示の高速化、データ通信量の低減に役立ちます。詳しくは以下のドキュメントを参照ください。\nhttps://example.com/links/link-1\n\n✔︎サポート・お問い合せ\nお困りなことや疑問点などございましたらお気軽にご連絡ください。\n\nサポート窓口：support@example.com\nよくある質問：https://example.com/links/link-6"
+      }
+    },
+    {
+      "id": "banner-fields",
+      "endpoint": "banner",
+      "method": "getObject",
+      "queries": {
+        "fields": ["image", "url"]
+      },
+      "response": {
+        "image": {
+          "url": "https://example.com/assets/asset-4.png",
+          "height": 540,
+          "width": 600
+        },
+        "url": "https://example.com/links/link-7"
+      }
+    },
+    {
+      "id": "banner-metadata",
+      "endpoint": "banner",
+      "method": "getObject",
+      "queries": {
+        "fields": ["createdAt", "updatedAt"]
+      },
+      "response": {
+        "createdAt": "2026-09-29T07:35:59.519Z",
+        "updatedAt": "2026-09-29T07:35:59.519Z"
+      }
+    },
+    {
+      "id": "banner-depth-0",
+      "endpoint": "banner",
+      "method": "getObject",
+      "queries": {
+        "depth": 0
+      },
+      "response": {
+        "createdAt": "2026-09-29T07:35:59.519Z",
+        "updatedAt": "2026-09-29T07:35:59.519Z",
+        "publishedAt": "2026-09-29T07:35:59.519Z",
+        "revisedAt": "2026-09-29T07:35:59.519Z",
+        "image": {
+          "url": "https://example.com/assets/asset-4.png",
+          "height": 540,
+          "width": 600
+        },
+        "url": "https://example.com/links/link-7",
+        "description": "バナーテンプレートからAPIを作成しました🎉\nWebサイトやアプリのバナーをmicroCMSで管理することで運用を効率化できます。\n\n✔︎ APIプレビュー\nmicroCMSでは入稿したコンテンツはAPIベースで取得します。\n画面右上の「APIプレビュー」からAPI利用時の実際のレスポンスをお試しいただけます。\n\n✔︎ 画像API\nmicroCMSの画像APIを使うとデバイスごとに最適なサイズ・形式で画像を扱えます。\n表示の高速化、データ通信量の低減に役立ちます。詳しくは以下のドキュメントを参照ください。\nhttps://example.com/links/link-1\n\n✔︎サポート・お問い合せ\nお困りなことや疑問点などございましたらお気軽にご連絡ください。\n\nサポート窓口：support@example.com\nよくある質問：https://example.com/links/link-6"
+      }
+    },
+    {
+      "id": "banner-depth-1",
+      "endpoint": "banner",
+      "method": "getObject",
+      "queries": {
+        "depth": 1
+      },
+      "response": {
+        "createdAt": "2026-09-29T07:35:59.519Z",
+        "updatedAt": "2026-09-29T07:35:59.519Z",
+        "publishedAt": "2026-09-29T07:35:59.519Z",
+        "revisedAt": "2026-09-29T07:35:59.519Z",
+        "image": {
+          "url": "https://example.com/assets/asset-4.png",
+          "height": 540,
+          "width": 600
+        },
+        "url": "https://example.com/links/link-7",
+        "description": "バナーテンプレートからAPIを作成しました🎉\nWebサイトやアプリのバナーをmicroCMSで管理することで運用を効率化できます。\n\n✔︎ APIプレビュー\nmicroCMSでは入稿したコンテンツはAPIベースで取得します。\n画面右上の「APIプレビュー」からAPI利用時の実際のレスポンスをお試しいただけます。\n\n✔︎ 画像API\nmicroCMSの画像APIを使うとデバイスごとに最適なサイズ・形式で画像を扱えます。\n表示の高速化、データ通信量の低減に役立ちます。詳しくは以下のドキュメントを参照ください。\nhttps://example.com/links/link-1\n\n✔︎サポート・お問い合せ\nお困りなことや疑問点などございましたらお気軽にご連絡ください。\n\nサポート窓口：support@example.com\nよくある質問：https://example.com/links/link-6"
+      }
+    },
+    {
+      "id": "banner-depth-2",
+      "endpoint": "banner",
+      "method": "getObject",
+      "queries": {
+        "depth": 2
+      },
+      "response": {
+        "createdAt": "2026-09-29T07:35:59.519Z",
+        "updatedAt": "2026-09-29T07:35:59.519Z",
+        "publishedAt": "2026-09-29T07:35:59.519Z",
+        "revisedAt": "2026-09-29T07:35:59.519Z",
+        "image": {
+          "url": "https://example.com/assets/asset-4.png",
+          "height": 540,
+          "width": 600
+        },
+        "url": "https://example.com/links/link-7",
+        "description": "バナーテンプレートからAPIを作成しました🎉\nWebサイトやアプリのバナーをmicroCMSで管理することで運用を効率化できます。\n\n✔︎ APIプレビュー\nmicroCMSでは入稿したコンテンツはAPIベースで取得します。\n画面右上の「APIプレビュー」からAPI利用時の実際のレスポンスをお試しいただけます。\n\n✔︎ 画像API\nmicroCMSの画像APIを使うとデバイスごとに最適なサイズ・形式で画像を扱えます。\n表示の高速化、データ通信量の低減に役立ちます。詳しくは以下のドキュメントを参照ください。\nhttps://example.com/links/link-1\n\n✔︎サポート・お問い合せ\nお困りなことや疑問点などございましたらお気軽にご連絡ください。\n\nサポート窓口：support@example.com\nよくある質問：https://example.com/links/link-6"
+      }
+    },
+    {
+      "id": "banner-depth-3",
+      "endpoint": "banner",
+      "method": "getObject",
+      "queries": {
+        "depth": 3
+      },
+      "response": {
+        "createdAt": "2026-09-29T07:35:59.519Z",
+        "updatedAt": "2026-09-29T07:35:59.519Z",
+        "publishedAt": "2026-09-29T07:35:59.519Z",
+        "revisedAt": "2026-09-29T07:35:59.519Z",
+        "image": {
+          "url": "https://example.com/assets/asset-4.png",
+          "height": 540,
+          "width": 600
+        },
+        "url": "https://example.com/links/link-7",
+        "description": "バナーテンプレートからAPIを作成しました🎉\nWebサイトやアプリのバナーをmicroCMSで管理することで運用を効率化できます。\n\n✔︎ APIプレビュー\nmicroCMSでは入稿したコンテンツはAPIベースで取得します。\n画面右上の「APIプレビュー」からAPI利用時の実際のレスポンスをお試しいただけます。\n\n✔︎ 画像API\nmicroCMSの画像APIを使うとデバイスごとに最適なサイズ・形式で画像を扱えます。\n表示の高速化、データ通信量の低減に役立ちます。詳しくは以下のドキュメントを参照ください。\nhttps://example.com/links/link-1\n\n✔︎サポート・お問い合せ\nお困りなことや疑問点などございましたらお気軽にご連絡ください。\n\nサポート窓口：support@example.com\nよくある質問：https://example.com/links/link-6"
+      }
+    },
+    {
+      "id": "all-fields-default",
+      "endpoint": "all_fields",
+      "method": "getList",
+      "queries": {},
+      "response": {
+        "contents": [
+          {
+            "id": "typegen-fixture-empty",
+            "createdAt": "2026-10-02T13:32:01.663Z",
+            "updatedAt": "2026-10-02T13:32:01.663Z",
+            "publishedAt": "2026-10-02T13:32:01.663Z",
+            "revisedAt": "2026-10-02T13:32:01.663Z",
+            "text": "[typegen fixture] empty optional values",
+            "textArea": null,
+            "oldRich": "",
+            "Rich": null,
+            "images": [],
+            "boolean": false,
+            "select": [],
+            "ref": null,
+            "multi_ref": [],
+            "custom": {
+              "fieldId": "Alpha"
+            },
+            "repeat": []
+          },
+          {
+            "id": "typegen-fixture-filled",
+            "createdAt": "2026-10-02T13:32:00.336Z",
+            "updatedAt": "2026-10-02T13:32:00.336Z",
+            "publishedAt": "2026-10-02T13:32:00.336Z",
+            "revisedAt": "2026-10-02T13:32:00.336Z",
+            "text": "[typegen fixture] all values",
+            "textArea": "Line 1\nLine 2",
+            "oldRich": "<p>&lt;p&gt;Legacy rich text&lt;/p&gt;</p>",
+            "Rich": "<p>Rich text</p>",
+            "image": {
+              "url": "https://example.com/assets/asset-4.png",
+              "height": 540,
+              "width": 600
+            },
+            "images": [
+              {
+                "url": "https://example.com/assets/asset-4.png",
+                "height": 540,
+                "width": 600
+              },
+              {
+                "url": "https://example.com/assets/asset-6.png",
+                "height": 630,
+                "width": 1200
+              }
+            ],
+            "date": "2026-10-02T00:00:00.000Z",
+            "boolean": true,
+            "select": ["hoge", "hoge2"],
+            "num": 0,
+            "file": {
+              "url": "https://example.com/assets/asset-1.png",
+              "fileSize": 20247
+            },
+            "extend": {
+              "place": {
+                "name": "Fixture place",
+                "address": "Test address"
+              },
+              "labels": ["one", "two"]
+            },
+            "ref": {
+              "id": "nsa0-c_ur3",
+              "createdAt": "2026-09-29T07:05:41.522Z",
+              "updatedAt": "2026-09-29T07:05:41.522Z",
+              "publishedAt": "2026-09-29T07:05:41.522Z",
+              "revisedAt": "2026-09-29T07:05:41.522Z",
+              "name": "更新情報"
+            },
+            "multi_ref": [
+              {
+                "id": "nsa0-c_ur3",
+                "createdAt": "2026-09-29T07:05:41.522Z",
+                "updatedAt": "2026-09-29T07:05:41.522Z",
+                "publishedAt": "2026-09-29T07:05:41.522Z",
+                "revisedAt": "2026-09-29T07:05:41.522Z",
+                "name": "更新情報"
+              },
+              {
+                "id": "8x517l_29dzv",
+                "createdAt": "2026-09-29T07:05:41.502Z",
+                "updatedAt": "2026-09-29T07:05:41.502Z",
+                "publishedAt": "2026-09-29T07:05:41.502Z",
+                "revisedAt": "2026-09-29T07:05:41.502Z",
+                "name": "テクノロジー"
+              }
+            ],
+            "custom": {
+              "fieldId": "Alpha",
+              "hoge": "Alpha text",
+              "huga": "Alpha extra"
+            },
+            "repeat": [
+              {
+                "fieldId": "Beta",
+                "aa": "Beta text",
+                "bb": {
+                  "url": "https://example.com/assets/asset-4.png",
+                  "height": 540,
+                  "width": 600
+                },
+                "cc": "2026-10-02T00:00:00.000Z"
+              },
+              {
+                "fieldId": "Epsilon",
+                "text": "Epsilon text"
+              },
+              {
+                "fieldId": "Gamma",
+                "test": "Gamma text"
+              },
+              {
+                "fieldId": "Alpha",
+                "hoge": "Repeated Alpha",
+                "huga": "Extra"
+              },
+              {
+                "fieldId": "Delta",
+                "test": "Delta text"
+              }
+            ]
+          }
+        ],
+        "totalCount": 2,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "all-fields-depth-0",
+      "endpoint": "all_fields",
+      "method": "getList",
+      "queries": {
+        "depth": 0
+      },
+      "response": {
+        "contents": [
+          {
+            "id": "typegen-fixture-empty",
+            "createdAt": "2026-10-02T13:32:01.663Z",
+            "updatedAt": "2026-10-02T13:32:01.663Z",
+            "publishedAt": "2026-10-02T13:32:01.663Z",
+            "revisedAt": "2026-10-02T13:32:01.663Z",
+            "text": "[typegen fixture] empty optional values",
+            "textArea": null,
+            "oldRich": "",
+            "Rich": null,
+            "images": [],
+            "boolean": false,
+            "select": [],
+            "ref": null,
+            "multi_ref": [],
+            "custom": {
+              "fieldId": "Alpha"
+            },
+            "repeat": []
+          },
+          {
+            "id": "typegen-fixture-filled",
+            "createdAt": "2026-10-02T13:32:00.336Z",
+            "updatedAt": "2026-10-02T13:32:00.336Z",
+            "publishedAt": "2026-10-02T13:32:00.336Z",
+            "revisedAt": "2026-10-02T13:32:00.336Z",
+            "text": "[typegen fixture] all values",
+            "textArea": "Line 1\nLine 2",
+            "oldRich": "<p>&lt;p&gt;Legacy rich text&lt;/p&gt;</p>",
+            "Rich": "<p>Rich text</p>",
+            "image": {
+              "url": "https://example.com/assets/asset-4.png",
+              "height": 540,
+              "width": 600
+            },
+            "images": [
+              {
+                "url": "https://example.com/assets/asset-4.png",
+                "height": 540,
+                "width": 600
+              },
+              {
+                "url": "https://example.com/assets/asset-6.png",
+                "height": 630,
+                "width": 1200
+              }
+            ],
+            "date": "2026-10-02T00:00:00.000Z",
+            "boolean": true,
+            "select": ["hoge", "hoge2"],
+            "num": 0,
+            "file": {
+              "url": "https://example.com/assets/asset-1.png",
+              "fileSize": 20247
+            },
+            "extend": {
+              "place": {
+                "name": "Fixture place",
+                "address": "Test address"
+              },
+              "labels": ["one", "two"]
+            },
+            "ref": {
+              "id": "nsa0-c_ur3"
+            },
+            "multi_ref": [
+              {
+                "id": "nsa0-c_ur3"
+              },
+              {
+                "id": "8x517l_29dzv"
+              }
+            ],
+            "custom": {
+              "fieldId": "Alpha",
+              "hoge": "Alpha text",
+              "huga": "Alpha extra"
+            },
+            "repeat": [
+              {
+                "fieldId": "Beta",
+                "aa": "Beta text",
+                "bb": {
+                  "url": "https://example.com/assets/asset-4.png",
+                  "height": 540,
+                  "width": 600
+                },
+                "cc": "2026-10-02T00:00:00.000Z"
+              },
+              {
+                "fieldId": "Epsilon",
+                "text": "Epsilon text"
+              },
+              {
+                "fieldId": "Gamma",
+                "test": "Gamma text"
+              },
+              {
+                "fieldId": "Alpha",
+                "hoge": "Repeated Alpha",
+                "huga": "Extra"
+              },
+              {
+                "fieldId": "Delta",
+                "test": "Delta text"
+              }
+            ]
+          }
+        ],
+        "totalCount": 2,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "all-fields-depth-1",
+      "endpoint": "all_fields",
+      "method": "getList",
+      "queries": {
+        "depth": 1
+      },
+      "response": {
+        "contents": [
+          {
+            "id": "typegen-fixture-empty",
+            "createdAt": "2026-10-02T13:32:01.663Z",
+            "updatedAt": "2026-10-02T13:32:01.663Z",
+            "publishedAt": "2026-10-02T13:32:01.663Z",
+            "revisedAt": "2026-10-02T13:32:01.663Z",
+            "text": "[typegen fixture] empty optional values",
+            "textArea": null,
+            "oldRich": "",
+            "Rich": null,
+            "images": [],
+            "boolean": false,
+            "select": [],
+            "ref": null,
+            "multi_ref": [],
+            "custom": {
+              "fieldId": "Alpha"
+            },
+            "repeat": []
+          },
+          {
+            "id": "typegen-fixture-filled",
+            "createdAt": "2026-10-02T13:32:00.336Z",
+            "updatedAt": "2026-10-02T13:32:00.336Z",
+            "publishedAt": "2026-10-02T13:32:00.336Z",
+            "revisedAt": "2026-10-02T13:32:00.336Z",
+            "text": "[typegen fixture] all values",
+            "textArea": "Line 1\nLine 2",
+            "oldRich": "<p>&lt;p&gt;Legacy rich text&lt;/p&gt;</p>",
+            "Rich": "<p>Rich text</p>",
+            "image": {
+              "url": "https://example.com/assets/asset-4.png",
+              "height": 540,
+              "width": 600
+            },
+            "images": [
+              {
+                "url": "https://example.com/assets/asset-4.png",
+                "height": 540,
+                "width": 600
+              },
+              {
+                "url": "https://example.com/assets/asset-6.png",
+                "height": 630,
+                "width": 1200
+              }
+            ],
+            "date": "2026-10-02T00:00:00.000Z",
+            "boolean": true,
+            "select": ["hoge", "hoge2"],
+            "num": 0,
+            "file": {
+              "url": "https://example.com/assets/asset-1.png",
+              "fileSize": 20247
+            },
+            "extend": {
+              "place": {
+                "name": "Fixture place",
+                "address": "Test address"
+              },
+              "labels": ["one", "two"]
+            },
+            "ref": {
+              "id": "nsa0-c_ur3",
+              "createdAt": "2026-09-29T07:05:41.522Z",
+              "updatedAt": "2026-09-29T07:05:41.522Z",
+              "publishedAt": "2026-09-29T07:05:41.522Z",
+              "revisedAt": "2026-09-29T07:05:41.522Z",
+              "name": "更新情報"
+            },
+            "multi_ref": [
+              {
+                "id": "nsa0-c_ur3",
+                "createdAt": "2026-09-29T07:05:41.522Z",
+                "updatedAt": "2026-09-29T07:05:41.522Z",
+                "publishedAt": "2026-09-29T07:05:41.522Z",
+                "revisedAt": "2026-09-29T07:05:41.522Z",
+                "name": "更新情報"
+              },
+              {
+                "id": "8x517l_29dzv",
+                "createdAt": "2026-09-29T07:05:41.502Z",
+                "updatedAt": "2026-09-29T07:05:41.502Z",
+                "publishedAt": "2026-09-29T07:05:41.502Z",
+                "revisedAt": "2026-09-29T07:05:41.502Z",
+                "name": "テクノロジー"
+              }
+            ],
+            "custom": {
+              "fieldId": "Alpha",
+              "hoge": "Alpha text",
+              "huga": "Alpha extra"
+            },
+            "repeat": [
+              {
+                "fieldId": "Beta",
+                "aa": "Beta text",
+                "bb": {
+                  "url": "https://example.com/assets/asset-4.png",
+                  "height": 540,
+                  "width": 600
+                },
+                "cc": "2026-10-02T00:00:00.000Z"
+              },
+              {
+                "fieldId": "Epsilon",
+                "text": "Epsilon text"
+              },
+              {
+                "fieldId": "Gamma",
+                "test": "Gamma text"
+              },
+              {
+                "fieldId": "Alpha",
+                "hoge": "Repeated Alpha",
+                "huga": "Extra"
+              },
+              {
+                "fieldId": "Delta",
+                "test": "Delta text"
+              }
+            ]
+          }
+        ],
+        "totalCount": 2,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "all-fields-depth-2",
+      "endpoint": "all_fields",
+      "method": "getList",
+      "queries": {
+        "depth": 2
+      },
+      "response": {
+        "contents": [
+          {
+            "id": "typegen-fixture-empty",
+            "createdAt": "2026-10-02T13:32:01.663Z",
+            "updatedAt": "2026-10-02T13:32:01.663Z",
+            "publishedAt": "2026-10-02T13:32:01.663Z",
+            "revisedAt": "2026-10-02T13:32:01.663Z",
+            "text": "[typegen fixture] empty optional values",
+            "textArea": null,
+            "oldRich": "",
+            "Rich": null,
+            "images": [],
+            "boolean": false,
+            "select": [],
+            "ref": null,
+            "multi_ref": [],
+            "custom": {
+              "fieldId": "Alpha"
+            },
+            "repeat": []
+          },
+          {
+            "id": "typegen-fixture-filled",
+            "createdAt": "2026-10-02T13:32:00.336Z",
+            "updatedAt": "2026-10-02T13:32:00.336Z",
+            "publishedAt": "2026-10-02T13:32:00.336Z",
+            "revisedAt": "2026-10-02T13:32:00.336Z",
+            "text": "[typegen fixture] all values",
+            "textArea": "Line 1\nLine 2",
+            "oldRich": "<p>&lt;p&gt;Legacy rich text&lt;/p&gt;</p>",
+            "Rich": "<p>Rich text</p>",
+            "image": {
+              "url": "https://example.com/assets/asset-4.png",
+              "height": 540,
+              "width": 600
+            },
+            "images": [
+              {
+                "url": "https://example.com/assets/asset-4.png",
+                "height": 540,
+                "width": 600
+              },
+              {
+                "url": "https://example.com/assets/asset-6.png",
+                "height": 630,
+                "width": 1200
+              }
+            ],
+            "date": "2026-10-02T00:00:00.000Z",
+            "boolean": true,
+            "select": ["hoge", "hoge2"],
+            "num": 0,
+            "file": {
+              "url": "https://example.com/assets/asset-1.png",
+              "fileSize": 20247
+            },
+            "extend": {
+              "place": {
+                "name": "Fixture place",
+                "address": "Test address"
+              },
+              "labels": ["one", "two"]
+            },
+            "ref": {
+              "id": "nsa0-c_ur3",
+              "createdAt": "2026-09-29T07:05:41.522Z",
+              "updatedAt": "2026-09-29T07:05:41.522Z",
+              "publishedAt": "2026-09-29T07:05:41.522Z",
+              "revisedAt": "2026-09-29T07:05:41.522Z",
+              "name": "更新情報"
+            },
+            "multi_ref": [
+              {
+                "id": "nsa0-c_ur3",
+                "createdAt": "2026-09-29T07:05:41.522Z",
+                "updatedAt": "2026-09-29T07:05:41.522Z",
+                "publishedAt": "2026-09-29T07:05:41.522Z",
+                "revisedAt": "2026-09-29T07:05:41.522Z",
+                "name": "更新情報"
+              },
+              {
+                "id": "8x517l_29dzv",
+                "createdAt": "2026-09-29T07:05:41.502Z",
+                "updatedAt": "2026-09-29T07:05:41.502Z",
+                "publishedAt": "2026-09-29T07:05:41.502Z",
+                "revisedAt": "2026-09-29T07:05:41.502Z",
+                "name": "テクノロジー"
+              }
+            ],
+            "custom": {
+              "fieldId": "Alpha",
+              "hoge": "Alpha text",
+              "huga": "Alpha extra"
+            },
+            "repeat": [
+              {
+                "fieldId": "Beta",
+                "aa": "Beta text",
+                "bb": {
+                  "url": "https://example.com/assets/asset-4.png",
+                  "height": 540,
+                  "width": 600
+                },
+                "cc": "2026-10-02T00:00:00.000Z"
+              },
+              {
+                "fieldId": "Epsilon",
+                "text": "Epsilon text"
+              },
+              {
+                "fieldId": "Gamma",
+                "test": "Gamma text"
+              },
+              {
+                "fieldId": "Alpha",
+                "hoge": "Repeated Alpha",
+                "huga": "Extra"
+              },
+              {
+                "fieldId": "Delta",
+                "test": "Delta text"
+              }
+            ]
+          }
+        ],
+        "totalCount": 2,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "all-fields-depth-3",
+      "endpoint": "all_fields",
+      "method": "getList",
+      "queries": {
+        "depth": 3
+      },
+      "response": {
+        "contents": [
+          {
+            "id": "typegen-fixture-empty",
+            "createdAt": "2026-10-02T13:32:01.663Z",
+            "updatedAt": "2026-10-02T13:32:01.663Z",
+            "publishedAt": "2026-10-02T13:32:01.663Z",
+            "revisedAt": "2026-10-02T13:32:01.663Z",
+            "text": "[typegen fixture] empty optional values",
+            "textArea": null,
+            "oldRich": "",
+            "Rich": null,
+            "images": [],
+            "boolean": false,
+            "select": [],
+            "ref": null,
+            "multi_ref": [],
+            "custom": {
+              "fieldId": "Alpha"
+            },
+            "repeat": []
+          },
+          {
+            "id": "typegen-fixture-filled",
+            "createdAt": "2026-10-02T13:32:00.336Z",
+            "updatedAt": "2026-10-02T13:32:00.336Z",
+            "publishedAt": "2026-10-02T13:32:00.336Z",
+            "revisedAt": "2026-10-02T13:32:00.336Z",
+            "text": "[typegen fixture] all values",
+            "textArea": "Line 1\nLine 2",
+            "oldRich": "<p>&lt;p&gt;Legacy rich text&lt;/p&gt;</p>",
+            "Rich": "<p>Rich text</p>",
+            "image": {
+              "url": "https://example.com/assets/asset-4.png",
+              "height": 540,
+              "width": 600
+            },
+            "images": [
+              {
+                "url": "https://example.com/assets/asset-4.png",
+                "height": 540,
+                "width": 600
+              },
+              {
+                "url": "https://example.com/assets/asset-6.png",
+                "height": 630,
+                "width": 1200
+              }
+            ],
+            "date": "2026-10-02T00:00:00.000Z",
+            "boolean": true,
+            "select": ["hoge", "hoge2"],
+            "num": 0,
+            "file": {
+              "url": "https://example.com/assets/asset-1.png",
+              "fileSize": 20247
+            },
+            "extend": {
+              "place": {
+                "name": "Fixture place",
+                "address": "Test address"
+              },
+              "labels": ["one", "two"]
+            },
+            "ref": {
+              "id": "nsa0-c_ur3",
+              "createdAt": "2026-09-29T07:05:41.522Z",
+              "updatedAt": "2026-09-29T07:05:41.522Z",
+              "publishedAt": "2026-09-29T07:05:41.522Z",
+              "revisedAt": "2026-09-29T07:05:41.522Z",
+              "name": "更新情報"
+            },
+            "multi_ref": [
+              {
+                "id": "nsa0-c_ur3",
+                "createdAt": "2026-09-29T07:05:41.522Z",
+                "updatedAt": "2026-09-29T07:05:41.522Z",
+                "publishedAt": "2026-09-29T07:05:41.522Z",
+                "revisedAt": "2026-09-29T07:05:41.522Z",
+                "name": "更新情報"
+              },
+              {
+                "id": "8x517l_29dzv",
+                "createdAt": "2026-09-29T07:05:41.502Z",
+                "updatedAt": "2026-09-29T07:05:41.502Z",
+                "publishedAt": "2026-09-29T07:05:41.502Z",
+                "revisedAt": "2026-09-29T07:05:41.502Z",
+                "name": "テクノロジー"
+              }
+            ],
+            "custom": {
+              "fieldId": "Alpha",
+              "hoge": "Alpha text",
+              "huga": "Alpha extra"
+            },
+            "repeat": [
+              {
+                "fieldId": "Beta",
+                "aa": "Beta text",
+                "bb": {
+                  "url": "https://example.com/assets/asset-4.png",
+                  "height": 540,
+                  "width": 600
+                },
+                "cc": "2026-10-02T00:00:00.000Z"
+              },
+              {
+                "fieldId": "Epsilon",
+                "text": "Epsilon text"
+              },
+              {
+                "fieldId": "Gamma",
+                "test": "Gamma text"
+              },
+              {
+                "fieldId": "Alpha",
+                "hoge": "Repeated Alpha",
+                "huga": "Extra"
+              },
+              {
+                "fieldId": "Delta",
+                "test": "Delta text"
+              }
+            ]
+          }
+        ],
+        "totalCount": 2,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "all-fields-selection",
+      "endpoint": "all_fields",
+      "method": "getList",
+      "queries": {
+        "fields": ["text", "ref.name", "multi_ref.name", "custom", "repeat"],
+        "depth": 2
+      },
+      "response": {
+        "contents": [
+          {
+            "text": "[typegen fixture] empty optional values",
+            "ref": null,
+            "multi_ref": [],
+            "custom": {
+              "fieldId": "Alpha"
+            },
+            "repeat": []
+          },
+          {
+            "text": "[typegen fixture] all values",
+            "ref": {
+              "name": "更新情報"
+            },
+            "multi_ref": [
+              {
+                "name": "更新情報"
+              },
+              {
+                "name": "テクノロジー"
+              }
+            ],
+            "custom": {
+              "fieldId": "Alpha",
+              "hoge": "Alpha text",
+              "huga": "Alpha extra"
+            },
+            "repeat": [
+              {
+                "fieldId": "Beta",
+                "aa": "Beta text",
+                "bb": {
+                  "url": "https://example.com/assets/asset-4.png",
+                  "height": 540,
+                  "width": 600
+                },
+                "cc": "2026-10-02T00:00:00.000Z"
+              },
+              {
+                "fieldId": "Epsilon",
+                "text": "Epsilon text"
+              },
+              {
+                "fieldId": "Gamma",
+                "test": "Gamma text"
+              },
+              {
+                "fieldId": "Alpha",
+                "hoge": "Repeated Alpha",
+                "huga": "Extra"
+              },
+              {
+                "fieldId": "Delta",
+                "test": "Delta text"
+              }
+            ]
+          }
+        ],
+        "totalCount": 2,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "all-fields-optional-selection",
+      "endpoint": "all_fields",
+      "method": "getList",
+      "queries": {
+        "fields": ["image", "images", "date", "num", "file", "extend"]
+      },
+      "response": {
+        "contents": [
+          {
+            "images": []
+          },
+          {
+            "image": {
+              "url": "https://example.com/assets/asset-4.png",
+              "height": 540,
+              "width": 600
+            },
+            "images": [
+              {
+                "url": "https://example.com/assets/asset-4.png",
+                "height": 540,
+                "width": 600
+              },
+              {
+                "url": "https://example.com/assets/asset-6.png",
+                "height": 630,
+                "width": 1200
+              }
+            ],
+            "date": "2026-10-02T00:00:00.000Z",
+            "num": 0,
+            "file": {
+              "url": "https://example.com/assets/asset-1.png",
+              "fileSize": 20247
+            },
+            "extend": {
+              "place": {
+                "name": "Fixture place",
+                "address": "Test address"
+              },
+              "labels": ["one", "two"]
+            }
+          }
+        ],
+        "totalCount": 2,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "all-fields-reference-id",
+      "endpoint": "all_fields",
+      "method": "getList",
+      "queries": {
+        "fields": ["ref.id", "multi_ref.id"],
+        "depth": 0
+      },
+      "response": {
+        "contents": [
+          {
+            "ref": null,
+            "multi_ref": []
+          },
+          {
+            "ref": {
+              "id": "nsa0-c_ur3"
+            },
+            "multi_ref": [
+              {
+                "id": "nsa0-c_ur3"
+              },
+              {
+                "id": "8x517l_29dzv"
+              }
+            ]
+          }
+        ],
+        "totalCount": 2,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "all-fields-parent-and-child",
+      "endpoint": "all_fields",
+      "method": "getList",
+      "queries": {
+        "fields": ["ref", "ref.name"]
+      },
+      "response": {
+        "contents": [
+          {
+            "ref": null
+          },
+          {
+            "ref": {
+              "id": "nsa0-c_ur3",
+              "createdAt": "2026-09-29T07:05:41.522Z",
+              "updatedAt": "2026-09-29T07:05:41.522Z",
+              "publishedAt": "2026-09-29T07:05:41.522Z",
+              "revisedAt": "2026-09-29T07:05:41.522Z",
+              "name": "更新情報"
+            }
+          }
+        ],
+        "totalCount": 2,
+        "offset": 0,
+        "limit": 10
+      }
+    },
+    {
+      "id": "all-fields-multi-reference-fields",
+      "endpoint": "all_fields",
+      "method": "getList",
+      "queries": {
+        "fields": ["multi_ref.id", "multi_ref.name"]
+      },
+      "response": {
+        "contents": [
+          {
+            "multi_ref": []
+          },
+          {
+            "multi_ref": [
+              {
+                "id": "nsa0-c_ur3",
+                "name": "更新情報"
+              },
+              {
+                "id": "8x517l_29dzv",
+                "name": "テクノロジー"
+              }
+            ]
+          }
+        ],
+        "totalCount": 2,
+        "offset": 0,
+        "limit": 10
+      }
+    }
+  ]
+}

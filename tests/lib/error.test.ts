@@ -96,4 +96,22 @@ describe('isMicroCMSRequestError', () => {
       }),
     ).toBe(false);
   });
+
+  test('rejects malformed and inherited error metadata', () => {
+    for (const properties of [
+      { status: '404', url: 'https://example.com', originalError: undefined },
+      { status: 404, url: 123, originalError: undefined },
+      { status: 404, url: 'https://example.com' },
+    ]) {
+      expect(
+        isMicroCMSRequestError(Object.assign(new Error('invalid'), properties)),
+      ).toBe(false);
+    }
+    const prototype = Object.assign(new Error('prototype'), {
+      status: 404,
+      url: 'https://example.com',
+      originalError: undefined,
+    });
+    expect(isMicroCMSRequestError(Object.create(prototype))).toBe(false);
+  });
 });

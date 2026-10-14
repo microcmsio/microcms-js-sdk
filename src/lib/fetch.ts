@@ -1,4 +1,4 @@
-import { Fetch } from 'src/types';
+import type { Fetch } from '../types';
 
 export const generateFetchClient = (apiKey: string): Fetch => {
   return async (req, init) => {

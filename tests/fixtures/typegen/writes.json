@@ -1,0 +1,97 @@
+{
+  "createdAt": "2026-10-02T13:32:01.918Z",
+  "cases": [
+    {
+      "id": "typegen-fixture-filled",
+      "content": {
+        "text": "[typegen fixture] all values",
+        "textArea": "Line 1\nLine 2",
+        "oldRich": "<p>Legacy rich text</p>",
+        "Rich": "<p>Rich text</p>",
+        "image": "https://example.com/assets/asset-4.png",
+        "images": [
+          "https://example.com/assets/asset-4.png",
+          "https://example.com/assets/asset-6.png"
+        ],
+        "date": "2026-10-02T00:00:00.000Z",
+        "boolean": true,
+        "select": ["hoge", "hoge2"],
+        "num": 0,
+        "file": "https://example.com/assets/asset-4.png",
+        "extend": {
+          "id": "typegen-extension",
+          "title": "Fixture extension",
+          "description": "Test data",
+          "imageUrl": "https://example.com/assets/asset-4.png",
+          "updatedAt": "2026-10-02T00:00:00.000Z",
+          "data": {
+            "place": {
+              "name": "Fixture place",
+              "address": "Test address"
+            },
+            "labels": ["one", "two"]
+          }
+        },
+        "ref": "nsa0-c_ur3",
+        "multi_ref": ["nsa0-c_ur3", "8x517l_29dzv"],
+        "custom": {
+          "fieldId": "Alpha",
+          "hoge": "Alpha text",
+          "huga": "Alpha extra"
+        },
+        "repeat": [
+          {
+            "fieldId": "Beta",
+            "aa": "Beta text",
+            "bb": "https://example.com/assets/asset-4.png",
+            "cc": "2026-10-02T00:00:00.000Z"
+          },
+          {
+            "fieldId": "Epsilon",
+            "text": "Epsilon text"
+          },
+          {
+            "fieldId": "Gamma",
+            "test": "Gamma text"
+          },
+          {
+            "fieldId": "Alpha",
+            "hoge": "Repeated Alpha",
+            "huga": "Extra"
+          },
+          {
+            "fieldId": "Delta",
+            "test": "Delta text"
+          }
+        ]
+      },
+      "endpoint": "all_fields",
+      "operation": "PUT create",
+      "result": {
+        "id": "typegen-fixture-filled"
+      }
+    },
+    {
+      "id": "typegen-fixture-empty",
+      "content": {
+        "text": "[typegen fixture] empty optional values",
+        "textArea": "",
+        "oldRich": "",
+        "Rich": "",
+        "images": [],
+        "boolean": false,
+        "select": [],
+        "multi_ref": [],
+        "custom": {
+          "fieldId": "Alpha"
+        },
+        "repeat": []
+      },
+      "endpoint": "all_fields",
+      "operation": "PUT create",
+      "result": {
+        "id": "typegen-fixture-empty"
+      }
+    }
+  ]
+}

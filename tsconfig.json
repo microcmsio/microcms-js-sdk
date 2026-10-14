@@ -1,18 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "es6",
-    "allowJs": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
-    "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "lib": ["es6", "es2015", "es2016", "es2017", "dom"],
-    "baseUrl": "./",
+    "lib": ["ES2022", "DOM"],
+    "types": ["node"],
+    "noEmit": true,
     "declaration": true,
     "strict": true,
     "esModuleInterop": true,
     "useUnknownInCatchVariables": false
   },
-  "include": ["src/**/*", "test/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }

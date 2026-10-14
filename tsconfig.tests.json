@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["node", "jest"],
+    "skipLibCheck": true
+  },
+  "include": [
+    "tests/**/*.test.ts",
+    "tests/typedSchema.matrix.ts",
+    "jest.setup.ts"
+  ]
+}

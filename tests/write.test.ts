@@ -115,10 +115,10 @@ describe('create', () => {
     });
   });
 
-  test('Returns an error message if `endpoint` is not specified', () => {
+  test('Returns an error message if `endpoint` is not specified', async () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    expect(client.create({})).rejects.toThrow(
+    await expect(client.create({})).rejects.toThrow(
       new Error('endpoint is required'),
     );
   });
@@ -219,10 +219,10 @@ describe('update', () => {
     });
   });
 
-  test('Returns an error message if `endpoint` is not specified', () => {
+  test('Returns an error message if `endpoint` is not specified', async () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    expect(client.update({})).rejects.toThrow(
+    await expect(client.update({})).rejects.toThrow(
       new Error('endpoint is required'),
     );
   });
@@ -248,17 +248,17 @@ describe('delete', () => {
     expect(deleteApiMockFn).toHaveBeenCalledTimes(1);
   });
 
-  test('Returns an error message if `endpoint` is not specified', () => {
+  test('Returns an error message if `endpoint` is not specified', async () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    expect(client.delete({})).rejects.toThrow(
+    await expect(client.delete({})).rejects.toThrow(
       new Error('endpoint is required'),
     );
   });
-  test('Returns an error message if `contentId` is not specified', () => {
+  test('Returns an error message if `contentId` is not specified', async () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    expect(client.delete({ endpoint: 'list-type' })).rejects.toThrow(
+    await expect(client.delete({ endpoint: 'list-type' })).rejects.toThrow(
       new Error('contentId is required'),
     );
   });
