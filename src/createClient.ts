@@ -29,6 +29,7 @@ import {
   MAX_RETRY_COUNT,
   MIN_TIMEOUT_MS,
 } from './utils/constants';
+import { encodePathSegment } from './utils/encodePathSegment';
 import { isString } from './utils/isCheckValue';
 import { parseQuery } from './utils/parseQuery';
 import type { MicroCMSSchemaEntry, TypedMicroCMSClient } from './typedSchema';
@@ -65,9 +66,10 @@ const createClientImpl = ({
   }: MakeRequest) => {
     const fetchClient = generateFetchClient(apiKey);
     const queryString = parseQuery(queries);
-    const url = `${baseUrl}/${endpoint}${contentId ? `/${contentId}` : ''}${
-      queryString ? `?${queryString}` : ''
-    }`;
+    const path = [endpoint, ...(contentId ? [contentId] : [])]
+      .map(encodePathSegment)
+      .join('/');
+    const url = `${baseUrl}/${path}${queryString ? `?${queryString}` : ''}`;
 
     const getMessageFromResponse = async (response: Response) => {
       // Enclose `response.json()` in a try since it may throw an error
